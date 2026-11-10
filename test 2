@@ -1,1982 +1,2284 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AI IT Buddy | Student IT Help Desk</title>
+    <title>AI IT Buddy | Student IT Help Desk</title>
 
-  <!-- Bootstrap -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet">
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
-  <!-- Bootstrap Icons -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-    rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --chat-user: #2563eb;
-      --chat-bot: #e9eef7;
-      --border: #dbe3ef;
-    }
+    <style>
 
-    body.dark {
-      --bg: #111827;
-      --card: #1f2937;
-      --text: #f3f4f6;
-      --muted: #9ca3af;
-      --primary: #60a5fa;
-      --primary-dark: #3b82f6;
-      --chat-user: #2563eb;
-      --chat-bot: #374151;
-      --border: #374151;
-    }
+        :root {
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --text: #212529;
+            --muted: #6c757d;
+            --primary: #0d6efd;
+            --chat: #eef4ff;
+        }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, sans-serif;
-      transition: 0.3s;
-    }
+        body.dark {
+            --bg: #101318;
+            --card: #181c23;
+            --text: #f1f3f5;
+            --muted: #adb5bd;
+            --primary: #6ea8fe;
+            --chat: #202632;
+        }
 
-    .navbar {
-      background: var(--card) !important;
-      border-bottom: 1px solid var(--border);
-    }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+        }
 
-    .navbar-brand,
-    .nav-link {
-      color: var(--text) !important;
-    }
+        /* ==============================
+           LOGIN PAGE
+        ============================== */
 
-    .hero {
-      min-height: 500px;
-      display: flex;
-      align-items: center;
-      background:
-        linear-gradient(135deg, rgba(37,99,235,0.12), transparent),
-        var(--bg);
-    }
+        #authPage {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 800;
-    }
+        .auth-container {
+            width: 100%;
+            max-width: 430px;
+        }
 
-    .hero span {
-      color: var(--primary);
-    }
+        .auth-card {
+            background: var(--card);
+            border: 1px solid rgba(128,128,128,0.2);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
 
-    .section {
-      padding: 70px 0;
-    }
+        .auth-logo {
+            font-size: 65px;
+            text-align: center;
+        }
 
-    .card-custom {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 25px;
-      height: 100%;
-      transition: 0.25s;
-    }
+        .auth-title {
+            text-align: center;
+            font-weight: 800;
+        }
 
-    .card-custom:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-    }
+        .auth-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 25px;
+        }
 
-    .feature-icon {
-      width: 55px;
-      height: 55px;
-      border-radius: 15px;
-      background: rgba(37,99,235,0.12);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 25px;
-      margin-bottom: 15px;
-    }
+        .auth-form input {
+            background: var(--card);
+            color: var(--text);
+        }
 
-    .chat-container {
-      max-width: 900px;
-      margin: auto;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.08);
-    }
+        .auth-form input::placeholder {
+            color: var(--muted);
+        }
 
-    .chat-header {
-      background: linear-gradient(135deg, #2563eb, #4f46e5);
-      color: white;
-      padding: 20px;
-    }
+        .auth-form input:focus {
+            background: var(--card);
+            color: var(--text);
+        }
 
-    .bot-status {
-      font-size: 13px;
-      opacity: 0.9;
-    }
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--muted);
+        }
 
-    .chat-body {
-      height: 450px;
-      overflow-y: auto;
-      padding: 20px;
-      background: var(--bg);
-    }
+        .auth-switch button {
+            border: none;
+            background: none;
+            color: var(--primary);
+            font-weight: 600;
+        }
 
-    .message {
-      display: flex;
-      margin-bottom: 15px;
-    }
+        .demo-note {
+            font-size: 12px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .message.user {
-      justify-content: flex-end;
-    }
+        /* ==============================
+           DASHBOARD
+        ============================== */
 
-    .bubble {
-      max-width: 75%;
-      padding: 13px 16px;
-      border-radius: 18px;
-      line-height: 1.5;
-    }
+        #dashboard {
+            display: none;
+        }
 
-    .bot .bubble {
-      background: var(--chat-bot);
-      color: var(--text);
-      border-bottom-left-radius: 5px;
-    }
+        .navbar {
+            transition: 0.3s;
+        }
 
-    .user .bubble {
-      background: var(--chat-user);
-      color: white;
-      border-bottom-right-radius: 5px;
-    }
+        .hero {
+            padding: 80px 20px;
+            text-align: center;
+        }
 
-    .chat-input-area {
-      padding: 15px;
-      border-top: 1px solid var(--border);
-      background: var(--card);
-    }
+        .hero h1 {
+            font-weight: 800;
+        }
 
-    .chat-input-area input {
-      background: var(--bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
+        .hero p {
+            color: var(--muted);
+            max-width: 700px;
+            margin: auto;
+        }
 
-    .chat-input-area input::placeholder {
-      color: var(--muted);
-    }
+        .card {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid rgba(128,128,128,0.2);
+        }
 
-    .quick-buttons {
-      padding: 10px 15px 0;
-      background: var(--card);
-    }
+        .feature-card {
+            height: 100%;
+            transition: 0.2s;
+        }
 
-    .quick-buttons button {
-      margin: 4px;
-      border-radius: 20px;
-    }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
 
-    .preview {
-      max-width: 180px;
-      max-height: 150px;
-      border-radius: 12px;
-      margin-top: 10px;
-      display: none;
-    }
+        .feature-icon {
+            font-size: 35px;
+            color: var(--primary);
+        }
 
-    .ticket {
-      display: none;
-      margin-top: 20px;
-      padding: 20px;
-      border-radius: 15px;
-      background: rgba(34,197,94,0.12);
-      border: 1px solid rgba(34,197,94,0.4);
-    }
+        /* ==============================
+           CHAT
+        ============================== */
 
-    footer {
-      background: #0f172a;
-      color: white;
-      padding: 30px 0;
-    }
+        .chat-container {
+            max-width: 850px;
+            margin: auto;
+            background: var(--card);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+        }
 
-    body.dark .accordion-button {
-      background: var(--card);
-      color: var(--text);
-    }
+        .chat-header {
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+        }
 
-    body.dark .accordion-item {
-      background: var(--card);
-      color: var(--text);
-      border-color: var(--border);
-    }
+        #chatBody {
+            height: 430px;
+            overflow-y: auto;
+            padding: 20px;
+        }
 
-    body.dark .form-control,
-    body.dark .form-select {
-      background: #111827;
-      color: white;
-      border-color: var(--border);
-    }
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+        }
 
-    .mode-badge {
-      display: inline-block;
-      font-size: 12px;
-      padding: 5px 10px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.2);
-      margin-top: 5px;
-    }
+        .message.user {
+            justify-content: flex-end;
+        }
 
-    .typing {
-      font-style: italic;
-      color: var(--muted);
-      font-size: 14px;
-    }
+        .bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            line-height: 1.5;
+        }
 
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
+        .message.bot .bubble {
+            background: var(--chat);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
 
-      .bubble {
-        max-width: 90%;
-      }
-    }
-  </style>
+        .message.user .bubble {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(128,128,128,0.2);
+        }
+
+        /* ==============================
+           REACTIONS
+        ============================== */
+
+        .reactions {
+            margin-top: 10px;
+        }
+
+        .reactions button {
+            border: 1px solid rgba(128,128,128,0.3);
+            background: transparent;
+            color: var(--text);
+            border-radius: 20px;
+            padding: 3px 8px;
+            margin-right: 4px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .reactions button:hover {
+            transform: scale(1.12);
+            background: rgba(128,128,128,0.15);
+        }
+
+        .quick-btn {
+            margin: 3px;
+        }
+
+        .typing {
+            font-size: 13px;
+            color: var(--muted);
+            padding: 8px 15px;
+        }
+
+        .mode-badge {
+            font-size: 11px;
+        }
+
+        .preview-image {
+            max-width: 180px;
+            max-height: 180px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 30px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        /* ==============================
+           WELCOME USER
+        ============================== */
+
+        .welcome-box {
+            max-width: 1000px;
+            margin: 25px auto 0;
+            padding: 15px 20px;
+            border-radius: 15px;
+            background: var(--card);
+            border: 1px solid rgba(128,128,128,0.2);
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container">
+<!-- =====================================================
+     LOGIN / CREATE ACCOUNT PAGE
+===================================================== -->
 
-    <a class="navbar-brand fw-bold" href="#home">
-      <i class="bi bi-robot"></i>
-      AI IT Buddy
-    </a>
+<div id="authPage">
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="auth-container">
 
-    <div class="collapse navbar-collapse" id="navMenu">
+        <div class="auth-card">
 
-      <ul class="navbar-nav ms-auto">
+            <div class="auth-logo">
+                🤖
+            </div>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#home">Home</a>
-        </li>
+            <h2 class="auth-title">
+                AI IT Buddy
+            </h2>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#assistant">AI Assistant</a>
-        </li>
+            <p class="auth-subtitle">
+                Student IT Help Desk
+            </p>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#troubleshooting">Troubleshooting</a>
-        </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#contact">Contact IT</a>
-        </li>
+            <!-- LOGIN FORM -->
 
-        <li class="nav-item ms-lg-2">
-          <button class="btn btn-outline-primary btn-sm mt-1"
-                  onclick="toggleTheme()">
-            <i class="bi bi-moon-stars"></i>
-            <span id="themeText">Dark Mode</span>
-          </button>
-        </li>
+            <div id="loginForm">
 
-      </ul>
+                <h5 class="mb-3">
+                    Welcome back! 👋
+                </h5>
+
+                <div class="auth-form">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            class="form-control"
+                            placeholder="Enter your email">
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            class="form-control"
+                            placeholder="Enter your password">
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-primary w-100"
+                        onclick="login()">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Login
+
+                    </button>
+
+                </div>
+
+
+                <div class="auth-switch">
+
+                    Don't have an account?
+
+                    <button onclick="showCreateAccount()">
+                        Create Account
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CREATE ACCOUNT FORM -->
+
+            <div id="createAccountForm" style="display:none;">
+
+                <h5 class="mb-3">
+                    Create your account 🚀
+                </h5>
+
+                <div class="auth-form">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="registerName"
+                            class="form-control"
+                            placeholder="Enter your name">
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="registerEmail"
+                            class="form-control"
+                            placeholder="Enter your email">
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="registerPassword"
+                            class="form-control"
+                            placeholder="Create a password">
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            class="form-control"
+                            placeholder="Confirm your password">
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-primary w-100"
+                        onclick="createAccount()">
+
+                        <i class="bi bi-person-plus"></i>
+                        Create Account
+
+                    </button>
+
+                </div>
+
+
+                <div class="auth-switch">
+
+                    Already have an account?
+
+                    <button onclick="showLogin()">
+                        Login
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="demo-note">
+                Prototype authentication using browser local storage.
+            </div>
+
+        </div>
 
     </div>
-  </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN DASHBOARD
+===================================================== -->
+
+<div id="dashboard">
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="#home">
+            🤖 AI IT Buddy
+        </a>
+
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <div
+            class="collapse navbar-collapse"
+            id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#assistant">
+                        AI Assistant
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#troubleshooting">
+                        Troubleshooting
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">
+                        Contact IT
+                    </a>
+                </li>
+
+                <li class="nav-item">
+
+                    <button
+                        class="btn btn-sm btn-outline-secondary ms-2"
+                        onclick="toggleTheme()">
+
+                        🌙 / ☀️
+
+                    </button>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <button
+                        class="btn btn-sm btn-outline-danger ms-2"
+                        onclick="logout()">
+
+                        <i class="bi bi-box-arrow-right"></i>
+                        Logout
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
 </nav>
 
 
-<!-- ================= HERO ================= -->
+<!-- WELCOME -->
+
+<div class="container">
+
+    <div class="welcome-box">
+
+        <strong>
+            Welcome, <span id="welcomeName"></span>! 👋
+        </strong>
+
+        <div class="small text-secondary">
+            You are now logged in to AI IT Buddy.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- HERO -->
 
 <section id="home" class="hero">
-  <div class="container">
 
-    <div class="row align-items-center">
+    <div class="container">
 
-      <div class="col-lg-7">
-
-        <span class="badge bg-primary mb-3">
-          AI-Powered Student IT Support
-        </span>
+        <div class="mb-3" style="font-size:60px;">
+            🤖
+        </div>
 
         <h1>
-          Meet your <span>AI IT Buddy.</span>
+            Meet Your AI IT Buddy
         </h1>
 
         <p class="lead mt-3">
-          Get technical help, ask questions, or simply talk.
-          Your friendly student support assistant is ready.
+
+            A student-friendly AI-powered IT Help Desk
+            that can help troubleshoot technical problems
+            while also having a natural conversation with students.
+
         </p>
 
-        <div class="mt-4">
-          <a href="#assistant" class="btn btn-primary btn-lg me-2">
-            <i class="bi bi-chat-dots"></i>
-            Talk to AI Buddy
-          </a>
 
-          <a href="#troubleshooting"
-             class="btn btn-outline-primary btn-lg">
-            Troubleshoot
-          </a>
-        </div>
+        <a
+            href="#assistant"
+            class="btn btn-primary btn-lg mt-4">
 
-      </div>
+            Talk to IT Buddy
 
-      <div class="col-lg-5 text-center mt-5 mt-lg-0">
-
-        <div class="card-custom">
-
-          <div class="display-1">
-            🤖
-          </div>
-
-          <h3>Hi! I'm IT Buddy</h3>
-
-          <p class="text-muted">
-            I can help with your computer problems,
-            but you can also talk to me about normal
-            student life.
-          </p>
-
-          <div>
-            <span class="badge bg-success">
-              <i class="bi bi-circle-fill"></i>
-              Online
-            </span>
-          </div>
-
-        </div>
-
-      </div>
+        </a>
 
     </div>
 
-  </div>
 </section>
 
 
-<!-- ================= FEATURES ================= -->
+<!-- FEATURES -->
 
-<section class="section">
-
-  <div class="container">
+<section class="container py-5">
 
     <div class="text-center mb-5">
-      <h2>What Can IT Buddy Do?</h2>
 
-      <p class="text-muted">
-        Technical support with a more natural and student-friendly conversation.
-      </p>
+        <h2>
+            What Can IT Buddy Help With?
+        </h2>
+
+        <p class="text-secondary">
+            Your virtual assistant for common student IT concerns.
+        </p>
+
     </div>
+
 
     <div class="row g-4">
 
-      <div class="col-md-6 col-lg-3">
-        <div class="card-custom">
 
-          <div class="feature-icon">
-            <i class="bi bi-wifi"></i>
-          </div>
+        <div class="col-md-3">
 
-          <h5>Internet Problems</h5>
+            <div class="card feature-card p-4 text-center">
 
-          <p class="text-muted">
-            Get help with Wi-Fi, connection problems,
-            DNS issues and slow internet.
-          </p>
+                <div class="feature-icon">
+                    <i class="bi bi-wifi"></i>
+                </div>
 
-        </div>
-      </div>
+                <h5 class="mt-3">
+                    Internet Problems
+                </h5>
 
+                <p class="text-secondary">
+                    Get basic troubleshooting help for Wi-Fi
+                    and internet connection problems.
+                </p>
 
-      <div class="col-md-6 col-lg-3">
-        <div class="card-custom">
-
-          <div class="feature-icon">
-            <i class="bi bi-laptop"></i>
-          </div>
-
-          <h5>Computer Problems</h5>
-
-          <p class="text-muted">
-            Troubleshoot slow computers, startup
-            problems, freezing and other issues.
-          </p>
+            </div>
 
         </div>
-      </div>
 
 
-      <div class="col-md-6 col-lg-3">
-        <div class="card-custom">
+        <div class="col-md-3">
 
-          <div class="feature-icon">
-            <i class="bi bi-printer"></i>
-          </div>
+            <div class="card feature-card p-4 text-center">
 
-          <h5>Printer Problems</h5>
+                <div class="feature-icon">
+                    <i class="bi bi-pc-display"></i>
+                </div>
 
-          <p class="text-muted">
-            Get assistance with printers that
-            won't print or connect.
-          </p>
+                <h5 class="mt-3">
+                    Computer Problems
+                </h5>
 
-        </div>
-      </div>
+                <p class="text-secondary">
+                    Get suggestions for slow computers,
+                    freezing applications and basic errors.
+                </p>
 
-
-      <div class="col-md-6 col-lg-3">
-        <div class="card-custom">
-
-          <div class="feature-icon">
-            <i class="bi bi-chat-heart"></i>
-          </div>
-
-          <h5>Student Conversation</h5>
-
-          <p class="text-muted">
-            Talk about school, stress, being tired,
-            nervousness, boredom, or everyday life.
-          </p>
+            </div>
 
         </div>
-      </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card feature-card p-4 text-center">
+
+                <div class="feature-icon">
+                    <i class="bi bi-printer"></i>
+                </div>
+
+                <h5 class="mt-3">
+                    Printer Problems
+                </h5>
+
+                <p class="text-secondary">
+                    Get basic steps for printer connection,
+                    paper and printing issues.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card feature-card p-4 text-center">
+
+                <div class="feature-icon">
+                    <i class="bi bi-chat-heart"></i>
+                </div>
+
+                <h5 class="mt-3">
+                    Student Conversation
+                </h5>
+
+                <p class="text-secondary">
+                    Talk naturally about school, your day,
+                    jokes or general concerns.
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 
-  </div>
 </section>
 
 
-<!-- ================= AI ASSISTANT ================= -->
+<!-- AI ASSISTANT -->
 
-<section id="assistant" class="section">
-
-  <div class="container">
+<section id="assistant" class="container py-5">
 
     <div class="text-center mb-4">
 
-      <h2>
-        <i class="bi bi-robot"></i>
-        Chat with IT Buddy
-      </h2>
+        <h2>
+            AI IT Buddy
+        </h2>
 
-      <p class="text-muted">
-        Ask about IT or just start a conversation.
-      </p>
+        <p class="text-secondary">
+            Ask a technical question or simply start a conversation.
+        </p>
 
     </div>
 
 
     <div class="chat-container">
 
-      <!-- CHAT HEADER -->
 
-      <div class="chat-header">
+        <div class="chat-header">
 
-        <div class="d-flex align-items-center">
+            <div class="d-flex justify-content-between align-items-center">
 
-          <div style="font-size:35px; margin-right:12px;">
-            🤖
-          </div>
+                <div>
 
-          <div>
+                    <strong>
+                        🤖 IT Buddy
+                    </strong>
 
-            <h5 class="mb-0">
-              IT Buddy
-            </h5>
+                    <div class="small">
+                        Student IT Help Desk
+                    </div>
 
-            <div class="bot-status">
-              Online • Student Support Assistant
+                </div>
+
+
+                <span
+                    id="modeBadge"
+                    class="badge bg-light text-dark mode-badge">
+
+                    General Mode
+
+                </span>
+
             </div>
 
-            <span id="modeBadge" class="mode-badge">
-              Friendly Mode
-            </span>
+        </div>
 
-          </div>
+
+        <!-- CHAT -->
+
+        <div id="chatBody">
+
+            <div class="message bot">
+
+                <div class="bubble">
+
+                    <strong>
+                        IT Buddy 🤖
+                    </strong>
+
+                    <br>
+
+                    Hi! I'm your AI IT Buddy. 👋
+
+                    <br><br>
+
+                    You can ask me about:
+
+                    <br>
+                    • Wi-Fi problems
+                    <br>
+                    • Slow computers
+                    <br>
+                    • Printers
+                    <br>
+                    • Software problems
+                    <br>
+                    • Accounts
+
+                    <br><br>
+
+                    Or we can simply talk about your day. 😊
+
+                </div>
+
+            </div>
 
         </div>
 
-      </div>
+
+        <!-- QUICK BUTTONS -->
+
+        <div class="px-3 pt-3">
+
+            <small class="text-secondary">
+                Quick questions:
+            </small>
+
+            <br>
 
 
-      <!-- QUICK BUTTONS -->
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('My Wi-Fi is not working')">
 
-      <div class="quick-buttons">
+                📶 Wi-Fi problem
 
-        <button
-          class="btn btn-sm btn-outline-primary"
-          onclick="quickMessage('My Wi-Fi is not working')">
-          📶 Wi-Fi Problem
-        </button>
-
-        <button
-          class="btn btn-sm btn-outline-primary"
-          onclick="quickMessage('My computer is very slow')">
-          💻 Slow Computer
-        </button>
-
-        <button
-          class="btn btn-sm btn-outline-primary"
-          onclick="quickMessage('Tell me a joke')">
-          😂 Tell me a joke
-        </button>
-
-        <button
-          class="btn btn-sm btn-outline-primary"
-          onclick="quickMessage('I am stressed today')">
-          💬 Talk
-        </button>
-
-      </div>
+            </button>
 
 
-      <!-- CHAT BODY -->
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('My computer is very slow')">
 
-      <div id="chatBody" class="chat-body">
+                💻 Slow computer
 
-        <div class="message bot">
+            </button>
 
-          <div class="bubble">
 
-            <strong>IT Buddy 🤖</strong><br>
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('Tell me a joke')">
 
-            Hey! I'm IT Buddy. 👋
+                😂 Joke
 
-            You can ask me about computer problems,
-            Wi-Fi, printers, software, or anything
-            related to IT.
+            </button>
 
-            <br><br>
 
-            But hey... I'm not only here for computers. 😄
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('I want to talk')">
 
-            If you had a rough day, you're tired,
-            nervous about school, bored, or just
-            want to talk, that's okay too.
+                💬 Talk
 
-            <br><br>
-
-            So... what's going on?
-
-          </div>
+            </button>
 
         </div>
 
-      </div>
+
+        <!-- INPUT -->
+
+        <div class="chat-input-area">
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    id="userInput"
+                    class="form-control"
+                    placeholder="Type your message..."
+                    onkeydown="handleEnter(event)">
 
 
-      <!-- IMAGE PREVIEW -->
+                <button
+                    class="btn btn-primary"
+                    onclick="sendMessage()">
 
-      <div class="px-3">
+                    <i class="bi bi-send"></i>
 
-        <img id="imagePreview"
-             class="preview"
-             alt="Uploaded screenshot">
+                </button>
 
-      </div>
+            </div>
 
 
-      <!-- INPUT -->
+            <!-- IMAGE -->
 
-      <div class="chat-input-area">
+            <div class="mt-2">
 
-        <div class="input-group">
+                <label
+                    for="imageInput"
+                    class="btn btn-sm btn-outline-secondary">
 
-          <label class="btn btn-outline-secondary">
+                    <i class="bi bi-image"></i>
+                    Send Image
 
-            <i class="bi bi-image"></i>
+                </label>
 
-            <input
-              type="file"
-              id="imageInput"
-              accept="image/*"
-              hidden
-              onchange="previewImage()">
 
-          </label>
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    style="display:none"
+                    onchange="previewImage(event)">
 
-          <input
-            type="text"
-            id="userInput"
-            class="form-control"
-            placeholder="Type your message here..."
-            onkeydown="handleEnter(event)">
+            </div>
 
-          <button
-            class="btn btn-primary"
-            onclick="sendMessage()">
 
-            <i class="bi bi-send"></i>
-            Send
-
-          </button>
+            <div id="imagePreview"></div>
 
         </div>
-
-      </div>
 
     </div>
-
-  </div>
 
 </section>
 
 
-<!-- ================= TROUBLESHOOTING ================= -->
+<!-- TROUBLESHOOTING -->
 
-<section id="troubleshooting" class="section">
+<section id="troubleshooting" class="container py-5">
 
-  <div class="container">
+    <div class="text-center mb-4">
 
-    <div class="text-center mb-5">
+        <h2>
+            Troubleshooting Guide
+        </h2>
 
-      <h2>
-        <i class="bi bi-tools"></i>
-        Troubleshooting Guide
-      </h2>
-
-      <p class="text-muted">
-        Quick guides for common student IT problems.
-      </p>
+        <p class="text-secondary">
+            Basic solutions for common IT problems.
+        </p>
 
     </div>
 
 
     <div class="accordion" id="troubleshootingAccordion">
 
-      <!-- INTERNET -->
 
-      <div class="accordion-item">
+        <div class="accordion-item">
 
-        <h2 class="accordion-header">
+            <h2 class="accordion-header">
 
-          <button
-            class="accordion-button"
-            data-bs-toggle="collapse"
-            data-bs-target="#wifiHelp">
+                <button
+                    class="accordion-button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#wifi">
 
-            📶 Wi-Fi / Internet Not Working
+                    📶 Wi-Fi Not Working
 
-          </button>
+                </button>
 
-        </h2>
-
-        <div id="wifiHelp"
-             class="accordion-collapse collapse show">
-
-          <div class="accordion-body">
-
-            <ol>
-
-              <li>Check if Wi-Fi is turned on.</li>
-
-              <li>Disconnect and reconnect to the network.</li>
-
-              <li>Restart your router if you have access to it.</li>
-
-              <li>Restart your computer.</li>
-
-              <li>Check whether other devices can connect.</li>
-
-            </ol>
-
-          </div>
-
-        </div>
-
-      </div>
+            </h2>
 
 
-      <!-- COMPUTER -->
+            <div
+                id="wifi"
+                class="accordion-collapse collapse show">
 
-      <div class="accordion-item">
+                <div class="accordion-body">
 
-        <h2 class="accordion-header">
+                    1. Check if Wi-Fi is turned on.
+                    <br>
+                    2. Disconnect and reconnect to the network.
+                    <br>
+                    3. Restart your device.
+                    <br>
+                    4. Restart the router if you have access to it.
+                    <br>
+                    5. Check if other devices can connect.
 
-          <button
-            class="accordion-button collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#computerHelp">
+                </div>
 
-            💻 Computer is Slow
-
-          </button>
-
-        </h2>
-
-        <div id="computerHelp"
-             class="accordion-collapse collapse">
-
-          <div class="accordion-body">
-
-            <ol>
-
-              <li>Close programs you are not using.</li>
-
-              <li>Restart the computer.</li>
-
-              <li>Check available storage.</li>
-
-              <li>Check for unnecessary startup programs.</li>
-
-              <li>Run a trusted security scan if appropriate.</li>
-
-            </ol>
-
-          </div>
+            </div>
 
         </div>
 
-      </div>
+
+        <div class="accordion-item">
+
+            <h2 class="accordion-header">
+
+                <button
+                    class="accordion-button collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#computer">
+
+                    💻 Slow Computer
+
+                </button>
+
+            </h2>
 
 
-      <!-- PRINTER -->
+            <div
+                id="computer"
+                class="accordion-collapse collapse">
 
-      <div class="accordion-item">
+                <div class="accordion-body">
 
-        <h2 class="accordion-header">
+                    1. Close programs you don't need.
+                    <br>
+                    2. Restart your computer.
+                    <br>
+                    3. Check available storage.
+                    <br>
+                    4. Update your operating system.
+                    <br>
+                    5. Check whether too many applications
+                    are running at startup.
 
-          <button
-            class="accordion-button collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#printerHelp">
+                </div>
 
-            🖨️ Printer Not Printing
-
-          </button>
-
-        </h2>
-
-        <div id="printerHelp"
-             class="accordion-collapse collapse">
-
-          <div class="accordion-body">
-
-            <ol>
-
-              <li>Check if the printer is powered on.</li>
-
-              <li>Check the cable or network connection.</li>
-
-              <li>Check the selected printer.</li>
-
-              <li>Check the print queue.</li>
-
-              <li>Restart the printer and try again.</li>
-
-            </ol>
-
-          </div>
+            </div>
 
         </div>
 
-      </div>
+
+        <div class="accordion-item">
+
+            <h2 class="accordion-header">
+
+                <button
+                    class="accordion-button collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#printer">
+
+                    🖨️ Printer Problem
+
+                </button>
+
+            </h2>
+
+
+            <div
+                id="printer"
+                class="accordion-collapse collapse">
+
+                <div class="accordion-body">
+
+                    1. Check if the printer is powered on.
+                    <br>
+                    2. Check the paper.
+                    <br>
+                    3. Check the printer connection.
+                    <br>
+                    4. Check whether the correct printer
+                    is selected.
+                    <br>
+                    5. Restart the printer.
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
-
-  </div>
 
 </section>
 
 
-<!-- ================= FAQ ================= -->
+<!-- FAQ -->
 
-<section class="section">
+<section class="container py-5">
 
-  <div class="container">
+    <div class="text-center mb-4">
 
-    <div class="text-center mb-5">
-
-      <h2>Frequently Asked Questions</h2>
-
-    </div>
-
-
-    <div class="row g-4">
-
-      <div class="col-md-6">
-
-        <div class="card-custom">
-
-          <h5>What is AI IT Buddy?</h5>
-
-          <p class="text-muted">
-            AI IT Buddy is a student-oriented help desk
-            assistant designed to provide automated
-            technical support using natural-language
-            interaction.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="col-md-6">
-
-        <div class="card-custom">
-
-          <h5>Can I talk about things other than computers?</h5>
-
-          <p class="text-muted">
-            Yes. The conversational personality allows
-            students to have general conversations while
-            keeping IT support as the system's main purpose.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="col-md-6">
-
-        <div class="card-custom">
-
-          <h5>Can it understand technical questions?</h5>
-
-          <p class="text-muted">
-            The prototype recognizes common IT topics
-            and provides guided troubleshooting responses.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="col-md-6">
-
-        <div class="card-custom">
-
-          <h5>Can it receive screenshots?</h5>
-
-          <p class="text-muted">
-            Yes. You can upload an image or screenshot
-            through the chat. In this prototype, the image
-            is previewed for the user.
-          </p>
-
-        </div>
-
-      </div>
+        <h2>
+            Frequently Asked Questions
+        </h2>
 
     </div>
 
-  </div>
+
+    <div class="row">
+
+
+        <div class="col-md-6">
+
+            <div class="card p-4 mb-3">
+
+                <h5>
+                    Is IT Buddy a real IT technician?
+                </h5>
+
+                <p class="text-secondary mb-0">
+
+                    No. This prototype provides automated
+                    guidance for common student IT concerns.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <div class="card p-4 mb-3">
+
+                <h5>
+                    Can I ask normal questions?
+                </h5>
+
+                <p class="text-secondary mb-0">
+
+                    Yes. IT Buddy can also respond to casual
+                    conversation and student-related questions.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- ================= CONTACT ================= -->
+<!-- CONTACT -->
 
-<section id="contact" class="section">
+<section id="contact" class="container py-5">
 
-  <div class="container">
+    <div class="text-center mb-4">
 
-    <div class="text-center mb-5">
+        <h2>
+            Contact IT Support
+        </h2>
 
-      <h2>
-        <i class="bi bi-headset"></i>
-        Contact IT Support
-      </h2>
+        <p class="text-secondary">
 
-      <p class="text-muted">
-        If IT Buddy cannot solve your problem,
-        submit a support request.
-      </p>
+            If the automated suggestions don't solve your problem,
+            you can submit a support request.
+
+        </p>
 
     </div>
 
 
-    <div class="row justify-content-center">
+    <div
+        class="card p-4 mx-auto"
+        style="max-width:700px">
 
-      <div class="col-lg-8">
+        <form id="supportForm">
 
-        <div class="card-custom">
-
-          <form id="supportForm">
 
             <div class="mb-3">
 
-              <label class="form-label">
-                Student Name
-              </label>
+                <label class="form-label">
+                    Student Name
+                </label>
 
-              <input
-                type="text"
-                id="studentName"
-                class="form-control"
-                required>
+                <input
+                    type="text"
+                    id="studentName"
+                    class="form-control"
+                    required>
 
             </div>
 
 
             <div class="mb-3">
 
-              <label class="form-label">
-                Email
-              </label>
+                <label class="form-label">
+                    Problem
+                </label>
 
-              <input
-                type="email"
-                id="studentEmail"
-                class="form-control"
-                required>
-
-            </div>
-
-
-            <div class="mb-3">
-
-              <label class="form-label">
-                Problem Type
-              </label>
-
-              <select id="problemType"
-                      class="form-select"
-                      required>
-
-                <option value="">
-                  Select problem
-                </option>
-
-                <option>Internet / Wi-Fi</option>
-                <option>Computer / Laptop</option>
-                <option>Printer</option>
-                <option>Software</option>
-                <option>Account / Login</option>
-                <option>Other</option>
-
-              </select>
-
-            </div>
-
-
-            <div class="mb-3">
-
-              <label class="form-label">
-                Describe your problem
-              </label>
-
-              <textarea
-                id="problemDescription"
-                class="form-control"
-                rows="5"
-                required></textarea>
+                <textarea
+                    id="problem"
+                    class="form-control"
+                    rows="4"
+                    required>
+                </textarea>
 
             </div>
 
 
             <button
-              type="submit"
-              class="btn btn-primary w-100">
+                class="btn btn-primary"
+                type="submit">
 
-              <i class="bi bi-send"></i>
-              Submit IT Support Request
+                Submit Support Request
 
             </button>
 
-          </form>
+        </form>
 
 
-          <div id="ticketResult" class="ticket">
-
-            <h5>
-              <i class="bi bi-check-circle"></i>
-              Request Submitted
-            </h5>
-
-            <p id="ticketText" class="mb-0"></p>
-
-          </div>
+        <div
+            id="supportResult"
+            class="alert alert-success mt-4"
+            style="display:none">
 
         </div>
 
-      </div>
-
     </div>
-
-  </div>
 
 </section>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 
 <footer>
 
-  <div class="container text-center">
-
-    <h5>
-      🤖 AI IT Buddy
-    </h5>
-
     <p class="mb-1">
-      AI-Powered IT Help Desk System
+        AI IT Buddy — AI-Powered IT Help Desk Prototype
     </p>
 
-    <small>
-      Developed for BSIT 1R14 Research Project
-    </small>
+    <p class="small mb-0">
 
-    <hr>
+        Research Members:
+        Rodimo, Clint Jay B.
+        |
+        Macarayan, Jefosn B.
 
-    <small>
-      Rodimo, Clint Jay B. • Macarayan, Jefosn B.
-    </small>
+    </p>
 
-  </div>
+
+    <p class="small mt-2">
+        BSIT-1R14
+    </p>
 
 </footer>
 
+</div>
+<!-- END DASHBOARD -->
 
-<!-- Bootstrap JS -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- BOOTSTRAP -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 
 
 <script>
 
-/* =====================================================
-   AI IT BUDDY
-===================================================== */
-
-let chatHistory = [];
-let currentProblem = "";
-let lastTopic = "";
+/* =========================================================
+   LOGIN / ACCOUNT SYSTEM
+========================================================= */
 
 
-/* =====================================================
+/*
+   SHOW LOGIN
+*/
+
+function showLogin() {
+
+    document.getElementById("loginForm").style.display = "block";
+
+    document.getElementById("createAccountForm").style.display = "none";
+
+}
+
+
+/*
+   SHOW CREATE ACCOUNT
+*/
+
+function showCreateAccount() {
+
+    document.getElementById("loginForm").style.display = "none";
+
+    document.getElementById("createAccountForm").style.display = "block";
+
+}
+
+
+/*
+   CREATE ACCOUNT
+*/
+
+function createAccount() {
+
+    const name =
+        document.getElementById("registerName").value.trim();
+
+    const email =
+        document.getElementById("registerEmail").value.trim();
+
+    const password =
+        document.getElementById("registerPassword").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+
+    if (
+        name === "" ||
+        email === "" ||
+        password === "" ||
+        confirmPassword === ""
+    ) {
+
+        alert("Please fill in all fields.");
+
+        return;
+
+    }
+
+
+    if (password !== confirmPassword) {
+
+        alert("Passwords do not match.");
+
+        return;
+
+    }
+
+
+    if (password.length < 6) {
+
+        alert("Password must contain at least 6 characters.");
+
+        return;
+
+    }
+
+
+    const existingAccount =
+        JSON.parse(localStorage.getItem("itBuddyAccount"));
+
+
+    if (
+        existingAccount &&
+        existingAccount.email === email
+    ) {
+
+        alert("An account with this email already exists.");
+
+        return;
+
+    }
+
+
+    const account = {
+
+        name: name,
+        email: email,
+        password: password
+
+    };
+
+
+    localStorage.setItem(
+        "itBuddyAccount",
+        JSON.stringify(account)
+    );
+
+
+    alert("Account created successfully! 🎉");
+
+
+    document.getElementById("registerName").value = "";
+    document.getElementById("registerEmail").value = "";
+    document.getElementById("registerPassword").value = "";
+    document.getElementById("confirmPassword").value = "";
+
+
+    showLogin();
+
+}
+
+
+/*
+   LOGIN
+*/
+
+function login() {
+
+    const email =
+        document.getElementById("loginEmail").value.trim();
+
+    const password =
+        document.getElementById("loginPassword").value;
+
+
+    const account =
+        JSON.parse(localStorage.getItem("itBuddyAccount"));
+
+
+    if (!account) {
+
+        alert("No account found. Please create an account first.");
+
+        return;
+
+    }
+
+
+    if (
+        email === account.email &&
+        password === account.password
+    ) {
+
+        localStorage.setItem(
+            "itBuddyLoggedIn",
+            "true"
+        );
+
+        showDashboard(account.name);
+
+    } else {
+
+        alert("Incorrect email or password.");
+
+    }
+
+}
+
+
+/*
+   SHOW DASHBOARD
+*/
+
+function showDashboard(name) {
+
+    document.getElementById("authPage").style.display = "none";
+
+    document.getElementById("dashboard").style.display = "block";
+
+    document.getElementById("welcomeName").textContent = name;
+
+}
+
+
+/*
+   LOGOUT
+*/
+
+function logout() {
+
+    localStorage.removeItem("itBuddyLoggedIn");
+
+    document.getElementById("dashboard").style.display = "none";
+
+    document.getElementById("authPage").style.display = "flex";
+
+    document.getElementById("loginEmail").value = "";
+    document.getElementById("loginPassword").value = "";
+
+}
+
+
+/*
+   CHECK LOGIN WHEN PAGE LOADS
+*/
+
+window.onload = function () {
+
+    const loggedIn =
+        localStorage.getItem("itBuddyLoggedIn");
+
+    const account =
+        JSON.parse(localStorage.getItem("itBuddyAccount"));
+
+
+    if (
+        loggedIn === "true" &&
+        account
+    ) {
+
+        showDashboard(account.name);
+
+    } else {
+
+        document.getElementById("authPage").style.display = "flex";
+
+        document.getElementById("dashboard").style.display = "none";
+
+    }
+
+};
+
+
+/* =========================================================
    THEME
-===================================================== */
+========================================================= */
 
 function toggleTheme() {
 
-  document.body.classList.toggle("dark");
+    document.body.classList.toggle("dark");
 
-  const dark =
-    document.body.classList.contains("dark");
 
-  document.getElementById("themeText").textContent =
-    dark ? "Light Mode" : "Dark Mode";
+    if (
+        document.body.classList.contains("dark")
+    ) {
 
-  localStorage.setItem("theme", dark ? "dark" : "light");
+        localStorage.setItem("theme", "dark");
+
+    } else {
+
+        localStorage.setItem("theme", "light");
+
+    }
+
 }
 
 
-if (localStorage.getItem("theme") === "dark") {
+if (
+    localStorage.getItem("theme") === "dark"
+) {
 
-  document.body.classList.add("dark");
+    document.body.classList.add("dark");
 
-  document.getElementById("themeText").textContent =
-    "Light Mode";
 }
 
 
-/* =====================================================
+/* =========================================================
    SEND MESSAGE
-===================================================== */
+========================================================= */
 
 function sendMessage() {
 
-  const input =
-    document.getElementById("userInput");
+    const input =
+        document.getElementById("userInput");
 
-  const text =
-    input.value.trim();
+    const text =
+        input.value.trim();
 
-  if (text === "") return;
 
-  addMessage(text, "user");
+    if (text === "") {
+        return;
+    }
 
-  input.value = "";
 
-  chatHistory.push({
-    user: text
-  });
+    addMessage(text, "user");
 
-  showTyping();
+    input.value = "";
 
-  setTimeout(() => {
+    showTyping();
 
-    removeTyping();
 
-    const response =
-      generateResponse(text);
+    setTimeout(function () {
 
-    addMessage(response, "bot");
+        removeTyping();
 
-    chatHistory.push({
-      bot: response
-    });
+        const response =
+            generateResponse(text);
 
-  }, 500);
+        addMessage(response, "bot");
+
+    }, 700);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ENTER KEY
-===================================================== */
+========================================================= */
 
 function handleEnter(event) {
 
-  if (event.key === "Enter") {
-    sendMessage();
-  }
+    if (event.key === "Enter") {
+
+        sendMessage();
+
+    }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    QUICK MESSAGE
-===================================================== */
+========================================================= */
 
 function quickMessage(text) {
 
-  document.getElementById("userInput").value =
-    text;
+    document.getElementById("userInput").value = text;
 
-  sendMessage();
+    sendMessage();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ADD MESSAGE
-===================================================== */
+========================================================= */
 
 function addMessage(text, type) {
 
-  const body =
-    document.getElementById("chatBody");
+    const body =
+        document.getElementById("chatBody");
 
-  const message =
-    document.createElement("div");
 
-  message.className =
-    "message " + type;
+    const message =
+        document.createElement("div");
 
-  const bubble =
-    document.createElement("div");
+    message.className =
+        "message " + type;
 
-  bubble.className =
-    "bubble";
 
-  if (type === "bot") {
+    const bubble =
+        document.createElement("div");
 
-    bubble.innerHTML =
-      "<strong>IT Buddy 🤖</strong><br>" +
-      formatText(text);
+    bubble.className =
+        "bubble";
 
-  } else {
 
-    bubble.textContent = text;
+    if (type === "bot") {
 
-  }
+        bubble.innerHTML =
 
-  message.appendChild(bubble);
+            `<strong>IT Buddy 🤖</strong><br>` +
 
-  body.appendChild(message);
+            formatText(text) +
 
-  body.scrollTop =
-    body.scrollHeight;
+            `<div class="reactions">
+
+                <button onclick="react('👍')">
+                    👍
+                </button>
+
+                <button onclick="react('❤️')">
+                    ❤️
+                </button>
+
+                <button onclick="react('😂')">
+                    😂
+                </button>
+
+                <button onclick="react('😕')">
+                    😕
+                </button>
+
+                <button onclick="react('👎')">
+                    👎
+                </button>
+
+            </div>`;
+
+    } else {
+
+        bubble.textContent = text;
+
+    }
+
+
+    message.appendChild(bubble);
+
+    body.appendChild(message);
+
+    body.scrollTop =
+        body.scrollHeight;
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   REACTION
+========================================================= */
+
+function react(reaction) {
+
+    alert("You reacted " + reaction);
+
+}
+
+
+/* =========================================================
    FORMAT TEXT
-===================================================== */
+========================================================= */
 
 function formatText(text) {
 
-  return text
-    .replace(/\n/g, "<br>")
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    return text
+        .replace(/\n/g, "<br>")
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
 }
 
 
-/* =====================================================
-   TYPING
-===================================================== */
+/* =========================================================
+   TYPING INDICATOR
+========================================================= */
 
 function showTyping() {
 
-  const body =
-    document.getElementById("chatBody");
+    const body =
+        document.getElementById("chatBody");
 
-  const typing =
-    document.createElement("div");
 
-  typing.id = "typing";
+    const typing =
+        document.createElement("div");
 
-  typing.className =
-    "message bot";
+    typing.id =
+        "typingIndicator";
 
-  typing.innerHTML = `
-    <div class="bubble typing">
-      IT Buddy is thinking... 🤔
-    </div>
-  `;
+    typing.className =
+        "typing";
 
-  body.appendChild(typing);
+    typing.innerHTML =
+        "IT Buddy is typing... 🤖";
 
-  body.scrollTop =
-    body.scrollHeight;
+
+    body.appendChild(typing);
+
+    body.scrollTop =
+        body.scrollHeight;
+
 }
 
 
 function removeTyping() {
 
-  const typing =
-    document.getElementById("typing");
+    const typing =
+        document.getElementById("typingIndicator");
 
-  if (typing) {
-    typing.remove();
-  }
+
+    if (typing) {
+
+        typing.remove();
+
+    }
 
 }
 
 
-/* =====================================================
-   DETECT EMOTION
-===================================================== */
-
-function detectEmotion(text) {
-
-  const t =
-    text.toLowerCase();
-
-  if (
-    /happy|glad|excited|awesome|great|good day|yay|proud|celebrat/.test(t)
-  ) {
-    return "happy";
-  }
-
-  if (
-    /sad|unhappy|down|cry|upset|heartbroken/.test(t)
-  ) {
-    return "sad";
-  }
-
-  if (
-    /tired|sleepy|exhausted|drained/.test(t)
-  ) {
-    return "tired";
-  }
-
-  if (
-    /nervous|anxious|scared|worried|afraid/.test(t)
-  ) {
-    return "nervous";
-  }
-
-  if (
-    /stress|stressed|overwhelmed|pressure/.test(t)
-  ) {
-    return "stressed";
-  }
-
-  if (
-    /angry|mad|annoyed|irritated/.test(t)
-  ) {
-    return "angry";
-  }
-
-  if (
-    /bored|boring|nothing to do/.test(t)
-  ) {
-    return "bored";
-  }
-
-  if (
-    /confused|don't understand|dont understand|what does.*mean/.test(t)
-  ) {
-    return "confused";
-  }
-
-  if (
-    /thank you|thanks|salamat/.test(t)
-  ) {
-    return "grateful";
-  }
-
-  return null;
-}
-
-
-/* =====================================================
-   DETECT CONVERSATION STYLE
-===================================================== */
-
-function detectStyle(text) {
-
-  const t =
-    text.toLowerCase();
-
-  if (
-    /define|definition|explain|research|system|nlp|natural language|algorithm|technical|documentation/.test(t)
-  ) {
-    return "professional";
-  }
-
-  if (
-    /deadline|urgent|emergency|important|cannot access|can't access|submission today/.test(t)
-  ) {
-    return "serious";
-  }
-
-  return "friendly";
-}
-
-
-/* =====================================================
-   DETECT IT PROBLEM
-===================================================== */
+/* =========================================================
+   DETECT IT TOPIC
+========================================================= */
 
 function detectITTopic(text) {
 
-  const t =
-    text.toLowerCase();
+    const lower =
+        text.toLowerCase();
 
-  if (
-    /wifi|wi-fi|internet|network|dns|router|connection|no internet/.test(t)
-  ) {
-    return "internet";
-  }
 
-  if (
-    /laptop|computer|pc|slow|freezing|freeze|keyboard|mouse|monitor|startup|boot/.test(t)
-  ) {
-    return "computer";
-  }
+    if (
+        lower.includes("wifi") ||
+        lower.includes("wi-fi") ||
+        lower.includes("internet") ||
+        lower.includes("connection") ||
+        lower.includes("network")
+    ) {
 
-  if (
-    /printer|printing|print|paper|ink/.test(t)
-  ) {
-    return "printer";
-  }
+        return "internet";
 
-  if (
-    /software|application|app|program|error|crash|install|update/.test(t)
-  ) {
-    return "software";
-  }
+    }
 
-  if (
-    /password|login|log in|account|username|forgot password/.test(t)
-  ) {
-    return "account";
-  }
 
-  return null;
+    if (
+        lower.includes("computer") ||
+        lower.includes("laptop") ||
+        lower.includes("pc") ||
+        lower.includes("slow") ||
+        lower.includes("freeze")
+    ) {
+
+        return "computer";
+
+    }
+
+
+    if (
+        lower.includes("printer") ||
+        lower.includes("print")
+    ) {
+
+        return "printer";
+
+    }
+
+
+    if (
+        lower.includes("software") ||
+        lower.includes("application") ||
+        lower.includes("app") ||
+        lower.includes("program")
+    ) {
+
+        return "software";
+
+    }
+
+
+    if (
+        lower.includes("password") ||
+        lower.includes("account") ||
+        lower.includes("login") ||
+        lower.includes("log in")
+    ) {
+
+        return "account";
+
+    }
+
+
+    return null;
+
 }
 
 
-/* =====================================================
+/* =========================================================
    GENERAL CONVERSATION
-===================================================== */
+========================================================= */
 
 function generalConversation(text) {
 
-  const t =
-    text.toLowerCase();
+    const lower =
+        text.toLowerCase();
 
-  const emotion =
-    detectEmotion(text);
 
+    if (
+        lower.includes("hello") ||
+        lower.includes("hi") ||
+        lower.includes("hey")
+    ) {
 
-  /* WHO ARE YOU */
+        return "Hey! 👋 I'm IT Buddy. How are you doing today?";
 
-  if (
-    /who are you|what are you|your name/.test(t)
-  ) {
+    }
 
-    return `I'm **IT Buddy** 🤖 — your student-friendly AI Help Desk companion.
 
-My main job is helping with IT problems like Wi-Fi, computers, printers, software, and accounts.
+    if (
+        lower.includes("how are you")
+    ) {
 
-But I'm also designed for normal conversation. So you can talk to me about school, your day, stress, boredom, or random things too. 😄`;
+        return "I'm ready to chat and help with your IT problems. 🤖 What's on your mind?";
 
-  }
+    }
 
 
-  /* WHAT CAN YOU DO */
+    if (
+        lower.includes("thank")
+    ) {
 
-  if (
-    /what can you do|help me|how can you help/.test(t)
-  ) {
+        return "You're welcome! 😊 I'm always happy to help.";
 
-    return `A lot, actually. 😎
+    }
 
-💻 **IT Support** — Wi-Fi, computers, printers, software and accounts.
 
-🧠 **Simple Explanations** — I can explain technical terms in easier language.
+    if (
+        lower.includes("joke")
+    ) {
 
-💬 **Conversation** — You can talk to me about normal student life.
+        return "Why did the computer go to the doctor? Because it had a virus! 😂";
 
-😊 **Supportive Responses** — If you're tired, nervous, stressed, happy, or confused, I can respond accordingly.
+    }
 
-📸 **Screenshot Upload** — You can send an image related to your IT problem.
 
-🎫 **IT Support Request** — If the problem needs a real IT staff member, you can submit a support ticket.`;
+    if (
+        lower.includes("school") ||
+        lower.includes("study") ||
+        lower.includes("class")
+    ) {
 
-  }
+        return "School can definitely be tiring. 📚 If you have an IT problem related to your studies, you can tell me what happened.";
 
+    }
 
-  /* JOKE */
 
-  if (
-    /tell me a joke|make me laugh|joke/.test(t)
-  ) {
+    if (
+        lower.includes("tired") ||
+        lower.includes("exhausted")
+    ) {
 
-    const jokes = [
+        return "Sounds like you've had a long day. 😌 Take a short break if you can. If you still need help with something technical, I'm here.";
 
-      "Why did the computer go to the doctor? Because it had a virus. 😂💻",
+    }
 
-      "Why was the computer cold? It left its Windows open. 😭🪟",
 
-      "I told my laptop I needed a break... now it won't stop showing me loading screens. 😂",
+    if (
+        lower.includes("sad") ||
+        lower.includes("lonely")
+    ) {
 
-      "Why don't programmers like nature? It has too many bugs. 🐛😂"
+        return "I'm sorry you're having a difficult moment. You can tell me what's bothering you if you want to talk.";
 
-    ];
+    }
 
-    return jokes[
-      Math.floor(Math.random() * jokes.length)
-    ];
 
-  }
+    if (
+        lower.includes("stressed") ||
+        lower.includes("stress")
+    ) {
 
+        return "That sounds stressful. 😕 Let's take it one thing at a time. If the stress is because of a school or IT problem, tell me what you're dealing with.";
 
-  /* GREETING */
+    }
 
-  if (
-    /^(hi|hello|hey|hii|helo|good morning|good afternoon|good evening)/.test(t)
-  ) {
 
-    return `Heyyy! 👋😎
+    if (
+        lower.includes("happy") ||
+        lower.includes("excited") ||
+        lower.includes("great")
+    ) {
 
-I'm IT Buddy.
+        return "That's great to hear! 😄 Tell me what happened.";
 
-What's up? Got an IT problem, need help with school stuff, or are we just here to talk for a while? 😂`;
+    }
 
-  }
 
+    if (
+        lower.includes("bored")
+    ) {
 
-  /* HAPPY */
+        return "Bored already? 😄 We can talk, or I can give you a quick IT-related challenge.";
 
-  if (emotion === "happy") {
+    }
 
-    return `That's nice to hear! 😄🎉
 
-You sound like you're having a pretty good day.
+    if (
+        lower.includes("nervous") ||
+        lower.includes("worried")
+    ) {
 
-What's making you happy today?`;
+        return "It's understandable to feel nervous sometimes. Take things one step at a time. What are you worried about?";
 
-  }
+    }
 
 
-  /* SAD */
+    if (
+        lower.includes("confused") ||
+        lower.includes("don't understand")
+    ) {
 
-  if (emotion === "sad") {
+        return "No worries. Let's make it simpler. Tell me which part is confusing you.";
 
-    return `I'm sorry you're having a difficult moment. 😔
+    }
 
-You don't have to explain everything if you don't want to.
 
-If you feel like talking about what happened, I'm here to listen and help you think through it.`;
-
-  }
-
-
-  /* TIRED */
-
-  if (emotion === "tired") {
-
-    return `Sounds like you're running on low battery today. 🔋😴
-
-If you can, give yourself a short break, drink some water, and rest for a bit.
-
-Is it schoolwork that's making you tired, or just one of those exhausting days?`;
-
-  }
-
-
-  /* NERVOUS */
-
-  if (emotion === "nervous") {
-
-    return `It's understandable to feel nervous. 😌
-
-Sometimes the best thing is to break the problem into smaller steps instead of thinking about everything at once.
-
-What's making you nervous right now?`;
-
-  }
-
-
-  /* STRESSED */
-
-  if (emotion === "stressed") {
-
-    return `That sounds like a lot to handle. 😮‍💨
-
-Let's slow it down and deal with one thing at a time.
-
-What's the biggest thing bothering you right now?`;
-
-  }
-
-
-  /* ANGRY */
-
-  if (emotion === "angry") {
-
-    return `Yeah, that sounds frustrating. 😤
-
-Before we try to solve it, take a moment to breathe.
-
-Tell me what happened, and we can work through it step by step.`;
-
-  }
-
-
-  /* BORED */
-
-  if (emotion === "bored") {
-
-    return `Bored, huh? 😭
-
-We could:
-
-🎮 Talk about games  
-😂 Exchange jokes  
-💻 Do a quick IT challenge  
-🧠 Try a programming question  
-💬 Just have a random conversation
-
-Pick one. 😎`;
-
-  }
-
-
-  /* CONFUSED */
-
-  if (emotion === "confused") {
-
-    return `No worries. We can make it simpler. 👍
-
-Tell me what part is confusing you, and I'll explain it step by step without using complicated words.`;
-
-  }
-
-
-  /* GRATITUDE */
-
-  if (emotion === "grateful") {
-
-    return `You're welcome! 😄
-
-That's what I'm here for.
-
-And yes, I'll take that as one imaginary point for the IT Buddy team. 😂🤖`;
-
-  }
-
-
-  /* SCHOOL */
-
-  if (
-    /school|class|teacher|assignment|homework|exam|quiz|project/.test(t)
-  ) {
-
-    return `Ah, school mode. 🎓
-
-Tell me what you're working on and I'll try to help.
-
-If it's an IT-related assignment, we can also work through the technical part together.`;
-
-  }
-
-
-  /* DEFAULT GENERAL */
-
-  return `I got you. 😄
-
-Tell me a little more about what's going on.
-
-It can be an IT problem, school problem, or just something you want to talk about.
-
-No need to make it complicated. Just tell me what's on your mind.`;
+    return "I'm listening. 😊 You can tell me about your day, ask a question, or switch to an IT problem whenever you need help.";
 
 }
 
 
-/* =====================================================
-   IT RESPONSES
-===================================================== */
+/* =========================================================
+   IT RESPONSE
+========================================================= */
 
-function itResponse(topic, text) {
+function itResponse(topic) {
 
-  lastTopic =
-    topic;
+    if (topic === "internet") {
 
-  currentProblem =
-    text;
+        return `Ah, switching to IT mode. 📶
 
+Let's troubleshoot your internet connection.
 
-  if (topic === "internet") {
+1. Check if Wi-Fi is turned on.
+2. Disconnect and reconnect to the network.
+3. Check whether other devices can connect.
+4. Restart your device.
+5. If possible, restart the router.
 
-    return `Got it — we're dealing with an **internet/Wi-Fi problem**. 📶
+If it still doesn't work, tell me what you're seeing, such as "connected but no internet" or "Wi-Fi doesn't appear."`;
 
-Let's troubleshoot it step by step.
-
-**First:** are other devices, such as your phone, able to connect to the same Wi-Fi?
-
-👉 If **yes**, the problem may be with your computer.
-
-👉 If **no**, the problem may be with the Wi-Fi/router or network itself.
-
-Tell me what happens when you try to connect.`;
-
-  }
+    }
 
 
-  if (topic === "computer") {
+    if (topic === "computer") {
 
-    return `Okay, let's check your computer. 💻
+        return `Let's check your computer. 💻
 
-You said:
+Try these basic steps:
 
-**"${text}"**
+1. Close programs you don't need.
+2. Restart the computer.
+3. Check your available storage.
+4. Check if many programs are running.
+5. Make sure your system is updated.
 
-First, tell me what you see:
+If it's still slow, tell me when the problem happens—for example, during startup, browsing, gaming, or opening programs.`;
 
-1. Is the computer still responding?
-2. Is it just slow?
-3. Does it freeze?
-4. Does it show an error?
-
-Give me what you see on the screen and we'll go from there.`;
-
-  }
+    }
 
 
-  if (topic === "printer") {
+    if (topic === "printer") {
 
-    return `Alright, printer trouble. 🖨️😭
+        return `Let's troubleshoot the printer. 🖨️
 
-Let's check the basics first:
+Try these steps:
 
-1. Is the printer powered on?
-2. Is it connected to the computer or Wi-Fi?
-3. Does the printer show any error message?
-4. Is there something stuck in the print queue?
+1. Check that the printer is powered on.
+2. Check the paper.
+3. Check the cable or Wi-Fi connection.
+4. Make sure the correct printer is selected.
+5. Try printing again after restarting the printer.
 
-Tell me which one seems to be the problem.`;
+If you get an error message, send me the exact message.`;
 
-  }
-
-
-  if (topic === "software") {
-
-    return `Okay, let's investigate the software problem. 🛠️
-
-What application or program is causing the problem?
-
-Also tell me what happens when you open it.
-
-For example:
-
-**"The app won't open."**
-
-or
-
-**"It opens but then crashes."**
-
-That will help me narrow down the possible cause.`;
-
-  }
+    }
 
 
-  if (topic === "account") {
+    if (topic === "software") {
 
-    return `Okay, let's handle the account/login problem. 🔐
+        return `Let's troubleshoot the software problem. 💻
 
-What exactly is happening?
+First, try:
 
-For example:
+1. Close the program.
+2. Open it again.
+3. Restart your computer.
+4. Check for updates.
+5. If the problem continues, tell me the name of the software and what happens when you open it.`;
 
-• Forgot password  
-• Wrong password message  
-• Account locked  
-• Username not recognized  
-• Login page won't open
+    }
 
-Don't send me your actual password. Just tell me the error or problem you're seeing.`;
 
-  }
+    if (topic === "account") {
+
+        return `Let's check the account problem. 🔐
+
+If you can't log in:
+
+1. Check that your username is correct.
+2. Check that Caps Lock isn't causing a problem.
+3. Make sure you are using the correct account.
+4. If available, use the official password recovery option.
+
+For security, don't send me your actual password.`;
+
+    }
+
+
+    return "I can help troubleshoot that. Tell me what device you're using and what exactly happens when the problem occurs.";
 
 }
 
 
-/* =====================================================
-   MAIN RESPONSE ENGINE
-===================================================== */
-
-function generateResponse(text) {
-
-  const style =
-    detectStyle(text);
-
-  const topic =
-    detectITTopic(text);
-
-
-  /* IT HAS PRIORITY */
-
-  if (topic) {
-
-    document.getElementById("modeBadge").textContent =
-      "IT Help Desk Mode 💻";
-
-    return itResponse(topic, text);
-
-  }
-
-
-  /* PROFESSIONAL */
-
-  if (style === "professional") {
-
-    document.getElementById("modeBadge").textContent =
-      "Professional Mode 🎓";
-
-    return professionalResponse(text);
-
-  }
-
-
-  /* SERIOUS */
-
-  if (style === "serious") {
-
-    document.getElementById("modeBadge").textContent =
-      "Priority Support Mode ⚠️";
-
-    return seriousResponse(text);
-
-  }
-
-
-  /* GENERAL */
-
-  document.getElementById("modeBadge").textContent =
-    "Friendly Conversation Mode 😊";
-
-  return generalConversation(text);
-
-}
-
-
-/* =====================================================
-   PROFESSIONAL RESPONSE
-===================================================== */
+/* =========================================================
+   PROFESSIONAL QUESTIONS
+========================================================= */
 
 function professionalResponse(text) {
 
-  const t =
-    text.toLowerCase();
-
-  if (
-    /nlp|natural language/.test(t)
-  ) {
-
-    return `**Natural Language Processing (NLP)** is a branch of artificial intelligence that allows computers to understand, process, and respond to human language.
-
-In this project, NLP is relevant because students can describe technical problems using ordinary language instead of following a strict command format.
-
-For example:
-
-**Student:** "My laptop cannot connect to Wi-Fi."
-
-The system can identify that the message is related to an **internet connectivity problem** and provide appropriate troubleshooting steps.`;
-
-  }
+    const lower =
+        text.toLowerCase();
 
 
-  if (
-    /ai|artificial intelligence/.test(t)
-  ) {
+    if (
+        lower.includes("what is nlp") ||
+        lower.includes("natural language processing")
+    ) {
 
-    return `**Artificial Intelligence (AI)** refers to computer systems designed to perform tasks that normally require human-like intelligence, such as understanding information, recognizing patterns, making decisions, and generating responses.
+        return "Natural Language Processing, or NLP, is a branch of AI that allows computers to understand and process human language. In an IT Help Desk, NLP can help a system understand questions written in everyday language.";
 
-For this research project, AI is used as the foundation of the student IT Help Desk assistant.`;
-
-  }
+    }
 
 
-  return `That's a technical question. 🎓
+    if (
+        lower.includes("what is ai") ||
+        lower.includes("artificial intelligence")
+    ) {
 
-I'll keep the explanation professional and simple.
+        return "Artificial Intelligence, or AI, refers to computer systems designed to perform tasks that normally require human intelligence, such as understanding language, recognizing patterns, solving problems, and making predictions.";
 
-Could you give me the specific term, concept, or problem you want me to explain?`;
+    }
+
+
+    if (
+        lower.includes("what is chatbot") ||
+        lower.includes("chatbot")
+    ) {
+
+        return "A chatbot is a computer program that communicates with users through text or other interfaces. An AI chatbot can use natural language processing to understand user questions and generate or select appropriate responses.";
+
+    }
+
+
+    return null;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SERIOUS RESPONSE
-===================================================== */
+========================================================= */
 
-function seriousResponse(text) {
+function seriousResponse() {
 
-  return `Understood. Let's treat this as a priority. ⚠️
-
-I'll keep the response focused and professional.
-
-Please tell me the exact problem you're experiencing, including any error message you can safely share.
-
-If this is an urgent school or university IT issue, you can also use the **Contact IT Support** section below to submit a support request.`;
+    return "I understand. Let's approach this carefully and step by step. If this is an IT or school-related problem, tell me the specific issue and I'll help you break it down.";
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   GENERATE RESPONSE
+========================================================= */
+
+function generateResponse(text) {
+
+    const topic =
+        detectITTopic(text);
+
+    const lower =
+        text.toLowerCase();
+
+
+    if (topic) {
+
+        document.getElementById("modeBadge").textContent =
+            "IT Support Mode";
+
+        return itResponse(topic);
+
+    }
+
+
+    const professional =
+        professionalResponse(text);
+
+
+    if (professional) {
+
+        document.getElementById("modeBadge").textContent =
+            "Professional Mode";
+
+        return professional;
+
+    }
+
+
+    if (
+        lower.includes("problem") ||
+        lower.includes("important") ||
+        lower.includes("serious") ||
+        lower.includes("help me")
+    ) {
+
+        document.getElementById("modeBadge").textContent =
+            "Support Mode";
+
+        return seriousResponse();
+
+    }
+
+
+    document.getElementById("modeBadge").textContent =
+        "General Mode";
+
+    return generalConversation(text);
+
+}
+
+
+/* =========================================================
    IMAGE PREVIEW
-===================================================== */
+========================================================= */
 
-function previewImage() {
+function previewImage(event) {
 
-  const input =
-    document.getElementById("imageInput");
+    const file =
+        event.target.files[0];
 
-  const preview =
-    document.getElementById("imagePreview");
+    const preview =
+        document.getElementById("imagePreview");
 
-  if (input.files && input.files[0]) {
 
-    const reader =
-      new FileReader();
+    preview.innerHTML = "";
 
-    reader.onload =
-      function(e) {
 
-        preview.src =
-          e.target.result;
+    if (!file) {
+        return;
+    }
 
-        preview.style.display =
-          "block";
 
-        addMessage(
-          "📸 I uploaded a screenshot/image related to my problem.",
-          "user"
-        );
+    const image =
+        document.createElement("img");
 
-        setTimeout(() => {
 
-          addMessage(
-            `I can see that you've uploaded an image. 👀
+    image.src =
+        URL.createObjectURL(file);
 
-In this prototype, I can display the screenshot for you, but I don't have real image-analysis AI connected yet.
 
-If you describe what you see in the screenshot, I can help you troubleshoot it.`,
-            "bot"
-          );
+    image.className =
+        "preview-image";
 
-        }, 400);
 
-      };
+    preview.appendChild(image);
 
-    reader.readAsDataURL(
-      input.files[0]
+
+    addMessage(
+        "I received an image. 🖼️ In this prototype, I can display the image, but I cannot actually analyze its contents yet.",
+        "bot"
     );
 
-  }
-
 }
 
 
-/* =====================================================
+/* =========================================================
    SUPPORT FORM
-===================================================== */
+========================================================= */
 
 document
-  .getElementById("supportForm")
-  .addEventListener("submit", function(event) {
+    .getElementById("supportForm")
+    .addEventListener("submit", function(event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const name =
-      document.getElementById("studentName").value;
 
-    const problem =
-      document.getElementById("problemType").value;
+        const name =
+            document.getElementById("studentName").value;
 
-    const ticketID =
-      "IT-" +
-      Math.floor(
-        100000 + Math.random() * 900000
-      );
+        const problem =
+            document.getElementById("problem").value;
 
-    const result =
-      document.getElementById("ticketResult");
 
-    const ticketText =
-      document.getElementById("ticketText");
+        const ticketID =
+            "IT-" +
+            Math.floor(
+                100000 + Math.random() * 900000
+            );
 
-    ticketText.innerHTML = `
-      Thank you, <strong>${name}</strong>.<br><br>
 
-      Your IT support request has been recorded
-      in this prototype.<br><br>
+        const result =
+            document.getElementById("supportResult");
 
-      <strong>Ticket ID:</strong> ${ticketID}<br>
-      <strong>Problem:</strong> ${problem}<br>
-      <strong>Status:</strong> Pending
-    `;
 
-    result.style.display =
-      "block";
+        result.innerHTML = `
 
-    document
-      .getElementById("supportForm")
-      .reset();
+            <strong>
+                Your IT support request has been recorded.
+            </strong>
 
-  });
+            <br><br>
 
+            <strong>Ticket ID:</strong>
+            ${ticketID}
+
+            <br>
+
+            <strong>Student:</strong>
+            ${name}
+
+            <br>
+
+            <strong>Problem:</strong>
+            ${problem}
+
+            <br>
+
+            <strong>Status:</strong>
+            Pending
+
+        `;
+
+
+        result.style.display =
+            "block";
+
+
+        document
+            .getElementById("supportForm")
+            .reset();
+
+});
 
 </script>
 

@@ -828,4 +828,600 @@
                                 Contact IT Support
                             </h2>
 
-       
+                            <p class="text-muted">
+                                If the AI cannot solve your problem,
+                                send a request to IT Support.
+                            </p>
+
+                        </div>
+
+
+                        <form id="supportForm">
+
+                            <!-- NAME -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Student Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="studentName"
+                                    class="form-control"
+                                    placeholder="Enter your name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="studentEmail"
+                                    class="form-control"
+                                    placeholder="Enter your email"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- PROBLEM -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Problem Type
+                                </label>
+
+                                <select
+                                    id="problemType"
+                                    class="form-select">
+
+                                    <option>
+                                        Internet / Wi-Fi
+                                    </option>
+
+                                    <option>
+                                        Computer
+                                    </option>
+
+                                    <option>
+                                        Software
+                                    </option>
+
+                                    <option>
+                                        Printer
+                                    </option>
+
+                                    <option>
+                                        Account / Login
+                                    </option>
+
+                                    <option>
+                                        Other
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- DESCRIPTION -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Problem Description
+                                </label>
+
+                                <textarea
+                                    id="problemDescription"
+                                    class="form-control"
+                                    rows="5"
+                                    placeholder="Describe your problem..."
+                                    required></textarea>
+
+                            </div>
+
+
+                            <!-- SUBMIT -->
+                            <button
+                                type="submit"
+                                class="btn btn-primary w-100">
+
+                                <i class="bi bi-send"></i>
+                                Submit IT Support Request
+
+                            </button>
+
+                        </form>
+
+                        <div
+                            id="supportResult"
+                            class="mt-3">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+<footer>
+
+    <div class="container text-center">
+
+        <p class="mb-1">
+            <strong>AI IT Help Desk</strong>
+        </p>
+
+        <p class="mb-0">
+            Development and Evaluation of an AI-Powered
+            IT Help Desk System
+        </p>
+
+        <small>
+            Student Technical Support Prototype
+        </small>
+
+    </div>
+
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+/* ==================================================
+   AI CHAT
+================================================== */
+
+function sendMessage() {
+
+    let input = document.getElementById("userInput");
+
+    let message = input.value.trim();
+
+    if (message === "") {
+
+        alert("Please type your technical problem.");
+
+        return;
+
+    }
+
+
+    /* Show user's message */
+    addMessage(message, "user");
+
+
+    /* Clear input */
+    input.value = "";
+
+
+    /* Get AI response */
+    setTimeout(function () {
+
+        let response = getAIResponse(message);
+
+        addMessage(response, "ai");
+
+    }, 500);
+
+}
+
+
+/* ==================================================
+   ADD MESSAGE
+================================================== */
+
+function addMessage(message, sender) {
+
+    let chatBox = document.getElementById("chatBox");
+
+    let messageDiv = document.createElement("div");
+
+    messageDiv.classList.add("message");
+
+
+    if (sender === "user") {
+
+        messageDiv.classList.add("user-message");
+
+        messageDiv.innerHTML =
+            "<strong>You:</strong><br>" + message;
+
+    }
+
+    else {
+
+        messageDiv.classList.add("ai-message");
+
+        messageDiv.innerHTML =
+            "<strong>AI Assistant:</strong><br>" +
+            message;
+
+    }
+
+
+    chatBox.appendChild(messageDiv);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+}
+
+
+/* ==================================================
+   AI RESPONSE
+================================================== */
+
+function getAIResponse(message) {
+
+    let text = message.toLowerCase();
+
+
+    if (
+        text.includes("internet") ||
+        text.includes("wifi") ||
+        text.includes("wi-fi")
+    ) {
+
+        return `
+        <strong>Internet Troubleshooting</strong><br><br>
+
+        Please try these steps:
+
+        <ol>
+            <li>Check if Wi-Fi is turned on.</li>
+            <li>Reconnect to your Wi-Fi network.</li>
+            <li>Restart your router or device.</li>
+            <li>Try opening another website.</li>
+        </ol>
+
+        If the problem continues, you can submit
+        a request to IT Support.
+        `;
+
+    }
+
+
+    if (
+        text.includes("computer") ||
+        text.includes("laptop") ||
+        text.includes("slow")
+    ) {
+
+        return `
+        <strong>Computer Troubleshooting</strong><br><br>
+
+        Try the following:
+
+        <ol>
+            <li>Close unnecessary applications.</li>
+            <li>Restart your computer.</li>
+            <li>Check your available storage.</li>
+            <li>Install available system updates.</li>
+        </ol>
+        `;
+
+    }
+
+
+    if (
+        text.includes("printer") ||
+        text.includes("print")
+    ) {
+
+        return `
+        <strong>Printer Troubleshooting</strong><br><br>
+
+        Please check:
+
+        <ol>
+            <li>Is the printer turned on?</li>
+            <li>Does it have paper?</li>
+            <li>Is the printer connected?</li>
+            <li>Is the correct printer selected?</li>
+        </ol>
+        `;
+
+    }
+
+
+    if (
+        text.includes("software") ||
+        text.includes("application") ||
+        text.includes("app") ||
+        text.includes("error")
+    ) {
+
+        return `
+        <strong>Software Troubleshooting</strong><br><br>
+
+        Try these steps:
+
+        <ol>
+            <li>Close the application.</li>
+            <li>Open it again.</li>
+            <li>Restart your computer.</li>
+            <li>Check for software updates.</li>
+        </ol>
+
+        If you still see the error,
+        submit it to IT Support.
+        `;
+
+    }
+
+
+    if (
+        text.includes("password") ||
+        text.includes("login") ||
+        text.includes("account")
+    ) {
+
+        return `
+        <strong>Account / Login Problem</strong><br><br>
+
+        Please check that:
+
+        <ol>
+            <li>Your username is correct.</li>
+            <li>Your password is entered correctly.</li>
+            <li>Caps Lock is not accidentally enabled.</li>
+        </ol>
+
+        If you still cannot log in,
+        contact IT Support.
+        `;
+
+    }
+
+
+    if (
+        text.includes("hello") ||
+        text.includes("hi") ||
+        text.includes("hey")
+    ) {
+
+        return `
+        Hello! 👋
+
+        Please describe your IT problem,
+        and I will try to help you.
+        `;
+
+    }
+
+
+    return `
+    I understand that you are experiencing
+    a technical problem.
+
+    Please provide more details about the problem.
+
+    For example:
+
+    <br><br>
+
+    "My Wi-Fi is connected but I cannot access
+    the internet."
+
+    <br><br>
+
+    You can also upload a screenshot
+    using the 📸 button.
+    `;
+
+}
+
+
+/* ==================================================
+   QUICK HELP BUTTONS
+================================================== */
+
+function askProblem(problem) {
+
+    let input = document.getElementById("userInput");
+
+    document.getElementById("assistant")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    input.value = problem;
+
+    sendMessage();
+
+}
+
+
+/* ==================================================
+   ENTER KEY
+================================================== */
+
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+
+        sendMessage();
+
+    }
+
+}
+
+
+/* ==================================================
+   IMAGE UPLOAD
+================================================== */
+
+function previewImage(event) {
+
+    let file = event.target.files[0];
+
+    let preview = document.getElementById("imagePreview");
+
+
+    if (!file) {
+
+        return;
+
+    }
+
+
+    /* Make sure it is an image */
+    if (!file.type.startsWith("image/")) {
+
+        alert("Please select an image file.");
+
+        return;
+
+    }
+
+
+    let reader = new FileReader();
+
+
+    reader.onload = function(e) {
+
+        preview.innerHTML = `
+
+            <div class="alert alert-secondary">
+
+                <strong>
+                    📸 Selected Picture
+                </strong>
+
+                <br><br>
+
+                <img
+                    src="${e.target.result}"
+                    class="uploaded-image">
+
+                <br>
+
+                <button
+                    type="button"
+                    class="btn btn-sm btn-danger mt-2"
+                    onclick="removeImage()">
+
+                    <i class="bi bi-trash"></i>
+                    Remove
+
+                </button>
+
+            </div>
+
+        `;
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* ==================================================
+   REMOVE IMAGE
+================================================== */
+
+function removeImage() {
+
+    document.getElementById("imageInput").value = "";
+
+    document.getElementById("imagePreview").innerHTML = "";
+
+}
+
+
+/* ==================================================
+   CONTACT IT SUPPORT
+================================================== */
+
+document.getElementById("supportForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+
+    let name =
+        document.getElementById("studentName").value;
+
+    let problem =
+        document.getElementById("problemType").value;
+
+
+    let ticketNumber =
+        "IT-" + Math.floor(1000 + Math.random() * 9000);
+
+
+    document.getElementById("supportResult").innerHTML = `
+
+        <div class="alert alert-success">
+
+            <h5>
+                <i class="bi bi-check-circle"></i>
+                Request Submitted!
+            </h5>
+
+            <p class="mb-1">
+                Thank you, ${name}.
+            </p>
+
+            <p class="mb-1">
+                Your support ticket has been created.
+            </p>
+
+            <strong>
+                Ticket ID: ${ticketNumber}
+            </strong>
+
+            <br>
+
+            <span>
+                Problem: ${problem}
+            </span>
+
+            <br><br>
+
+            <span class="status">
+                Status: Pending
+            </span>
+
+        </div>
+
+    `;
+
+
+    document.getElementById("supportForm").reset();
+
+});
+
+</script>
+
+</body>
+</html>

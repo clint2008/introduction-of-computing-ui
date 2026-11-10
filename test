@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AI IT Help Desk</title>
+    <title>AI IT Buddy | Student IT Help Desk</title>
 
     <!-- Bootstrap -->
     <link
@@ -17,127 +18,201 @@
         rel="stylesheet">
 
     <style>
+
+        :root {
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --text: #212529;
+            --muted: #6c757d;
+            --primary: #0d6efd;
+            --chat: #eef4ff;
+        }
+
+        body.dark {
+            --bg: #101318;
+            --card: #181c23;
+            --text: #f1f3f5;
+            --muted: #adb5bd;
+            --primary: #6ea8fe;
+            --chat: #202632;
+        }
+
         body {
-            background-color: #f4f7fb;
-            font-family: Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
         }
 
         .navbar {
-            background: #0d6efd;
-        }
-
-        .navbar-brand,
-        .nav-link {
-            color: white !important;
+            transition: 0.3s;
         }
 
         .hero {
-            min-height: 430px;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #0d6efd, #6f42c1);
-            color: white;
+            padding: 80px 20px;
+            text-align: center;
         }
 
         .hero h1 {
-            font-size: 45px;
-            font-weight: bold;
+            font-weight: 800;
         }
 
         .hero p {
-            font-size: 18px;
+            color: var(--muted);
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .card {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid rgba(128, 128, 128, 0.2);
         }
 
         .feature-card {
-            transition: 0.3s;
             height: 100%;
+            transition: 0.2s;
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
 
         .feature-icon {
-            font-size: 40px;
-            color: #0d6efd;
+            font-size: 35px;
+            color: var(--primary);
         }
 
-        #chatBox {
-            height: 380px;
+        /* CHAT */
+
+        .chat-container {
+            max-width: 850px;
+            margin: auto;
+            background: var(--card);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+        }
+
+        .chat-header {
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+        }
+
+        #chatBody {
+            height: 430px;
             overflow-y: auto;
-            background: #f8f9fa;
+            padding: 20px;
         }
 
         .message {
+            display: flex;
             margin-bottom: 15px;
-            padding: 12px 15px;
-            border-radius: 14px;
-            max-width: 82%;
         }
 
-        .user-message {
-            background: #0d6efd;
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            line-height: 1.5;
+        }
+
+        .message.bot .bubble {
+            background: var(--chat);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user .bubble {
+            background: var(--primary);
             color: white;
-            margin-left: auto;
+            border-bottom-right-radius: 4px;
         }
 
-        .ai-message {
-            background: #e9ecef;
-            color: #212529;
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid rgba(128,128,128,0.2);
         }
 
-        .uploaded-image {
-            max-width: 280px;
-            max-height: 220px;
+        /* REACTIONS */
+
+        .reactions {
+            margin-top: 10px;
+        }
+
+        .reactions button {
+            border: 1px solid rgba(128,128,128,0.3);
+            background: transparent;
+            border-radius: 20px;
+            padding: 3px 8px;
+            margin-right: 4px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .reactions button:hover {
+            transform: scale(1.12);
+            background: rgba(128,128,128,0.15);
+        }
+
+        .reaction-message {
+            font-size: 12px;
+            margin-top: 5px;
+            color: var(--muted);
+        }
+
+        .quick-btn {
+            margin: 3px;
+        }
+
+        .typing {
+            font-size: 13px;
+            color: var(--muted);
+            padding: 8px 15px;
+        }
+
+        .mode-badge {
+            font-size: 11px;
+        }
+
+        .preview-image {
+            max-width: 180px;
+            max-height: 180px;
             border-radius: 10px;
-            margin-top: 8px;
-            display: block;
-        }
-
-        .ai-name {
-            font-weight: bold;
-            color: #0d6efd;
-        }
-
-        section {
-            padding: 70px 0;
+            margin-top: 10px;
         }
 
         footer {
-            background: #212529;
-            color: white;
-            padding: 25px 0;
+            margin-top: 60px;
+            padding: 30px;
+            text-align: center;
+            color: var(--muted);
         }
 
-        .personality-badge {
-            font-size: 11px;
-        }
     </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
+<!-- NAVBAR -->
 
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container">
 
-        <a class="navbar-brand fw-bold" href="#home">
-            <i class="bi bi-robot"></i>
-            AI IT Help Desk
+        <a class="navbar-brand fw-bold" href="#">
+            🤖 AI IT Buddy
         </a>
 
         <button
-            class="navbar-toggler bg-light"
+            class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav">
-
             <span class="navbar-toggler-icon"></span>
-
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -146,10 +221,6 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="#home">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#features">Features</a>
                 </li>
 
                 <li class="nav-item">
@@ -164,8 +235,16 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">
-                        IT Support
+                        Contact IT
                     </a>
+                </li>
+
+                <li class="nav-item">
+                    <button
+                        class="btn btn-sm btn-outline-secondary ms-2"
+                        onclick="toggleTheme()">
+                        🌙 / ☀️
+                    </button>
                 </li>
 
             </ul>
@@ -175,43 +254,133 @@
 </nav>
 
 
-<!-- =====================================================
-     HOME
-===================================================== -->
+<!-- HERO -->
 
 <section id="home" class="hero">
 
     <div class="container">
 
-        <div class="row align-items-center">
+        <div class="mb-3" style="font-size:60px;">
+            🤖
+        </div>
 
-            <div class="col-md-7">
+        <h1>
+            Meet Your AI IT Buddy
+        </h1>
 
-                <h1>
-                    Your Smart IT Help Desk
-                </h1>
+        <p class="lead mt-3">
+            A student-friendly AI-powered IT Help Desk that can help
+            troubleshoot technical problems while also having a
+            natural conversation with students.
+        </p>
 
-                <p class="mt-3">
-                    Get friendly, intelligent, and context-aware
-                    technical assistance through our AI-powered
-                    IT Help Desk.
+        <a href="#assistant" class="btn btn-primary btn-lg mt-4">
+            Talk to IT Buddy
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h2>What Can IT Buddy Help With?</h2>
+
+        <p class="text-secondary">
+            Your virtual assistant for common student IT concerns.
+        </p>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card feature-card p-4 text-center">
+
+                <div class="feature-icon">
+                    <i class="bi bi-wifi"></i>
+                </div>
+
+                <h5 class="mt-3">
+                    Internet Problems
+                </h5>
+
+                <p class="text-secondary">
+                    Get basic troubleshooting help for Wi-Fi
+                    and internet connection problems.
                 </p>
 
-                <a href="#assistant"
-                   class="btn btn-light btn-lg mt-3">
+            </div>
 
-                    <i class="bi bi-chat-dots"></i>
-                    Talk to IT Assistant
+        </div>
 
-                </a>
+
+        <div class="col-md-3">
+
+            <div class="card feature-card p-4 text-center">
+
+                <div class="feature-icon">
+                    <i class="bi bi-pc-display"></i>
+                </div>
+
+                <h5 class="mt-3">
+                    Computer Problems
+                </h5>
+
+                <p class="text-secondary">
+                    Get suggestions for slow computers,
+                    freezing applications and basic errors.
+                </p>
 
             </div>
 
-            <div class="col-md-5 text-center">
+        </div>
 
-                <i class="bi bi-robot"
-                   style="font-size: 180px;">
-                </i>
+
+        <div class="col-md-3">
+
+            <div class="card feature-card p-4 text-center">
+
+                <div class="feature-icon">
+                    <i class="bi bi-printer"></i>
+                </div>
+
+                <h5 class="mt-3">
+                    Printer Problems
+                </h5>
+
+                <p class="text-secondary">
+                    Get basic steps for printer connection,
+                    paper and printing issues.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card feature-card p-4 text-center">
+
+                <div class="feature-icon">
+                    <i class="bi bi-chat-heart"></i>
+                </div>
+
+                <h5 class="mt-3">
+                    Student Conversation
+                </h5>
+
+                <p class="text-secondary">
+                    Talk naturally about school, your day,
+                    jokes or general concerns.
+                </p>
 
             </div>
 
@@ -222,150 +391,240 @@
 </section>
 
 
-<!-- =====================================================
-     FEATURES
-===================================================== -->
+<!-- AI ASSISTANT -->
 
-<section id="features">
+<section id="assistant" class="container py-5">
 
-    <div class="container">
+    <div class="text-center mb-4">
 
-        <div class="text-center mb-5">
+        <h2>
+            AI IT Buddy
+        </h2>
 
-            <h2 class="fw-bold">
-                IT Help Desk Features
+        <p class="text-secondary">
+            Ask a technical question or simply start a conversation.
+        </p>
+
+    </div>
+
+
+    <div class="chat-container">
+
+        <div class="chat-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <strong>
+                        🤖 IT Buddy
+                    </strong>
+
+                    <div class="small">
+                        Student IT Help Desk
+                    </div>
+                </div>
+
+                <span
+                    id="modeBadge"
+                    class="badge bg-light text-dark mode-badge">
+                    General Mode
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHAT -->
+
+        <div id="chatBody">
+
+            <div class="message bot">
+
+                <div class="bubble">
+
+                    <strong>
+                        IT Buddy 🤖
+                    </strong>
+
+                    <br>
+
+                    Hi! I'm your AI IT Buddy. 👋
+
+                    <br><br>
+
+                    You can ask me about:
+
+                    <br>
+                    • Wi-Fi problems
+                    <br>
+                    • Slow computers
+                    <br>
+                    • Printers
+                    <br>
+                    • Software problems
+                    <br>
+                    • Accounts
+                    <br><br>
+
+                    Or we can simply talk about your day. 😊
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK BUTTONS -->
+
+        <div class="px-3 pt-3">
+
+            <small class="text-secondary">
+                Quick questions:
+            </small>
+
+            <br>
+
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('My Wi-Fi is not working')">
+                📶 Wi-Fi problem
+            </button>
+
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('My computer is very slow')">
+                💻 Slow computer
+            </button>
+
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('Tell me a joke')">
+                😂 Joke
+            </button>
+
+            <button
+                class="btn btn-sm btn-outline-primary quick-btn"
+                onclick="quickMessage('I want to talk')">
+                💬 Talk
+            </button>
+
+        </div>
+
+
+        <!-- INPUT -->
+
+        <div class="chat-input-area">
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    id="userInput"
+                    class="form-control"
+                    placeholder="Type your message..."
+                    onkeydown="handleEnter(event)">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="sendMessage()">
+
+                    <i class="bi bi-send"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- IMAGE -->
+
+            <div class="mt-2">
+
+                <label
+                    for="imageInput"
+                    class="btn btn-sm btn-outline-secondary">
+
+                    <i class="bi bi-image"></i>
+                    Send Image
+
+                </label>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    style="display:none"
+                    onchange="previewImage(event)">
+
+            </div>
+
+            <div id="imagePreview"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TROUBLESHOOTING -->
+
+<section id="troubleshooting" class="container py-5">
+
+    <div class="text-center mb-4">
+
+        <h2>
+            Troubleshooting Guide
+        </h2>
+
+        <p class="text-secondary">
+            Basic solutions for common IT problems.
+        </p>
+
+    </div>
+
+
+    <div class="accordion" id="troubleshootingAccordion">
+
+        <div class="accordion-item">
+
+            <h2 class="accordion-header">
+
+                <button
+                    class="accordion-button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#wifi">
+
+                    📶 Wi-Fi Not Working
+
+                </button>
+
             </h2>
 
-            <p class="text-muted">
-                Get assistance with common student technical problems.
-            </p>
+            <div
+                id="wifi"
+                class="accordion-collapse collapse show">
 
-        </div>
+                <div class="accordion-body">
 
-        <div class="row g-4">
+                    1. Check if Wi-Fi is turned on.
 
-            <!-- INTERNET -->
+                    <br>
 
-            <div class="col-md-3">
+                    2. Disconnect and reconnect to the network.
 
-                <div class="card feature-card shadow-sm p-3 text-center">
+                    <br>
 
-                    <div class="feature-icon">
-                        <i class="bi bi-wifi"></i>
-                    </div>
+                    3. Restart your device.
 
-                    <h5 class="mt-3">
-                        Internet Problems
-                    </h5>
+                    <br>
 
-                    <p>
-                        Get help with Wi-Fi and internet
-                        connection problems.
-                    </p>
+                    4. Restart the router if you have access to it.
 
-                    <button
-                        class="btn btn-outline-primary"
-                        onclick="askProblem('internet')">
+                    <br>
 
-                        Get Help
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- COMPUTER -->
-
-            <div class="col-md-3">
-
-                <div class="card feature-card shadow-sm p-3 text-center">
-
-                    <div class="feature-icon">
-                        <i class="bi bi-laptop"></i>
-                    </div>
-
-                    <h5 class="mt-3">
-                        Computer Problems
-                    </h5>
-
-                    <p>
-                        Find solutions for slow or
-                        unresponsive computers.
-                    </p>
-
-                    <button
-                        class="btn btn-outline-primary"
-                        onclick="askProblem('computer')">
-
-                        Get Help
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- SOFTWARE -->
-
-            <div class="col-md-3">
-
-                <div class="card feature-card shadow-sm p-3 text-center">
-
-                    <div class="feature-icon">
-                        <i class="bi bi-window"></i>
-                    </div>
-
-                    <h5 class="mt-3">
-                        Software Errors
-                    </h5>
-
-                    <p>
-                        Get assistance with software
-                        and application errors.
-                    </p>
-
-                    <button
-                        class="btn btn-outline-primary"
-                        onclick="askProblem('software')">
-
-                        Get Help
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- PRINTER -->
-
-            <div class="col-md-3">
-
-                <div class="card feature-card shadow-sm p-3 text-center">
-
-                    <div class="feature-icon">
-                        <i class="bi bi-printer"></i>
-                    </div>
-
-                    <h5 class="mt-3">
-                        Printer Problems
-                    </h5>
-
-                    <p>
-                        Troubleshoot printer and
-                        printing problems.
-                    </p>
-
-                    <button
-                        class="btn btn-outline-primary"
-                        onclick="askProblem('printer')">
-
-                        Get Help
-
-                    </button>
+                    5. Check if other devices can connect.
 
                 </div>
 
@@ -373,334 +632,46 @@
 
         </div>
 
-    </div>
 
-</section>
+        <div class="accordion-item">
 
+            <h2 class="accordion-header">
 
-<!-- =====================================================
-     AI ASSISTANT
-===================================================== -->
+                <button
+                    class="accordion-button collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#computer">
 
-<section id="assistant" class="bg-light">
+                    💻 Slow Computer
 
-    <div class="container">
+                </button>
 
-        <div class="row justify-content-center">
-
-            <div class="col-lg-8">
-
-                <div class="card shadow">
-
-                    <div class="card-header bg-primary text-white">
-
-                        <div class="d-flex justify-content-between">
-
-                            <div>
-
-                                <h5 class="mb-0">
-                                    <i class="bi bi-robot"></i>
-                                    IT Buddy
-                                </h5>
-
-                                <small>
-                                    Context-aware AI IT Assistant
-                                </small>
-
-                            </div>
-
-                            <span class="badge bg-success">
-                                Online
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- CHAT -->
-
-                    <div id="chatBox" class="card-body">
-
-                        <div class="message ai-message">
-
-                            <span class="ai-name">
-                                IT Buddy 🤖
-                            </span>
-
-                            <br><br>
-
-                            Hey! 👋 I'm your IT Help Desk
-                            assistant.
-
-                            <br><br>
-
-                            You can talk to me normally.
-                            If you're asking casually, I may
-                            add a little humor. 😂
-
-                            <br><br>
-
-                            But if your problem is serious or
-                            requires a professional response,
-                            I'll keep things professional.
-
-                            <br><br>
-
-                            You can also upload a screenshot
-                            of your problem using the
-                            📸 button.
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- INPUT -->
-
-                    <div class="card-footer">
-
-                        <div class="input-group">
-
-                            <input
-                                type="text"
-                                id="userInput"
-                                class="form-control"
-                                placeholder="Ask IT Buddy something..."
-                                onkeypress="handleEnter(event)">
-
-
-                            <!-- IMAGE BUTTON -->
-
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                onclick="document.getElementById('imageInput').click()"
-                                title="Upload picture">
-
-                                <i class="bi bi-image"></i>
-
-                            </button>
-
-
-                            <!-- SEND -->
-
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                onclick="sendMessage()">
-
-                                <i class="bi bi-send"></i>
-                                Send
-
-                            </button>
-
-                        </div>
-
-
-                        <!-- FILE INPUT -->
-
-                        <input
-                            type="file"
-                            id="imageInput"
-                            accept="image/*"
-                            style="display:none;"
-                            onchange="previewImage(event)">
-
-
-                        <!-- PREVIEW -->
-
-                        <div id="imagePreview"
-                             class="mt-3">
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     TROUBLESHOOTING
-===================================================== -->
-
-<section id="troubleshooting">
-
-    <div class="container">
-
-        <div class="text-center mb-5">
-
-            <h2 class="fw-bold">
-                Troubleshooting Guide
             </h2>
 
-            <p class="text-muted">
-                Basic solutions for common IT problems.
-            </p>
+            <div
+                id="computer"
+                class="accordion-collapse collapse">
 
-        </div>
+                <div class="accordion-body">
 
+                    1. Close programs you don't need.
 
-        <div class="accordion" id="troubleshootingAccordion">
+                    <br>
 
-            <!-- INTERNET -->
+                    2. Restart your computer.
 
-            <div class="accordion-item">
+                    <br>
 
-                <h2 class="accordion-header">
+                    3. Check available storage.
 
-                    <button
-                        class="accordion-button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#internetGuide">
+                    <br>
 
-                        🌐 Internet / Wi-Fi Problem
+                    4. Update your operating system.
 
-                    </button>
+                    <br>
 
-                </h2>
-
-                <div
-                    id="internetGuide"
-                    class="accordion-collapse collapse show">
-
-                    <div class="accordion-body">
-
-                        <ol>
-
-                            <li>
-                                Check if Wi-Fi is turned on.
-                            </li>
-
-                            <li>
-                                Make sure you are connected
-                                to the correct network.
-                            </li>
-
-                            <li>
-                                Disconnect and reconnect to Wi-Fi.
-                            </li>
-
-                            <li>
-                                Restart your device.
-                            </li>
-
-                            <li>
-                                Contact IT Support if the
-                                problem continues.
-                            </li>
-
-                        </ol>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- COMPUTER -->
-
-            <div class="accordion-item">
-
-                <h2 class="accordion-header">
-
-                    <button
-                        class="accordion-button collapsed"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#computerGuide">
-
-                        💻 Computer Problem
-
-                    </button>
-
-                </h2>
-
-                <div
-                    id="computerGuide"
-                    class="accordion-collapse collapse">
-
-                    <div class="accordion-body">
-
-                        <ol>
-
-                            <li>
-                                Close unnecessary applications.
-                            </li>
-
-                            <li>
-                                Restart the computer.
-                            </li>
-
-                            <li>
-                                Check available storage.
-                            </li>
-
-                            <li>
-                                Install available updates.
-                            </li>
-
-                        </ol>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- PRINTER -->
-
-            <div class="accordion-item">
-
-                <h2 class="accordion-header">
-
-                    <button
-                        class="accordion-button collapsed"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#printerGuide">
-
-                        🖨️ Printer Problem
-
-                    </button>
-
-                </h2>
-
-                <div
-                    id="printerGuide"
-                    class="accordion-collapse collapse">
-
-                    <div class="accordion-body">
-
-                        <ol>
-
-                            <li>
-                                Check if the printer is powered on.
-                            </li>
-
-                            <li>
-                                Check the paper supply.
-                            </li>
-
-                            <li>
-                                Check the printer connection.
-                            </li>
-
-                            <li>
-                                Make sure the correct printer
-                                is selected.
-                            </li>
-
-                        </ol>
-
-                    </div>
+                    5. Check whether too many applications
+                    are running at startup.
 
                 </div>
 
@@ -708,119 +679,46 @@
 
         </div>
 
-    </div>
 
-</section>
+        <div class="accordion-item">
 
+            <h2 class="accordion-header">
 
-<!-- =====================================================
-     FAQ
-===================================================== -->
+                <button
+                    class="accordion-button collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#printer">
 
-<section class="bg-light">
+                    🖨️ Printer Problem
 
-    <div class="container">
+                </button>
 
-        <div class="text-center mb-5">
-
-            <h2 class="fw-bold">
-                Frequently Asked Questions
             </h2>
 
-        </div>
+            <div
+                id="printer"
+                class="accordion-collapse collapse">
 
+                <div class="accordion-body">
 
-        <div class="accordion">
+                    1. Check if the printer is powered on.
 
-            <div class="accordion-item">
+                    <br>
 
-                <h2 class="accordion-header">
+                    2. Check the paper.
 
-                    <button
-                        class="accordion-button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#faq1">
+                    <br>
 
-                        What is the AI IT Help Desk?
+                    3. Check the printer connection.
 
-                    </button>
+                    <br>
 
-                </h2>
+                    4. Check whether the correct printer
+                    is selected.
 
-                <div
-                    id="faq1"
-                    class="accordion-collapse collapse show">
+                    <br>
 
-                    <div class="accordion-body">
-
-                        It is a system designed to provide
-                        automated assistance for common
-                        student technical problems.
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="accordion-item">
-
-                <h2 class="accordion-header">
-
-                    <button
-                        class="accordion-button collapsed"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#faq2">
-
-                        Can I upload a screenshot?
-
-                    </button>
-
-                </h2>
-
-                <div
-                    id="faq2"
-                    class="accordion-collapse collapse">
-
-                    <div class="accordion-body">
-
-                        Yes. You can upload an image or
-                        screenshot using the image button
-                        in the AI Assistant.
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="accordion-item">
-
-                <h2 class="accordion-header">
-
-                    <button
-                        class="accordion-button collapsed"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#faq3">
-
-                        What happens if the AI cannot solve my problem?
-
-                    </button>
-
-                </h2>
-
-                <div
-                    id="faq3"
-                    class="accordion-collapse collapse">
-
-                    <div class="accordion-body">
-
-                        You can submit your concern through
-                        the IT Support request form.
-
-                    </div>
+                    5. Restart the printer.
 
                 </div>
 
@@ -833,146 +731,50 @@
 </section>
 
 
-<!-- =====================================================
-     CONTACT IT SUPPORT
-===================================================== -->
+<!-- FAQ -->
 
-<section id="contact">
+<section class="container py-5">
 
-    <div class="container">
+    <div class="text-center mb-4">
 
-        <div class="row justify-content-center">
+        <h2>
+            Frequently Asked Questions
+        </h2>
 
-            <div class="col-lg-7">
+    </div>
 
-                <div class="card shadow">
+    <div class="row">
 
-                    <div class="card-body p-4">
+        <div class="col-md-6">
 
-                        <div class="text-center mb-4">
+            <div class="card p-4 mb-3">
 
-                            <h2>
-                                <i class="bi bi-headset"></i>
-                                Contact IT Support
-                            </h2>
+                <h5>
+                    Is IT Buddy a real IT technician?
+                </h5>
 
-                            <p class="text-muted">
-                                If IT Buddy cannot solve your
-                                problem, submit a support request.
-                            </p>
+                <p class="text-secondary mb-0">
+                    No. This prototype provides automated
+                    guidance for common student IT concerns.
+                </p>
 
-                        </div>
+            </div>
 
-
-                        <form id="supportForm">
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Student Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="studentName"
-                                    class="form-control"
-                                    placeholder="Enter your name"
-                                    required>
-
-                            </div>
+        </div>
 
 
-                            <div class="mb-3">
+        <div class="col-md-6">
 
-                                <label class="form-label">
-                                    Email
-                                </label>
+            <div class="card p-4 mb-3">
 
-                                <input
-                                    type="email"
-                                    id="studentEmail"
-                                    class="form-control"
-                                    placeholder="Enter your email"
-                                    required>
+                <h5>
+                    Can I ask normal questions?
+                </h5>
 
-                            </div>
-
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Problem Type
-                                </label>
-
-                                <select
-                                    id="problemType"
-                                    class="form-select">
-
-                                    <option>
-                                        Internet / Wi-Fi
-                                    </option>
-
-                                    <option>
-                                        Computer
-                                    </option>
-
-                                    <option>
-                                        Software
-                                    </option>
-
-                                    <option>
-                                        Printer
-                                    </option>
-
-                                    <option>
-                                        Account / Login
-                                    </option>
-
-                                    <option>
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Problem Description
-                                </label>
-
-                                <textarea
-                                    id="problemDescription"
-                                    class="form-control"
-                                    rows="5"
-                                    placeholder="Describe your problem..."
-                                    required></textarea>
-
-                            </div>
-
-
-                            <button
-                                type="submit"
-                                class="btn btn-primary w-100">
-
-                                <i class="bi bi-send"></i>
-                                Submit IT Support Request
-
-                            </button>
-
-                        </form>
-
-
-                        <div
-                            id="supportResult"
-                            class="mt-3">
-                        </div>
-
-                    </div>
-
-                </div>
+                <p class="text-secondary mb-0">
+                    Yes. IT Buddy can also respond to casual
+                    conversation and student-related questions.
+                </p>
 
             </div>
 
@@ -983,33 +785,103 @@
 </section>
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+<!-- CONTACT -->
+
+<section id="contact" class="container py-5">
+
+    <div class="text-center mb-4">
+
+        <h2>
+            Contact IT Support
+        </h2>
+
+        <p class="text-secondary">
+            If the automated suggestions don't solve your problem,
+            you can submit a support request.
+        </p>
+
+    </div>
+
+
+    <div class="card p-4 mx-auto" style="max-width:700px">
+
+        <form id="supportForm">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    class="form-control"
+                    required>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Problem
+                </label>
+
+                <textarea
+                    id="problem"
+                    class="form-control"
+                    rows="4"
+                    required></textarea>
+
+            </div>
+
+
+            <button
+                class="btn btn-primary"
+                type="submit">
+
+                Submit Support Request
+
+            </button>
+
+        </form>
+
+
+        <div
+            id="supportResult"
+            class="alert alert-success mt-4"
+            style="display:none">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
 
 <footer>
 
-    <div class="container text-center">
+    <p class="mb-1">
+        AI IT Buddy — AI-Powered IT Help Desk Prototype
+    </p>
 
-        <p class="mb-1">
-            <strong>AI IT Help Desk</strong>
-        </p>
+    <p class="small mb-0">
+        Research Members:
+        Rodimo, Clint Jay B.
+        |
+        Macarayan, Jefosn B.
+    </p>
 
-        <p class="mb-0">
-            Development and Evaluation of an AI-Powered
-            IT Help Desk System
-        </p>
-
-        <small>
-            Student Technical Support Prototype
-        </small>
-
-    </div>
+    <p class="small mt-2">
+        BSIT-1R14
+    </p>
 
 </footer>
 
 
-<!-- Bootstrap JavaScript -->
+<!-- BOOTSTRAP JS -->
 
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
@@ -1018,810 +890,73 @@
 
 <script>
 
-/* =====================================================
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme() {
+
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+
+        localStorage.setItem("theme", "dark");
+
+    } else {
+
+        localStorage.setItem("theme", "light");
+
+    }
+
+}
+
+
+if (localStorage.getItem("theme") === "dark") {
+
+    document.body.classList.add("dark");
+
+}
+
+
+/* =========================================================
    SEND MESSAGE
-===================================================== */
+========================================================= */
 
 function sendMessage() {
 
-    let input = document.getElementById("userInput");
+    const input =
+        document.getElementById("userInput");
 
-    let message = input.value.trim();
+    const text =
+        input.value.trim();
 
-    if (message === "") {
-
-        alert("Please type something first.");
-
+    if (text === "") {
         return;
-
     }
 
-
-    addMessage(
-        message,
-        "user"
-    );
-
+    addMessage(text, "user");
 
     input.value = "";
 
+    showTyping();
 
     setTimeout(function () {
 
-        let response =
-            getSmartAIResponse(message);
+        removeTyping();
 
-        addMessage(
-            response,
-            "ai"
-        );
+        const response =
+            generateResponse(text);
 
-    }, 500);
+        addMessage(response, "bot");
 
-}
-
-
-/* =====================================================
-   ADD MESSAGE TO CHAT
-===================================================== */
-
-function addMessage(message, sender) {
-
-    let chatBox =
-        document.getElementById("chatBox");
-
-    let messageDiv =
-        document.createElement("div");
-
-    messageDiv.classList.add("message");
-
-
-    if (sender === "user") {
-
-        messageDiv.classList.add("user-message");
-
-        messageDiv.innerHTML = `
-            <strong>You:</strong><br>
-            ${message}
-        `;
-
-    }
-
-    else {
-
-        messageDiv.classList.add("ai-message");
-
-        messageDiv.innerHTML = `
-            <span class="ai-name">
-                IT Buddy 🤖
-            </span>
-
-            <br>
-
-            ${message}
-        `;
-
-    }
-
-
-    chatBox.appendChild(messageDiv);
-
-    chatBox.scrollTop =
-        chatBox.scrollHeight;
+    }, 700);
 
 }
 
 
-/* =====================================================
-   SMART AI RESPONSE
-===================================================== */
-
-function getSmartAIResponse(message) {
-
-    let text =
-        message.toLowerCase();
-
-
-    /*
-     * STEP 1:
-     * Detect the user's communication style.
-     */
-
-    let style =
-        detectConversationStyle(text);
-
-
-    /*
-     * STEP 2:
-     * Detect the IT problem.
-     */
-
-    let problem =
-        detectProblem(text);
-
-
-    /*
-     * STEP 3:
-     * Generate the appropriate response.
-     */
-
-    return generateResponse(
-        style,
-        problem,
-        text
-    );
-
-}
-
-
-/* =====================================================
-   DETECT CONVERSATION STYLE
-===================================================== */
-
-function detectConversationStyle(text) {
-
-    /*
-     * Professional words
-     */
-
-    let professionalWords = [
-        "please",
-        "kindly",
-        "request",
-        "assistance",
-        "professional",
-        "university",
-        "school",
-        "system administrator",
-        "administrator",
-        "technical support",
-        "incident",
-        "report",
-        "academic",
-        "submission",
-        "deadline"
-    ];
-
-
-    /*
-     * Serious / urgent words
-     */
-
-    let seriousWords = [
-        "urgent",
-        "emergency",
-        "important",
-        "deadline",
-        "cannot access",
-        "locked out",
-        "security",
-        "hacked",
-        "data loss",
-        "stolen",
-        "critical"
-    ];
-
-
-    /*
-     * Casual words
-     */
-
-    let casualWords = [
-        "hey",
-        "hi",
-        "hello",
-        "yo",
-        "lol",
-        "haha",
-        "bro",
-        "dude",
-        "pls",
-        "please help",
-        "😭",
-        "😂",
-        "😅"
-    ];
-
-
-    for (let word of seriousWords) {
-
-        if (text.includes(word)) {
-
-            return "serious";
-
-        }
-
-    }
-
-
-    for (let word of professionalWords) {
-
-        if (text.includes(word)) {
-
-            return "professional";
-
-        }
-
-    }
-
-
-    for (let word of casualWords) {
-
-        if (text.includes(word)) {
-
-            return "casual";
-
-        }
-
-    }
-
-
-    /*
-     * Default style
-     */
-
-    return "normal";
-
-}
-
-
-/* =====================================================
-   DETECT IT PROBLEM
-===================================================== */
-
-function detectProblem(text) {
-
-    if (
-        text.includes("wifi") ||
-        text.includes("wi-fi") ||
-        text.includes("internet") ||
-        text.includes("network")
-    ) {
-
-        return "internet";
-
-    }
-
-
-    if (
-        text.includes("printer") ||
-        text.includes("printing") ||
-        text.includes("print")
-    ) {
-
-        return "printer";
-
-    }
-
-
-    if (
-        text.includes("computer") ||
-        text.includes("laptop") ||
-        text.includes("slow") ||
-        text.includes("freeze") ||
-        text.includes("freezing")
-    ) {
-
-        return "computer";
-
-    }
-
-
-    if (
-        text.includes("software") ||
-        text.includes("application") ||
-        text.includes("app") ||
-        text.includes("program") ||
-        text.includes("error")
-    ) {
-
-        return "software";
-
-    }
-
-
-    if (
-        text.includes("password") ||
-        text.includes("login") ||
-        text.includes("account") ||
-        text.includes("username")
-    ) {
-
-        return "account";
-
-    }
-
-
-    if (
-        text.includes("hello") ||
-        text.includes("hi") ||
-        text.includes("hey") ||
-        text.includes("yo")
-    ) {
-
-        return "greeting";
-
-    }
-
-
-    return "unknown";
-
-}
-
-
-/* =====================================================
-   GENERATE RESPONSE
-===================================================== */
-
-function generateResponse(
-    style,
-    problem,
-    text
-) {
-
-
-    /* ==============================================
-       GREETING
-    ============================================== */
-
-    if (problem === "greeting") {
-
-        if (style === "casual") {
-
-            return `
-            Hey! 👋😂
-
-            IT Buddy is online and ready to help.
-
-            What's causing trouble today?
-            Hopefully not your computer deciding
-            to work only when it feels like it. 😭
-            `;
-
-        }
-
-
-        return `
-        Hello! Welcome to the AI IT Help Desk.
-
-        Please describe your technical concern,
-        and I will provide troubleshooting guidance.
-        `;
-
-    }
-
-
-    /* ==============================================
-       INTERNET
-    ============================================== */
-
-    if (problem === "internet") {
-
-        if (style === "serious" ||
-            style === "professional") {
-
-            return `
-            <strong>Internet Connectivity Issue</strong>
-            <br><br>
-
-            Please perform the following checks:
-
-            <ol>
-                <li>
-                    Verify that your device is connected
-                    to the correct Wi-Fi network.
-                </li>
-
-                <li>
-                    Check whether other websites or
-                    online services are accessible.
-                </li>
-
-                <li>
-                    Disconnect and reconnect to the network.
-                </li>
-
-                <li>
-                    Restart your device if necessary.
-                </li>
-            </ol>
-
-            If the issue affects multiple users,
-            please report it to the IT Support team
-            for further investigation.
-            `;
-
-        }
-
-
-        return `
-        Your Wi-Fi seems to be having a little
-        identity crisis. 😂📶
-
-        Let's fix it:
-
-        <ol>
-            <li>Check if Wi-Fi is turned on.</li>
-            <li>Reconnect to the correct network.</li>
-            <li>Try opening another website.</li>
-            <li>Restart your device if needed.</li>
-        </ol>
-
-        If it still refuses to cooperate,
-        we can send it to IT Support. 😄
-        `;
-
-    }
-
-
-    /* ==============================================
-       COMPUTER
-    ============================================== */
-
-    if (problem === "computer") {
-
-        if (style === "serious" ||
-            style === "professional") {
-
-            return `
-            <strong>Computer Performance Issue</strong>
-            <br><br>
-
-            Please try the following troubleshooting steps:
-
-            <ol>
-                <li>
-                    Close unnecessary applications.
-                </li>
-
-                <li>
-                    Restart the computer.
-                </li>
-
-                <li>
-                    Check available storage space.
-                </li>
-
-                <li>
-                    Check for available operating
-                    system updates.
-                </li>
-            </ol>
-
-            If the issue persists, please submit
-            an IT Support request with details about
-            the symptoms you are experiencing.
-            `;
-
-        }
-
-
-        return `
-        Your computer is moving slower than
-        a Monday morning. 😂💻
-
-        Let's give it a little help:
-
-        <ol>
-            <li>Close apps you aren't using.</li>
-            <li>Restart your computer.</li>
-            <li>Check your storage space.</li>
-            <li>Install available updates.</li>
-        </ol>
-
-        If it's still slow, we can call
-        the IT Support team.
-        `;
-
-    }
-
-
-    /* ==============================================
-       PRINTER
-    ============================================== */
-
-    if (problem === "printer") {
-
-        if (style === "serious" ||
-            style === "professional") {
-
-            return `
-            <strong>Printer Troubleshooting</strong>
-            <br><br>
-
-            Please verify the following:
-
-            <ol>
-                <li>
-                    Confirm that the printer is powered on.
-                </li>
-
-                <li>
-                    Check the paper supply.
-                </li>
-
-                <li>
-                    Verify the printer connection.
-                </li>
-
-                <li>
-                    Confirm that the correct printer
-                    is selected on your device.
-                </li>
-            </ol>
-
-            If the printer remains unavailable,
-            please contact IT Support.
-            `;
-
-        }
-
-
-        return `
-        Ah, the printer has chosen violence again. 😂🖨️
-
-        Don't worry. Let's check the basics:
-
-        <ol>
-            <li>Is the printer turned on?</li>
-            <li>Does it have paper?</li>
-            <li>Is it connected?</li>
-            <li>Did you select the correct printer?</li>
-        </ol>
-
-        If it still refuses to print,
-        IT Support may need to investigate.
-        `;
-
-    }
-
-
-    /* ==============================================
-       SOFTWARE
-    ============================================== */
-
-    if (problem === "software") {
-
-        if (style === "serious" ||
-            style === "professional") {
-
-            return `
-            <strong>Software/Application Issue</strong>
-            <br><br>
-
-            Please try the following:
-
-            <ol>
-                <li>
-                    Close the affected application.
-                </li>
-
-                <li>
-                    Reopen the application.
-                </li>
-
-                <li>
-                    Restart the computer.
-                </li>
-
-                <li>
-                    Check whether an application
-                    update is available.
-                </li>
-            </ol>
-
-            If the error continues,
-            please provide the exact error message
-            when submitting an IT Support request.
-            `;
-
-        }
-
-
-        return `
-        Looks like the software decided
-        to cause some drama. 😂
-
-        Try this:
-
-        <ol>
-            <li>Close the application.</li>
-            <li>Open it again.</li>
-            <li>Restart your computer.</li>
-            <li>Check for updates.</li>
-        </ol>
-
-        If you still see the error,
-        send me a screenshot and I'll help
-        you identify the problem.
-        `;
-
-    }
-
-
-    /* ==============================================
-       ACCOUNT
-    ============================================== */
-
-    if (problem === "account") {
-
-        if (style === "serious" ||
-            style === "professional") {
-
-            return `
-            <strong>Account / Login Issue</strong>
-            <br><br>
-
-            Please verify that:
-
-            <ol>
-                <li>
-                    Your username is correct.
-                </li>
-
-                <li>
-                    Your password is entered correctly.
-                </li>
-
-                <li>
-                    Caps Lock is not enabled accidentally.
-                </li>
-            </ol>
-
-            Do not share your password with anyone,
-            including IT Support.
-
-            If you cannot access your account,
-            contact the appropriate IT Support team
-            for account recovery assistance.
-            `;
-
-        }
-
-
-        return `
-        Looks like your account is refusing
-        to let you in. 😅🔐
-
-        Try checking:
-
-        <ol>
-            <li>Your username.</li>
-            <li>Your password.</li>
-            <li>Whether Caps Lock is on.</li>
-        </ol>
-
-        Don't send your password here.
-
-        If you still can't log in,
-        contact IT Support.
-        `;
-
-    }
-
-
-    /* ==============================================
-       UNKNOWN QUESTION
-    ============================================== */
-
-    if (style === "serious" ||
-        style === "professional") {
-
-        return `
-        Thank you for providing the information.
-
-        I need more details to identify the
-        technical issue accurately.
-
-        Please provide:
-
-        <ol>
-            <li>The device you are using.</li>
-            <li>The application or service involved.</li>
-            <li>The exact error message, if available.</li>
-            <li>What happened before the problem occurred.</li>
-        </ol>
-
-        You may also upload a screenshot
-        of the error.
-        `;
-
-    }
-
-
-    if (style === "casual") {
-
-        return `
-        Hmm... you've got me curious. 🤔
-
-        Tell me a little more about what's happening.
-
-        For example:
-
-        <br><br>
-
-        "My laptop turns on but the screen is black."
-
-        <br><br>
-
-        Or upload a screenshot using
-        the 📸 button.
-        `;
-
-    }
-
-
-    return `
-    I can help with common IT problems such as:
-
-    <ul>
-        <li>🌐 Internet and Wi-Fi</li>
-        <li>💻 Computer problems</li>
-        <li>🖨️ Printer problems</li>
-        <li>🧩 Software errors</li>
-        <li>🔐 Account and login problems</li>
-    </ul>
-
-    Please describe what is happening,
-    or upload a screenshot of the problem.
-    `;
-
-}
-
-
-/* =====================================================
-   QUICK HELP BUTTON
-===================================================== */
-
-function askProblem(problem) {
-
-    let input =
-        document.getElementById("userInput");
-
-
-    document.getElementById("assistant")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
-
-
-    if (problem === "internet") {
-
-        input.value =
-            "My Wi-Fi is not working.";
-
-    }
-
-    else if (problem === "computer") {
-
-        input.value =
-            "My computer is very slow.";
-
-    }
-
-    else if (problem === "printer") {
-
-        input.value =
-            "My printer is not printing.";
-
-    }
-
-    else if (problem === "software") {
-
-        input.value =
-            "I am getting a software error.";
-
-    }
-
-
-    sendMessage();
-
-}
-
-
-/* =====================================================
+/* =========================================================
    ENTER KEY
-===================================================== */
+========================================================= */
 
 function handleEnter(event) {
 
@@ -1834,161 +969,809 @@ function handleEnter(event) {
 }
 
 
-/* =====================================================
+/* =========================================================
+   QUICK MESSAGE
+========================================================= */
+
+function quickMessage(text) {
+
+    document.getElementById("userInput").value = text;
+
+    sendMessage();
+
+}
+
+
+/* =========================================================
+   ADD MESSAGE
+========================================================= */
+
+function addMessage(text, type) {
+
+    const body =
+        document.getElementById("chatBody");
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " + type;
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className =
+        "bubble";
+
+
+    if (type === "bot") {
+
+        bubble.innerHTML =
+            `<strong>IT Buddy 🤖</strong><br>` +
+            formatText(text) +
+            `<div class="reactions">
+
+                <button
+                    onclick="react('👍')">
+                    👍
+                </button>
+
+                <button
+                    onclick="react('❤️')">
+                    ❤️
+                </button>
+
+                <button
+                    onclick="react('😂')">
+                    😂
+                </button>
+
+                <button
+                    onclick="react('😕')">
+                    😕
+                </button>
+
+                <button
+                    onclick="react('👎')">
+                    👎
+                </button>
+
+            </div>`;
+
+    } else {
+
+        bubble.textContent =
+            text;
+
+    }
+
+
+    message.appendChild(bubble);
+
+    body.appendChild(message);
+
+    body.scrollTop =
+        body.scrollHeight;
+
+}
+
+
+/* =========================================================
+   REACTION
+========================================================= */
+
+function react(reaction) {
+
+    alert("You reacted " + reaction);
+
+}
+
+
+/* =========================================================
+   FORMAT TEXT
+========================================================= */
+
+function formatText(text) {
+
+    return text
+        .replace(/\n/g, "<br>")
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+}
+
+
+/* =========================================================
+   TYPING INDICATOR
+========================================================= */
+
+function showTyping() {
+
+    const body =
+        document.getElementById("chatBody");
+
+    const typing =
+        document.createElement("div");
+
+    typing.id =
+        "typingIndicator";
+
+    typing.className =
+        "typing";
+
+    typing.innerHTML =
+        "IT Buddy is typing... 🤖";
+
+    body.appendChild(typing);
+
+    body.scrollTop =
+        body.scrollHeight;
+
+}
+
+
+function removeTyping() {
+
+    const typing =
+        document.getElementById("typingIndicator");
+
+    if (typing) {
+
+        typing.remove();
+
+    }
+
+}
+
+
+/* =========================================================
+   DETECT EMOTION
+========================================================= */
+
+function detectEmotion(text) {
+
+    const lower =
+        text.toLowerCase();
+
+
+    if (
+        lower.includes("happy") ||
+        lower.includes("glad") ||
+        lower.includes("excited") ||
+        lower.includes("great")
+    ) {
+
+        return "happy";
+
+    }
+
+
+    if (
+        lower.includes("sad") ||
+        lower.includes("lonely") ||
+        lower.includes("down")
+    ) {
+
+        return "sad";
+
+    }
+
+
+    if (
+        lower.includes("tired") ||
+        lower.includes("exhausted")
+    ) {
+
+        return "tired";
+
+    }
+
+
+    if (
+        lower.includes("nervous") ||
+        lower.includes("worried")
+    ) {
+
+        return "nervous";
+
+    }
+
+
+    if (
+        lower.includes("stressed") ||
+        lower.includes("stress")
+    ) {
+
+        return "stressed";
+
+    }
+
+
+    if (
+        lower.includes("angry") ||
+        lower.includes("mad")
+    ) {
+
+        return "angry";
+
+    }
+
+
+    if (
+        lower.includes("bored")
+    ) {
+
+        return "bored";
+
+    }
+
+
+    if (
+        lower.includes("confused") ||
+        lower.includes("don't understand")
+    ) {
+
+        return "confused";
+
+    }
+
+
+    if (
+        lower.includes("thank") ||
+        lower.includes("thanks")
+    ) {
+
+        return "grateful";
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   DETECT IT TOPIC
+========================================================= */
+
+function detectITTopic(text) {
+
+    const lower =
+        text.toLowerCase();
+
+
+    if (
+        lower.includes("wifi") ||
+        lower.includes("wi-fi") ||
+        lower.includes("internet") ||
+        lower.includes("connection") ||
+        lower.includes("network")
+    ) {
+
+        return "internet";
+
+    }
+
+
+    if (
+        lower.includes("computer") ||
+        lower.includes("laptop") ||
+        lower.includes("pc") ||
+        lower.includes("slow") ||
+        lower.includes("freeze")
+    ) {
+
+        return "computer";
+
+    }
+
+
+    if (
+        lower.includes("printer") ||
+        lower.includes("print")
+    ) {
+
+        return "printer";
+
+    }
+
+
+    if (
+        lower.includes("software") ||
+        lower.includes("application") ||
+        lower.includes("app") ||
+        lower.includes("program")
+    ) {
+
+        return "software";
+
+    }
+
+
+    if (
+        lower.includes("password") ||
+        lower.includes("account") ||
+        lower.includes("login") ||
+        lower.includes("log in")
+    ) {
+
+        return "account";
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   GENERAL CONVERSATION
+========================================================= */
+
+function generalConversation(text) {
+
+    const lower =
+        text.toLowerCase();
+
+
+    if (
+        lower.includes("hello") ||
+        lower.includes("hi") ||
+        lower.includes("hey")
+    ) {
+
+        return "Hey! 👋 I'm IT Buddy. How are you doing today?";
+
+    }
+
+
+    if (
+        lower.includes("how are you")
+    ) {
+
+        return "I'm ready to chat and help with your IT problems. 🤖 What’s on your mind?";
+
+    }
+
+
+    if (
+        lower.includes("thank")
+    ) {
+
+        return "You're welcome! 😊 I'm always happy to help.";
+
+    }
+
+
+    if (
+        lower.includes("joke")
+    ) {
+
+        return "Why did the computer go to the doctor? Because it had a virus! 😂";
+
+    }
+
+
+    if (
+        lower.includes("school") ||
+        lower.includes("study") ||
+        lower.includes("class")
+    ) {
+
+        return "School can definitely be tiring. 📚 If you have an IT problem related to your studies, you can tell me what happened.";
+
+    }
+
+
+    if (
+        lower.includes("tired") ||
+        lower.includes("exhausted")
+    ) {
+
+        return "Sounds like you've had a long day. 😌 Take a short break if you can. If you still need help with something technical, I'm here.";
+
+    }
+
+
+    if (
+        lower.includes("sad") ||
+        lower.includes("lonely")
+    ) {
+
+        return "I'm sorry you're having a difficult moment. You can tell me what's bothering you if you want to talk.";
+
+    }
+
+
+    if (
+        lower.includes("stressed") ||
+        lower.includes("stress")
+    ) {
+
+        return "That sounds stressful. 😕 Let's take it one thing at a time. If the stress is because of a school or IT problem, tell me what you're dealing with.";
+
+    }
+
+
+    if (
+        lower.includes("happy") ||
+        lower.includes("excited") ||
+        lower.includes("great")
+    ) {
+
+        return "That's great to hear! 😄 Tell me what happened.";
+
+    }
+
+
+    if (
+        lower.includes("bored")
+    ) {
+
+        return "Bored already? 😄 We can talk, or I can give you a quick IT-related challenge.";
+
+    }
+
+
+    if (
+        lower.includes("nervous") ||
+        lower.includes("worried")
+    ) {
+
+        return "It's understandable to feel nervous sometimes. Take things one step at a time. What are you worried about?";
+
+    }
+
+
+    if (
+        lower.includes("confused") ||
+        lower.includes("don't understand")
+    ) {
+
+        return "No worries. Let's make it simpler. Tell me which part is confusing you.";
+
+    }
+
+
+    return "I'm listening. 😊 You can tell me about your day, ask a question, or switch to an IT problem whenever you need help.";
+
+}
+
+
+/* =========================================================
+   IT RESPONSE
+========================================================= */
+
+function itResponse(topic, text) {
+
+    if (topic === "internet") {
+
+        return `Ah, switching to IT mode. 📶
+
+Let's troubleshoot your internet connection.
+
+1. Check if Wi-Fi is turned on.
+2. Disconnect and reconnect to the network.
+3. Check whether other devices can connect.
+4. Restart your device.
+5. If possible, restart the router.
+
+If it still doesn't work, tell me what you're seeing, such as "connected but no internet" or "Wi-Fi doesn't appear."`;
+
+    }
+
+
+    if (topic === "computer") {
+
+        return `Let's check your computer. 💻
+
+Try these basic steps:
+
+1. Close programs you don't need.
+2. Restart the computer.
+3. Check your available storage.
+4. Check if many programs are running.
+5. Make sure your system is updated.
+
+If it's still slow, tell me when the problem happens—for example, during startup, browsing, gaming, or opening programs.`;
+
+    }
+
+
+    if (topic === "printer") {
+
+        return `Let's troubleshoot the printer. 🖨️
+
+Try these steps:
+
+1. Check that the printer is powered on.
+2. Check the paper.
+3. Check the cable or Wi-Fi connection.
+4. Make sure the correct printer is selected.
+5. Try printing again after restarting the printer.
+
+If you get an error message, send me the exact message.`;
+
+    }
+
+
+    if (topic === "software") {
+
+        return `Let's troubleshoot the software problem. 💻
+
+First, try:
+
+1. Close the program.
+2. Open it again.
+3. Restart your computer.
+4. Check for updates.
+5. If the problem continues, tell me the name of the software and what happens when you open it.`;
+
+    }
+
+
+    if (topic === "account") {
+
+        return `Let's check the account problem. 🔐
+
+If you can't log in:
+
+1. Check that your username is correct.
+2. Check that Caps Lock isn't causing a problem.
+3. Make sure you are using the correct account.
+4. If available, use the official password recovery option.
+
+For security, don't send me your actual password.`;
+
+    }
+
+
+    return "I can help troubleshoot that. Tell me what device you're using and what exactly happens when the problem occurs.";
+
+}
+
+
+/* =========================================================
+   PROFESSIONAL QUESTIONS
+========================================================= */
+
+function professionalResponse(text) {
+
+    const lower =
+        text.toLowerCase();
+
+
+    if (
+        lower.includes("what is nlp") ||
+        lower.includes("natural language processing")
+    ) {
+
+        return "Natural Language Processing, or NLP, is a branch of AI that allows computers to understand and process human language. In an IT Help Desk, NLP can help a system understand questions written in everyday language.";
+
+    }
+
+
+    if (
+        lower.includes("what is ai") ||
+        lower.includes("artificial intelligence")
+    ) {
+
+        return "Artificial Intelligence, or AI, refers to computer systems designed to perform tasks that normally require human intelligence, such as understanding language, recognizing patterns, solving problems, and making predictions.";
+
+    }
+
+
+    if (
+        lower.includes("what is chatbot") ||
+        lower.includes("chatbot")
+    ) {
+
+        return "A chatbot is a computer program that communicates with users through text or other interfaces. An AI chatbot can use natural language processing to understand user questions and generate or select appropriate responses.";
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   SERIOUS RESPONSE
+========================================================= */
+
+function seriousResponse(text) {
+
+    return "I understand. Let's approach this carefully and step by step. If this is an IT or school-related problem, tell me the specific issue and I'll help you break it down.";
+
+}
+
+
+/* =========================================================
+   GENERATE RESPONSE
+========================================================= */
+
+function generateResponse(text) {
+
+    const topic =
+        detectITTopic(text);
+
+    const lower =
+        text.toLowerCase();
+
+
+    /*
+       IT questions have priority.
+    */
+
+    if (topic) {
+
+        document.getElementById("modeBadge").textContent =
+            "IT Support Mode";
+
+        return itResponse(topic, text);
+
+    }
+
+
+    /*
+       Professional / academic AI questions.
+    */
+
+    const professional =
+        professionalResponse(text);
+
+    if (professional) {
+
+        document.getElementById("modeBadge").textContent =
+            "Professional Mode";
+
+        return professional;
+
+    }
+
+
+    /*
+       Detect serious wording.
+    */
+
+    if (
+        lower.includes("problem") ||
+        lower.includes("important") ||
+        lower.includes("serious") ||
+        lower.includes("help me")
+    ) {
+
+        document.getElementById("modeBadge").textContent =
+            "Support Mode";
+
+        return seriousResponse(text);
+
+    }
+
+
+    /*
+       Otherwise use general conversation.
+    */
+
+    document.getElementById("modeBadge").textContent =
+        "General Mode";
+
+    return generalConversation(text);
+
+}
+
+
+/* =========================================================
    IMAGE PREVIEW
-===================================================== */
+========================================================= */
 
 function previewImage(event) {
 
-    let file =
+    const file =
         event.target.files[0];
 
-
-    let preview =
+    const preview =
         document.getElementById("imagePreview");
 
 
+    preview.innerHTML = "";
+
+
     if (!file) {
-
         return;
-
     }
 
 
-    if (!file.type.startsWith("image/")) {
+    const image =
+        document.createElement("img");
 
-        alert("Please select an image.");
+    image.src =
+        URL.createObjectURL(file);
 
-        return;
+    image.className =
+        "preview-image";
 
-    }
-
-
-    let reader =
-        new FileReader();
-
-
-    reader.onload =
-        function(e) {
-
-            preview.innerHTML = `
-
-                <div class="alert alert-secondary">
-
-                    <strong>
-                        📸 Selected Picture
-                    </strong>
-
-                    <br><br>
-
-                    <img
-                        src="${e.target.result}"
-                        class="uploaded-image">
-
-                    <br>
-
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-danger mt-2"
-                        onclick="removeImage()">
-
-                        <i class="bi bi-trash"></i>
-                        Remove
-
-                    </button>
-
-                </div>
-
-            `;
-
-        };
+    preview.appendChild(image);
 
 
-    reader.readAsDataURL(file);
+    addMessage(
+        "I received an image. 🖼️ In this prototype, I can display the image, but I cannot actually analyze its contents yet.",
+        "bot"
+    );
 
 }
 
 
-/* =====================================================
-   REMOVE IMAGE
-===================================================== */
+/* =========================================================
+   SUPPORT FORM
+========================================================= */
 
-function removeImage() {
+document
+    .getElementById("supportForm")
+    .addEventListener("submit", function(event) {
 
-    document.getElementById("imageInput").value = "";
-
-    document.getElementById("imagePreview").innerHTML = "";
-
-}
+        event.preventDefault();
 
 
-/* =====================================================
-   CONTACT IT SUPPORT
-===================================================== */
+        const name =
+            document.getElementById("studentName").value;
 
-document.getElementById("supportForm")
-.addEventListener("submit", function(event) {
-
-    event.preventDefault();
+        const problem =
+            document.getElementById("problem").value;
 
 
-    let name =
-        document.getElementById("studentName").value;
+        const ticketID =
+            "IT-" +
+            Math.floor(
+                100000 + Math.random() * 900000
+            );
 
 
-    let problem =
-        document.getElementById("problemType").value;
+        const result =
+            document.getElementById("supportResult");
 
 
-    let ticketNumber =
-        "IT-" +
-        Math.floor(
-            1000 + Math.random() * 9000
-        );
-
-
-    document.getElementById("supportResult")
-        .innerHTML = `
-
-        <div class="alert alert-success">
-
-            <h5>
-                <i class="bi bi-check-circle"></i>
-                Support Request Submitted
-            </h5>
-
-            <p>
-                Thank you, ${name}.
-            </p>
+        result.innerHTML = `
 
             <strong>
-                Ticket ID: ${ticketNumber}
+                Your IT support request has been recorded.
             </strong>
-
-            <br>
-
-            Problem:
-            ${problem}
 
             <br><br>
 
-            <strong>
-                Status:
-            </strong>
+            <strong>Ticket ID:</strong>
+            ${ticketID}
 
-            <span class="badge bg-warning text-dark">
-                Pending
-            </span>
+            <br>
 
-        </div>
+            <strong>Student:</strong>
+            ${name}
 
-    `;
+            <br>
+
+            <strong>Problem:</strong>
+            ${problem}
+
+            <br>
+
+            <strong>Status:</strong>
+            Pending
+
+        `;
 
 
-    document.getElementById("supportForm")
-        .reset();
+        result.style.display =
+            "block";
+
+
+        document
+            .getElementById("supportForm")
+            .reset();
 
 });
+
 
 </script>
 

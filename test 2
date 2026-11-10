@@ -1,20 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>IT Help Desk | Student Technical Support</title>
+    <title>AI IT Help Desk</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
 
-    <!-- Your Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            background-color: #f4f7fb;
+            font-family: Arial, sans-serif;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #0d6efd;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: white !important;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 430px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0d6efd, #6f42c1);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 18px;
+        }
+
+        /* FEATURE CARDS */
+        .feature-card {
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: #0d6efd;
+        }
+
+        /* CHAT */
+        #chatBox {
+            height: 350px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: #0d6efd;
+            color: white;
+            margin-left: auto;
+        }
+
+        .ai-message {
+            background: #e9ecef;
+            color: #212529;
+        }
+
+        /* UPLOADED IMAGE */
+        .uploaded-image {
+            max-width: 250px;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* SECTION */
+        section {
+            padding: 70px 0;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #212529;
+            color: white;
+            padding: 25px 0;
+        }
+
+        /* STATUS */
+        .status {
+            font-size: 13px;
+            color: #198754;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,17 +127,19 @@
 <!-- =========================
      NAVBAR
 ========================= -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
 
         <a class="navbar-brand fw-bold" href="#">
             <i class="bi bi-headset"></i>
-            IT Help Desk
+            AI IT Help Desk
         </a>
 
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
+        <button
+            class="navbar-toggler bg-light"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -41,32 +148,26 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link active" href="#home">
-                        Home
-                    </a>
+                    <a class="nav-link" href="#home">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#features">
-                        Features
-                    </a>
+                    <a class="nav-link" href="#features">Features</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#help">
-                        Get Help
-                    </a>
+                    <a class="nav-link" href="#assistant">AI Assistant</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#faq">
-                        FAQ
+                    <a class="nav-link" href="#troubleshooting">
+                        Troubleshooting
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">
-                        Contact
+                        IT Support
                     </a>
                 </li>
 
@@ -78,67 +179,40 @@
 
 
 <!-- =========================
-     HERO SECTION
+     HOME
 ========================= -->
-<section id="home" class="py-5 bg-light">
+<section id="home" class="hero">
 
     <div class="container">
 
-        <div class="row align-items-center min-vh-75">
+        <div class="row align-items-center">
 
-            <div class="col-lg-6">
+            <div class="col-md-7">
 
-                <span class="badge bg-primary mb-3">
-                    AI-Powered Student IT Support
-                </span>
-
-                <h1 class="display-4 fw-bold">
+                <h1>
                     Your Smart IT Help Desk
                 </h1>
 
-                <p class="lead mt-3">
-                    Get quick and convenient assistance for common
-                    computer, software, internet, and printer problems.
+                <p class="mt-3">
+                    Get quick technical assistance using our
+                    AI-powered IT Help Desk system.
                 </p>
 
-                <p>
-                    Ask your technical question and receive
-                    understandable troubleshooting guidance through
-                    our AI-powered IT Help Desk prototype.
-                </p>
+                <a href="#assistant"
+                   class="btn btn-light btn-lg mt-3">
 
-                <div class="mt-4">
+                    <i class="bi bi-chat-dots"></i>
+                    Ask the AI Assistant
 
-                    <a href="#help" class="btn btn-primary btn-lg me-2">
-                        <i class="bi bi-chat-dots"></i>
-                        Get Technical Help
-                    </a>
-
-                    <a href="#features" class="btn btn-outline-dark btn-lg">
-                        Learn More
-                    </a>
-
-                </div>
+                </a>
 
             </div>
 
+            <div class="col-md-5 text-center">
 
-            <div class="col-lg-6 text-center">
-
-                <div class="p-5">
-
-                    <i class="bi bi-robot display-1 text-primary"></i>
-
-                    <h3 class="mt-3">
-                        AI Technical Assistant
-                    </h3>
-
-                    <p class="text-muted">
-                        Ask questions using everyday language
-                        and receive basic troubleshooting assistance.
-                    </p>
-
-                </div>
+                <i class="bi bi-robot"
+                   style="font-size: 180px;">
+                </i>
 
             </div>
 
@@ -152,141 +226,142 @@
 <!-- =========================
      FEATURES
 ========================= -->
-<section id="features" class="py-5">
+<section id="features">
 
     <div class="container">
 
         <div class="text-center mb-5">
 
             <h2 class="fw-bold">
-                Common IT Problems
+                IT Help Desk Features
             </h2>
 
             <p class="text-muted">
-                The system focuses on common technical problems
-                experienced by students during academic activities.
+                Get assistance with common technical problems.
             </p>
 
         </div>
 
-
         <div class="row g-4">
 
+            <!-- Internet -->
+            <div class="col-md-3">
 
-            <!-- INTERNET -->
-            <div class="col-md-6 col-lg-3">
+                <div class="card feature-card shadow-sm p-3 text-center">
 
-                <div class="card h-100 shadow-sm">
-
-                    <div class="card-body text-center">
-
-                        <i class="bi bi-wifi display-4 text-primary"></i>
-
-                        <h5 class="card-title mt-3">
-                            Internet Problems
-                        </h5>
-
-                        <p class="card-text">
-                            Get basic troubleshooting assistance
-                            for slow or unavailable internet connections.
-                        </p>
-
-                        <button class="btn btn-outline-primary"
-                                onclick="setProblem('internet')">
-                            Get Help
-                        </button>
-
+                    <div class="feature-icon">
+                        <i class="bi bi-wifi"></i>
                     </div>
+
+                    <h5 class="mt-3">
+                        Internet Problems
+                    </h5>
+
+                    <p>
+                        Get help with Wi-Fi and internet
+                        connection problems.
+                    </p>
+
+                    <button
+                        class="btn btn-outline-primary"
+                        onclick="askProblem('internet')">
+
+                        Get Help
+
+                    </button>
 
                 </div>
 
             </div>
 
 
-            <!-- COMPUTER -->
-            <div class="col-md-6 col-lg-3">
+            <!-- Computer -->
+            <div class="col-md-3">
 
-                <div class="card h-100 shadow-sm">
+                <div class="card feature-card shadow-sm p-3 text-center">
 
-                    <div class="card-body text-center">
-
-                        <i class="bi bi-pc-display display-4 text-primary"></i>
-
-                        <h5 class="card-title mt-3">
-                            Computer Problems
-                        </h5>
-
-                        <p class="card-text">
-                            Find basic guidance for computer
-                            performance and common system problems.
-                        </p>
-
-                        <button class="btn btn-outline-primary"
-                                onclick="setProblem('computer')">
-                            Get Help
-                        </button>
-
+                    <div class="feature-icon">
+                        <i class="bi bi-laptop"></i>
                     </div>
+
+                    <h5 class="mt-3">
+                        Computer Problems
+                    </h5>
+
+                    <p>
+                        Find solutions for slow or
+                        unresponsive computers.
+                    </p>
+
+                    <button
+                        class="btn btn-outline-primary"
+                        onclick="askProblem('computer')">
+
+                        Get Help
+
+                    </button>
 
                 </div>
 
             </div>
 
 
-            <!-- SOFTWARE -->
-            <div class="col-md-6 col-lg-3">
+            <!-- Software -->
+            <div class="col-md-3">
 
-                <div class="card h-100 shadow-sm">
+                <div class="card feature-card shadow-sm p-3 text-center">
 
-                    <div class="card-body text-center">
-
-                        <i class="bi bi-window-stack display-4 text-primary"></i>
-
-                        <h5 class="card-title mt-3">
-                            Software Errors
-                        </h5>
-
-                        <p class="card-text">
-                            Get assistance with common application
-                            errors and software-related problems.
-                        </p>
-
-                        <button class="btn btn-outline-primary"
-                                onclick="setProblem('software')">
-                            Get Help
-                        </button>
-
+                    <div class="feature-icon">
+                        <i class="bi bi-window"></i>
                     </div>
+
+                    <h5 class="mt-3">
+                        Software Errors
+                    </h5>
+
+                    <p>
+                        Get assistance with application
+                        and software errors.
+                    </p>
+
+                    <button
+                        class="btn btn-outline-primary"
+                        onclick="askProblem('software')">
+
+                        Get Help
+
+                    </button>
 
                 </div>
 
             </div>
 
 
-            <!-- PRINTER -->
-            <div class="col-md-6 col-lg-3">
+            <!-- Printer -->
+            <div class="col-md-3">
 
-                <div class="card h-100 shadow-sm">
+                <div class="card feature-card shadow-sm p-3 text-center">
 
-                    <div class="card-body text-center">
-
-                        <i class="bi bi-printer display-4 text-primary"></i>
-
-                        <h5 class="card-title mt-3">
-                            Printer Problems
-                        </h5>
-
-                        <p class="card-text">
-                            Get basic troubleshooting steps
-                            for common printer problems.
-                        </p>
-
-                        <button class="btn btn-outline-primary"
-                                onclick="setProblem('printer')">
-                            Get Help
-                        </button>
-
+                    <div class="feature-icon">
+                        <i class="bi bi-printer"></i>
                     </div>
+
+                    <h5 class="mt-3">
+                        Printer Problems
+                    </h5>
+
+                    <p>
+                        Troubleshoot printer and
+                        printing problems.
+                    </p>
+
+                    <button
+                        class="btn btn-outline-primary"
+                        onclick="askProblem('printer')">
+
+                        Get Help
+
+                    </button>
 
                 </div>
 
@@ -300,25 +375,11 @@
 
 
 <!-- =========================
-     AI HELP SECTION
+     AI ASSISTANT
 ========================= -->
-<section id="help" class="py-5 bg-light">
+<section id="assistant" class="bg-light">
 
     <div class="container">
-
-        <div class="text-center mb-4">
-
-            <h2 class="fw-bold">
-                <i class="bi bi-robot"></i>
-                AI IT Assistant
-            </h2>
-
-            <p class="text-muted">
-                Describe your technical problem using your own words.
-            </p>
-
-        </div>
-
 
         <div class="row justify-content-center">
 
@@ -326,45 +387,80 @@
 
                 <div class="card shadow">
 
-                    <div class="card-header bg-dark text-white">
+                    <div class="card-header bg-primary text-white">
 
-                        <i class="bi bi-headset"></i>
-                        IT Help Desk Assistant
+                        <h5 class="mb-0">
+
+                            <i class="bi bi-robot"></i>
+                            AI IT Assistant
+
+                        </h5>
 
                     </div>
 
 
-                    <!-- CHAT AREA -->
-                    <div id="chatBox"
-                         class="card-body"
-                         style="height: 350px; overflow-y: auto;">
+                    <!-- CHAT BOX -->
+                    <div id="chatBox" class="card-body">
 
-                        <div class="alert alert-primary">
+                        <div class="message ai-message">
 
-                            <strong>IT Assistant:</strong>
+                            <strong>AI Assistant:</strong><br>
 
-                            <br>
+                            Hello! 👋 I'm your IT Help Desk
+                            assistant.
 
-                            Hello! I'm your IT Help Desk Assistant.
-                            What technical problem are you experiencing?
+                            <br><br>
+
+                            You can ask me about:
+
+                            <ul>
+                                <li>Internet problems</li>
+                                <li>Computer problems</li>
+                                <li>Software errors</li>
+                                <li>Printer problems</li>
+                                <li>Login problems</li>
+                            </ul>
+
+                            You can also upload a screenshot
+                            of your technical problem.
 
                         </div>
 
                     </div>
 
 
-                    <!-- INPUT -->
+                    <!-- INPUT AREA -->
                     <div class="card-footer">
 
                         <div class="input-group">
 
-                            <input type="text"
-                                   id="userInput"
-                                   class="form-control"
-                                   placeholder="Example: My internet is not working...">
+                            <!-- TEXT INPUT -->
+                            <input
+                                type="text"
+                                id="userInput"
+                                class="form-control"
+                                placeholder="Describe your technical problem..."
+                                onkeypress="handleEnter(event)"
+                            >
 
-                            <button class="btn btn-primary"
-                                    onclick="sendMessage()">
+
+                            <!-- IMAGE BUTTON -->
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                onclick="document.getElementById('imageInput').click()"
+                                title="Upload a picture">
+
+                                <i class="bi bi-image"></i>
+
+                            </button>
+
+
+                            <!-- SEND BUTTON -->
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="sendMessage()">
 
                                 <i class="bi bi-send"></i>
                                 Send
@@ -373,6 +469,20 @@
 
                         </div>
 
+
+                        <!-- HIDDEN FILE INPUT -->
+                        <input
+                            type="file"
+                            id="imageInput"
+                            accept="image/*"
+                            style="display:none;"
+                            onchange="previewImage(event)"
+                        >
+
+
+                        <!-- IMAGE PREVIEW -->
+                        <div id="imagePreview" class="mt-3"></div>
+
                     </div>
 
                 </div>
@@ -387,20 +497,20 @@
 
 
 <!-- =========================
-     TROUBLESHOOTING GUIDE
+     TROUBLESHOOTING
 ========================= -->
-<section class="py-5">
+<section id="troubleshooting">
 
     <div class="container">
 
         <div class="text-center mb-5">
 
             <h2 class="fw-bold">
-                Basic Troubleshooting Guide
+                Troubleshooting Guide
             </h2>
 
             <p class="text-muted">
-                Follow these basic steps before requesting additional IT support.
+                Follow these basic steps to solve common IT problems.
             </p>
 
         </div>
@@ -408,40 +518,51 @@
 
         <div class="accordion" id="troubleshootingAccordion">
 
-
             <!-- INTERNET -->
             <div class="accordion-item">
 
                 <h2 class="accordion-header">
 
-                    <button class="accordion-button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#internetGuide">
+                    <button
+                        class="accordion-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#internetGuide">
 
-                        <i class="bi bi-wifi me-2"></i>
-                        Internet Connection
+                        🌐 Internet / Wi-Fi Problem
 
                     </button>
 
                 </h2>
 
-                <div id="internetGuide"
-                     class="accordion-collapse collapse show"
-                     data-bs-parent="#troubleshootingAccordion">
+                <div
+                    id="internetGuide"
+                    class="accordion-collapse collapse show">
 
                     <div class="accordion-body">
 
                         <ol>
 
-                            <li>Check if Wi-Fi is turned on.</li>
+                            <li>
+                                Check if Wi-Fi is turned on.
+                            </li>
 
-                            <li>Check if other devices can connect.</li>
+                            <li>
+                                Make sure you are connected
+                                to the correct network.
+                            </li>
 
-                            <li>Disconnect and reconnect to the network.</li>
+                            <li>
+                                Restart your Wi-Fi connection.
+                            </li>
 
-                            <li>Restart the router if you have access to it.</li>
+                            <li>
+                                Try opening another website.
+                            </li>
 
-                            <li>Try opening another website.</li>
+                            <li>
+                                If the problem continues,
+                                contact IT Support.
+                            </li>
 
                         </ol>
 
@@ -457,77 +578,45 @@
 
                 <h2 class="accordion-header">
 
-                    <button class="accordion-button collapsed"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#computerGuide">
+                    <button
+                        class="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#computerGuide">
 
-                        <i class="bi bi-pc-display me-2"></i>
-                        Computer Performance
-
-                    </button>
-
-                </h2>
-
-                <div id="computerGuide"
-                     class="accordion-collapse collapse"
-                     data-bs-parent="#troubleshootingAccordion">
-
-                    <div class="accordion-body">
-
-                        <ol>
-
-                            <li>Close applications you are not using.</li>
-
-                            <li>Restart the computer.</li>
-
-                            <li>Check available storage space.</li>
-
-                            <li>Make sure your operating system is updated.</li>
-
-                            <li>If the problem continues, contact IT support.</li>
-
-                        </ol>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- SOFTWARE -->
-            <div class="accordion-item">
-
-                <h2 class="accordion-header">
-
-                    <button class="accordion-button collapsed"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#softwareGuide">
-
-                        <i class="bi bi-window-stack me-2"></i>
-                        Software Problems
+                        💻 Computer Problem
 
                     </button>
 
                 </h2>
 
-                <div id="softwareGuide"
-                     class="accordion-collapse collapse"
-                     data-bs-parent="#troubleshootingAccordion">
+                <div
+                    id="computerGuide"
+                    class="accordion-collapse collapse">
 
                     <div class="accordion-body">
 
                         <ol>
 
-                            <li>Close and reopen the application.</li>
+                            <li>
+                                Close unnecessary applications.
+                            </li>
 
-                            <li>Restart your computer.</li>
+                            <li>
+                                Restart your computer.
+                            </li>
 
-                            <li>Check if the application needs an update.</li>
+                            <li>
+                                Check available storage.
+                            </li>
 
-                            <li>Check your internet connection if required.</li>
+                            <li>
+                                Update your operating system.
+                            </li>
 
-                            <li>Contact IT support if the error continues.</li>
+                            <li>
+                                Contact IT Support if the
+                                problem continues.
+                            </li>
 
                         </ol>
 
@@ -543,34 +632,45 @@
 
                 <h2 class="accordion-header">
 
-                    <button class="accordion-button collapsed"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#printerGuide">
+                    <button
+                        class="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#printerGuide">
 
-                        <i class="bi bi-printer me-2"></i>
-                        Printer Problems
+                        🖨️ Printer Problem
 
                     </button>
 
                 </h2>
 
-                <div id="printerGuide"
-                     class="accordion-collapse collapse"
-                     data-bs-parent="#troubleshootingAccordion">
+                <div
+                    id="printerGuide"
+                    class="accordion-collapse collapse">
 
                     <div class="accordion-body">
 
                         <ol>
 
-                            <li>Check if the printer is turned on.</li>
+                            <li>
+                                Check if the printer is turned on.
+                            </li>
 
-                            <li>Check the paper and ink.</li>
+                            <li>
+                                Check the paper supply.
+                            </li>
 
-                            <li>Check the printer connection.</li>
+                            <li>
+                                Check the printer connection.
+                            </li>
 
-                            <li>Make sure the correct printer is selected.</li>
+                            <li>
+                                Check if the correct printer
+                                is selected.
+                            </li>
 
-                            <li>Try printing again.</li>
+                            <li>
+                                Restart the printer.
+                            </li>
 
                         </ol>
 
@@ -590,7 +690,7 @@
 <!-- =========================
      FAQ
 ========================= -->
-<section id="faq" class="py-5 bg-light">
+<section class="bg-light">
 
     <div class="container">
 
@@ -603,49 +703,32 @@
         </div>
 
 
-        <div class="row">
+        <div class="accordion" id="faqAccordion">
 
+            <div class="accordion-item">
 
-            <div class="col-md-6 mb-4">
+                <h2 class="accordion-header">
 
-                <div class="card h-100">
+                    <button
+                        class="accordion-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#faq1">
 
-                    <div class="card-body">
+                        What is the AI IT Help Desk?
 
-                        <h5>
-                            <i class="bi bi-question-circle text-primary"></i>
-                            What is the IT Help Desk?
-                        </h5>
+                    </button>
 
-                        <p>
-                            The IT Help Desk is a system designed to
-                            provide students with convenient technical
-                            support and troubleshooting information.
-                        </p>
+                </h2>
 
-                    </div>
+                <div
+                    id="faq1"
+                    class="accordion-collapse collapse show">
 
-                </div>
+                    <div class="accordion-body">
 
-            </div>
-
-
-            <div class="col-md-6 mb-4">
-
-                <div class="card h-100">
-
-                    <div class="card-body">
-
-                        <h5>
-                            <i class="bi bi-robot text-primary"></i>
-                            How does the AI Assistant work?
-                        </h5>
-
-                        <p>
-                            The assistant interprets the student's
-                            technical question and provides relevant
-                            troubleshooting guidance.
-                        </p>
+                        It is a system designed to help students
+                        solve common technical problems using
+                        automated assistance.
 
                     </div>
 
@@ -654,22 +737,30 @@
             </div>
 
 
-            <div class="col-md-6 mb-4">
+            <div class="accordion-item">
 
-                <div class="card h-100">
+                <h2 class="accordion-header">
 
-                    <div class="card-body">
+                    <button
+                        class="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#faq2">
 
-                        <h5>
-                            <i class="bi bi-lightning text-primary"></i>
-                            What problems can it help with?
-                        </h5>
+                        Can I upload a screenshot?
 
-                        <p>
-                            The prototype focuses on common issues such
-                            as internet connectivity, software errors,
-                            computer problems, and printer problems.
-                        </p>
+                    </button>
+
+                </h2>
+
+                <div
+                    id="faq2"
+                    class="accordion-collapse collapse">
+
+                    <div class="accordion-body">
+
+                        Yes. You can upload an image or screenshot
+                        of your technical problem through the
+                        AI Assistant.
 
                     </div>
 
@@ -678,22 +769,29 @@
             </div>
 
 
-            <div class="col-md-6 mb-4">
+            <div class="accordion-item">
 
-                <div class="card h-100">
+                <h2 class="accordion-header">
 
-                    <div class="card-body">
+                    <button
+                        class="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#faq3">
 
-                        <h5>
-                            <i class="bi bi-person-check text-primary"></i>
-                            Is the system a replacement for IT staff?
-                        </h5>
+                        What if the AI cannot solve my problem?
 
-                        <p>
-                            No. The system is intended to provide basic
-                            and convenient assistance. More complex
-                            technical problems may still require IT personnel.
-                        </p>
+                    </button>
+
+                </h2>
+
+                <div
+                    id="faq3"
+                    class="accordion-collapse collapse">
+
+                    <div class="accordion-body">
+
+                        You can submit the problem to IT Support
+                        for further assistance.
 
                     </div>
 
@@ -709,68 +807,25 @@
 
 
 <!-- =========================
-     CONTACT
+     CONTACT IT SUPPORT
 ========================= -->
-<section id="contact" class="py-5">
+<section id="contact">
 
     <div class="container">
 
-        <div class="text-center mb-5">
-
-            <h2 class="fw-bold">
-                Contact IT Support
-            </h2>
-
-            <p class="text-muted">
-                Submit your concern if the basic troubleshooting
-                steps do not solve your problem.
-            </p>
-
-        </div>
-
-
         <div class="row justify-content-center">
 
-            <div class="col-lg-8">
+            <div class="col-lg-7">
 
-                <form id="contactForm">
+                <div class="card shadow">
 
-                    <div class="mb-3">
+                    <div class="card-body p-4">
 
-                        <label class="form-label">
-                            Student Name
-                        </label>
+                        <div class="text-center mb-4">
 
-                        <input type="text"
-                               class="form-control"
-                               required>
+                            <h2>
+                                <i class="bi bi-headset"></i>
+                                Contact IT Support
+                            </h2>
 
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Email
-                        </label>
-
-                        <input type="email"
-                               class="form-control"
-                               required>
-
-                    </div>
-
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Technical Problem
-                        </label>
-
-                        <select class="form-select">
-
-                            <option>Internet Connection</option>
-                            <option>Computer Problem</option>
-                            <option>Software Error</option>
-                            <option>Printer Problem</option>
-              
+       

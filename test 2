@@ -3,494 +3,379 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI IT Buddy</title>
 
-<title>AI IT Buddy | Student IT Help Desk</title>
-
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-:root {
-    --bg: #f5f7fb;
-    --card: #ffffff;
-    --text: #172033;
-    --muted: #6b7280;
-    --primary: #4f46e5;
-    --secondary: #eef2ff;
-    --border: #e5e7eb;
-    --sidebar: #ffffff;
-    --bot: #eef2ff;
-    --user: #4f46e5;
-}
-
-body.dark {
-    --bg: #10131a;
-    --card: #181d27;
-    --text: #f3f4f6;
-    --muted: #9ca3af;
-    --primary: #6366f1;
-    --secondary: #252b38;
-    --border: #303746;
-    --sidebar: #151922;
-    --bot: #252b38;
-    --user: #4f46e5;
-}
-
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    transition: 0.3s;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #20242b;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
 }
 
 /* =========================
    LOGIN
 ========================= */
 
-.auth-page {
+#authScreen {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, #eef5ff, #f8fbff);
     padding: 20px;
 }
 
 .auth-card {
     width: 100%;
-    max-width: 430px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
+    max-width: 420px;
+    background: white;
+    border-radius: 18px;
     padding: 30px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 15px 45px rgba(0,0,0,.12);
 }
 
 .logo {
-    width: 60px;
-    height: 60px;
-    border-radius: 16px;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    margin: auto;
-}
-
-.auth-card h2 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #0d6efd;
     text-align: center;
-    margin-top: 15px;
 }
 
-.auth-card p {
+.subtitle {
     text-align: center;
-    color: var(--muted);
+    color: #777;
+    margin-bottom: 25px;
 }
 
-.form-control {
-    background: var(--card);
-    color: var(--text);
-    border-color: var(--border);
-}
-
-.form-control:focus {
-    background: var(--card);
-    color: var(--text);
+.auth-card input {
+    margin-bottom: 12px;
 }
 
 /* =========================
-   DASHBOARD
+   APP
 ========================= */
 
-#dashboard {
+#app {
     display: none;
+    min-height: 100vh;
 }
 
 .topbar {
-    height: 65px;
+    height: 64px;
+    background: white;
+    border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
-    padding: 0 20px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
+    padding: 0 18px;
+    position: fixed;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    right: 0;
+    z-index: 20;
 }
 
 .menu-btn {
-    border: 0;
+    border: none;
     background: transparent;
-    color: var(--text);
     font-size: 25px;
-    cursor: pointer;
+    margin-right: 15px;
 }
 
 .brand {
-    margin-left: 15px;
     font-weight: bold;
-    color: var(--text);
+    font-size: 20px;
 }
 
-.brand span {
-    color: var(--primary);
+.status {
+    color: #198754;
+    font-size: 13px;
+    margin-left: 10px;
 }
 
 .sidebar {
     position: fixed;
-    left: -270px;
-    top: 0;
-    width: 260px;
-    height: 100vh;
-    background: var(--sidebar);
-    border-right: 1px solid var(--border);
-    padding: 20px;
-    z-index: 2000;
-    transition: 0.3s;
-    overflow-y: auto;
-}
-
-.sidebar.open {
+    top: 64px;
     left: 0;
+    bottom: 0;
+    width: 250px;
+    background: white;
+    border-right: 1px solid #ddd;
+    padding: 18px;
+    overflow-y: auto;
+    z-index: 10;
 }
 
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 25px;
-}
-
-.sidebar-header h4 {
-    margin: 0;
-}
-
-.close-sidebar {
-    background: transparent;
-    border: 0;
-    color: var(--text);
-    font-size: 24px;
-}
-
-.menu-item {
+.sidebar button {
     width: 100%;
-    border: 0;
+    border: none;
     background: transparent;
-    color: var(--text);
-    padding: 12px;
-    margin-bottom: 6px;
-    border-radius: 10px;
+    padding: 11px 13px;
     text-align: left;
-    cursor: pointer;
+    border-radius: 10px;
+    margin-bottom: 5px;
 }
 
-.menu-item:hover {
-    background: var(--secondary);
+.sidebar button:hover {
+    background: #eef4ff;
 }
 
-.menu-item span {
-    margin-right: 10px;
-}
-
-.profile-box {
-    margin-top: 25px;
-    padding: 15px;
-    background: var(--secondary);
-    border-radius: 14px;
-}
-
-.profile-name {
+.sidebar .section-title {
+    font-size: 12px;
+    color: #888;
+    margin: 20px 10px 8px;
+    text-transform: uppercase;
     font-weight: bold;
 }
 
-.profile-email {
-    font-size: 12px;
-    color: var(--muted);
-    word-break: break-word;
-}
-
-/* =========================
-   MAIN
-========================= */
-
 .main {
-    padding: 35px 20px;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.hero {
-    padding: 35px 10px;
-}
-
-.hero h1 {
-    font-size: clamp(30px, 5vw, 50px);
-    font-weight: 800;
-}
-
-.hero h1 span {
-    color: var(--primary);
-}
-
-.hero p {
-    color: var(--muted);
-    max-width: 750px;
-}
-
-/* =========================
-   CARDS
-========================= */
-
-.card-custom {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 22px;
-    height: 100%;
-    transition: 0.2s;
-}
-
-.card-custom:hover {
-    transform: translateY(-3px);
-}
-
-.icon {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-.card-custom p {
-    color: var(--muted);
-}
-
-/* =========================
-   CHAT
-========================= */
-
-.chat-container {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 25px;
-}
-
-.chat-header {
-    padding: 18px;
-    border-bottom: 1px solid var(--border);
-}
-
-.chat-header h4 {
-    margin: 0;
-}
-
-.chat-header small {
-    color: var(--muted);
-}
-
-.chat-box {
-    height: 450px;
-    overflow-y: auto;
-    padding: 20px;
-}
-
-.message-row {
+    margin-left: 250px;
+    padding-top: 64px;
+    min-height: 100vh;
     display: flex;
-    margin-bottom: 15px;
+    flex-direction: column;
 }
 
-.message-row.user {
+.chat-area {
+    flex: 1;
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
+    padding: 30px 25px 150px;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 18px;
+}
+
+.message.user {
     justify-content: flex-end;
 }
 
 .bubble {
-    max-width: 80%;
-    padding: 12px 15px;
-    border-radius: 15px;
-    line-height: 1.5;
-}
-
-.bot .bubble {
-    background: var(--bot);
-    color: var(--text);
-    border-bottom-left-radius: 4px;
+    max-width: 78%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    line-height: 1.55;
+    white-space: pre-wrap;
 }
 
 .user .bubble {
-    background: var(--user);
+    background: #0d6efd;
     color: white;
-    border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 5px;
 }
 
-.chat-input {
-    border-top: 1px solid var(--border);
-    padding: 15px;
+.bot .bubble {
+    background: white;
+    border: 1px solid #e4e7ec;
+    border-bottom-left-radius: 5px;
+}
+
+.bot-label {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
 }
 
 .input-area {
-    display: flex;
-    gap: 8px;
+    position: fixed;
+    left: 250px;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,.96);
+    border-top: 1px solid #ddd;
+    padding: 15px 20px;
+    z-index: 15;
 }
 
-.input-area input {
+.input-box {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#messageInput {
     flex: 1;
+    min-height: 46px;
+    max-height: 130px;
+    resize: none;
 }
 
-.input-area button {
+.icon-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: white;
+}
+
+.send-btn {
+    width: 50px;
+    height: 45px;
+    border: none;
+    border-radius: 12px;
+    background: #0d6efd;
+    color: white;
+}
+
+.preview {
+    max-width: 180px;
+    max-height: 150px;
     border-radius: 10px;
+    margin: 8px 0;
+    display: none;
 }
 
-.quick-buttons {
+.quick-actions {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 7px;
+    overflow-x: auto;
     margin-top: 10px;
 }
 
-.quick-buttons button {
-    border: 1px solid var(--border);
-    background: var(--secondary);
-    color: var(--text);
+.quick-actions button {
+    white-space: nowrap;
+    border: 1px solid #dce2ea;
+    background: white;
     border-radius: 20px;
-    padding: 6px 12px;
+    padding: 7px 13px;
+    font-size: 13px;
 }
 
-/* =========================
-   REACTIONS
-========================= */
-
-.reactions {
-    margin-top: 10px;
-}
-
-.reactions button {
-    border: 1px solid rgba(128,128,128,0.3);
-    background: transparent;
-    color: var(--text);
-    border-radius: 20px;
-    padding: 3px 8px;
-    margin-right: 4px;
-    cursor: pointer;
-    transition: 0.15s;
-}
-
-.reactions button:hover {
-    transform: scale(1.12);
-    background: rgba(128,128,128,0.15);
-}
-
-.reaction-message {
-    font-size: 12px;
-    margin-top: 5px;
-    color: var(--muted);
-}
-
-/* =========================
-   TYPING
-========================= */
+/* typing */
 
 .typing {
     display: flex;
-    gap: 4px;
-    padding: 8px;
+    gap: 5px;
+    padding: 12px;
 }
 
-.typing span {
+.dot {
     width: 7px;
     height: 7px;
-    background: var(--muted);
+    background: #999;
     border-radius: 50%;
-    animation: blink 1.2s infinite;
+    animation: bounce 1s infinite;
 }
 
-.typing span:nth-child(2) {
-    animation-delay: 0.2s;
+.dot:nth-child(2) {
+    animation-delay: .15s;
 }
 
-.typing span:nth-child(3) {
-    animation-delay: 0.4s;
+.dot:nth-child(3) {
+    animation-delay: .3s;
 }
 
-@keyframes blink {
-    0%, 80%, 100% {
-        opacity: 0.3;
+@keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* reactions */
+
+.reactions {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.reactions button {
+    border: none;
+    background: transparent;
+    opacity: .65;
+}
+
+/* cards */
+
+.content-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 22px;
+    margin-bottom: 15px;
+}
+
+/* dark */
+
+body.dark {
+    background: #15171c;
+    color: #eee;
+}
+
+body.dark .topbar,
+body.dark .sidebar,
+body.dark .input-area,
+body.dark .bot .bubble,
+body.dark .content-card,
+body.dark .quick-actions button,
+body.dark .icon-btn {
+    background: #202329;
+    color: #eee;
+    border-color: #353941;
+}
+
+body.dark .sidebar button:hover {
+    background: #30343b;
+}
+
+body.dark .bot .bubble {
+    color: #eee;
+}
+
+body.dark .bot-label,
+body.dark .sidebar .section-title {
+    color: #aaa;
+}
+
+body.dark #messageInput {
+    background: #17191d;
+    color: white;
+    border-color: #444;
+}
+
+/* mobile */
+
+@media(max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
     }
-    40% {
-        opacity: 1;
+
+    .sidebar.open {
+        transform: translateX(0);
     }
-}
-
-/* =========================
-   IMAGE
-========================= */
-
-.image-preview {
-    display: none;
-    margin-top: 10px;
-}
-
-.image-preview img {
-    max-width: 250px;
-    max-height: 200px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-}
-
-/* =========================
-   SECTIONS
-========================= */
-
-.section {
-    margin-top: 70px;
-}
-
-.section-title {
-    margin-bottom: 25px;
-}
-
-.section-title p {
-    color: var(--muted);
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    margin-top: 80px;
-    padding: 30px 20px;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    text-align: center;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 600px) {
 
     .main {
-        padding: 20px 12px;
+        margin-left: 0;
     }
 
-    .chat-box {
-        height: 400px;
+    .input-area {
+        left: 0;
     }
 
     .bubble {
         max-width: 90%;
-    }
-
-    .hero {
-        padding-top: 20px;
     }
 }
 </style>
@@ -498,2501 +383,1510 @@ footer {
 
 <body>
 
-<!-- ==================================================
-     LOGIN PAGE
-================================================== -->
+<!-- =========================
+     LOGIN
+========================= -->
 
-<div id="authPage" class="auth-page">
-
+<div id="authScreen">
     <div class="auth-card">
 
-        <div class="logo">
-            🤖
+        <div class="logo">🤖 AI IT Buddy</div>
+        <div class="subtitle">
+            Your student-friendly AI support buddy
         </div>
 
-        <h2>AI IT Buddy</h2>
+        <div id="loginBox">
+            <input id="loginUsername" class="form-control" placeholder="Username">
+            <input id="loginPassword" type="password" class="form-control" placeholder="Password">
 
-        <p>
-            Student-Friendly AI IT Help Desk
-        </p>
-
-        <!-- LOGIN -->
-
-        <div id="loginForm">
-
-            <h5 class="mb-3">Login</h5>
-
-            <div class="mb-3">
-                <label>Email</label>
-                <input
-                    type="email"
-                    id="loginEmail"
-                    class="form-control"
-                    placeholder="Enter your email">
-            </div>
-
-            <div class="mb-3">
-                <label>Password</label>
-
-                <input
-                    type="password"
-                    id="loginPassword"
-                    class="form-control"
-                    placeholder="Enter your password">
-            </div>
-
-            <button
-                class="btn btn-primary w-100"
-                onclick="loginAccount()">
+            <button class="btn btn-primary w-100 mt-2" onclick="login()">
                 Login
             </button>
 
-            <p class="mt-3">
+            <p class="text-center mt-3 mb-0">
                 No account?
-                <button
-                    class="btn btn-link p-0"
-                    onclick="showRegister()">
-                    Create Account
-                </button>
+                <a href="#" onclick="showRegister()">Create one</a>
             </p>
-
         </div>
 
+        <div id="registerBox" class="hidden">
+            <input id="regName" class="form-control" placeholder="Full name">
+            <input id="regUsername" class="form-control" placeholder="Username">
+            <input id="regPassword" type="password" class="form-control" placeholder="Password">
 
-        <!-- REGISTER -->
-
-        <div id="registerForm" style="display:none;">
-
-            <h5 class="mb-3">Create Account</h5>
-
-            <div class="mb-3">
-                <label>Full Name</label>
-
-                <input
-                    type="text"
-                    id="registerName"
-                    class="form-control"
-                    placeholder="Enter your name">
-            </div>
-
-            <div class="mb-3">
-                <label>Email</label>
-
-                <input
-                    type="email"
-                    id="registerEmail"
-                    class="form-control"
-                    placeholder="Enter your email">
-            </div>
-
-            <div class="mb-3">
-                <label>Password</label>
-
-                <input
-                    type="password"
-                    id="registerPassword"
-                    class="form-control"
-                    placeholder="Create a password">
-            </div>
-
-            <button
-                class="btn btn-primary w-100"
-                onclick="createAccount()">
+            <button class="btn btn-success w-100 mt-2" onclick="register()">
                 Create Account
             </button>
 
-            <p class="mt-3">
+            <p class="text-center mt-3 mb-0">
                 Already have an account?
-                <button
-                    class="btn btn-link p-0"
-                    onclick="showLogin()">
-                    Login
-                </button>
+                <a href="#" onclick="showLogin()">Login</a>
             </p>
-
         </div>
 
     </div>
 </div>
 
 
-<!-- ==================================================
-     DASHBOARD
-================================================== -->
+<!-- =========================
+     APP
+========================= -->
 
-<div id="dashboard">
+<div id="app">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+        <div class="brand">
+            AI IT Buddy 🤖
+        </div>
+
+        <div class="status">
+            ● Online
+        </div>
+    </div>
+
 
     <!-- SIDEBAR -->
 
     <aside id="sidebar" class="sidebar">
 
-        <div class="sidebar-header">
+        <button onclick="newChat()">➕ New Chat</button>
 
-            <h4>🤖 AI IT Buddy</h4>
+        <button onclick="focusSearch()">🔎 Search</button>
 
-            <button
-                class="close-sidebar"
-                onclick="toggleSidebar()">
-                ×
-            </button>
+        <button onclick="showHistory()">🕘 Chat History</button>
 
-        </div>
+        <div class="section-title">Support</div>
 
+        <button onclick="showGuide()">🛠 Troubleshooting Guide</button>
 
-        <button
-            class="menu-item"
-            onclick="focusSearch()">
-            <span>🔍</span>
-            Search
-        </button>
+        <button onclick="showSupport()">🎫 Contact IT / Support Ticket</button>
 
+        <div class="section-title">Account</div>
 
-        <button
-            class="menu-item"
-            onclick="newChat()">
-            <span>➕</span>
-            New Chat
-        </button>
+        <button onclick="showSettings()">⚙ Settings</button>
 
+        <button onclick="toggleTheme()">🌙 / ☀ Theme</button>
 
-        <button
-            class="menu-item"
-            onclick="showHistory()">
-            <span>🕘</span>
-            Search History
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="toggleTheme()">
-            <span id="themeIcon">🌙</span>
-            <span id="themeText">Dark Mode</span>
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="showSettings()">
-            <span>⚙️</span>
-            Settings
-        </button>
-
-
-        <button
-            class="menu-item"
-            onclick="logout()">
-            <span>🚪</span>
-            Logout
-        </button>
-
-
-        <div class="profile-box">
-
-            <div class="profile-name"
-                 id="profileName">
-            </div>
-
-            <div class="profile-email"
-                 id="profileEmail">
-            </div>
-
-        </div>
+        <button onclick="logout()">🚪 Logout</button>
 
     </aside>
 
 
-    <!-- TOPBAR -->
-
-    <div class="topbar">
-
-        <button
-            class="menu-btn"
-            onclick="toggleSidebar()">
-            ☰
-        </button>
-
-        <div class="brand">
-            AI <span>IT Buddy</span> 🤖
-        </div>
-
-    </div>
-
-
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
 
     <main class="main">
 
-        <!-- HERO -->
-
-        <section class="hero">
-
-            <h1>
-                Hello, <span id="welcomeName"></span> 👋
-            </h1>
-
-            <p>
-                Your student-friendly AI companion for IT support,
-                school concerns, everyday questions, and friendly
-                conversations.
-            </p>
-
-        </section>
-
-
-        <!-- FEATURES -->
-
-        <section class="row g-3">
-
-            <div class="col-md-4">
-
-                <div class="card-custom">
-
-                    <div class="icon">🤖</div>
-
-                    <h4>AI Assistant</h4>
-
-                    <p>
-                        Ask IT questions, school questions,
-                        or simply talk with your AI Buddy.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-4">
-
-                <div class="card-custom">
-
-                    <div class="icon">🛠️</div>
-
-                    <h4>IT Troubleshooting</h4>
-
-                    <p>
-                        Get step-by-step guidance for common
-                        Wi-Fi, computer, printer, and software issues.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-md-4">
-
-                <div class="card-custom">
-
-                    <div class="icon">💬</div>
-
-                    <h4>Conversational Buddy</h4>
-
-                    <p>
-                        Talk naturally in English, Bisaya,
-                        Tagalog, or mixed language.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CHAT -->
-
-        <section class="section">
-
-            <div class="section-title">
-
-                <h2>AI Assistant</h2>
-
-                <p>
-                    Ask a question or just start a conversation.
-                </p>
-
-            </div>
-
-
-            <div class="chat-container">
-
-                <div class="chat-header">
-
-                    <h4>🤖 AI IT Buddy</h4>
-
-                    <small>
-                        Online • Student-friendly assistant
-                    </small>
-
-                </div>
-
-
-                <div
-                    id="chatBox"
-                    class="chat-box">
-
-                </div>
-
-
-                <!-- IMAGE PREVIEW -->
-
-                <div
-                    id="imagePreview"
-                    class="image-preview px-3">
-
-                    <img
-                        id="previewImage"
-                        src=""
-                        alt="Uploaded image">
-
-                    <div class="mt-2">
-
-                        <button
-                            class="btn btn-sm btn-primary"
-                            onclick="analyzeImage()">
-                            🔎 Analyze Image
-                        </button>
-
-                        <button
-                            class="btn btn-sm btn-secondary"
-                            onclick="removeImage()">
-                            Remove
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- INPUT -->
-
-                <div class="chat-input">
-
-                    <div class="input-area">
-
-                        <input
-                            type="text"
-                            id="messageInput"
-                            class="form-control"
-                            placeholder="Type your message..."
-                            onkeydown="handleEnter(event)">
-
-                        <input
-                            type="file"
-                            id="imageInput"
-                            accept="image/*"
-                            hidden
-                            onchange="previewImage(event)">
-
-                        <button
-                            class="btn btn-secondary"
-                            onclick="document.getElementById('imageInput').click()">
-                            📷
-                        </button>
-
-                        <button
-                            class="btn btn-secondary"
-                            onclick="startVoiceInput()">
-                            🎤
-                        </button>
-
-                        <button
-                            class="btn btn-primary"
-                            onclick="sendMessage()">
-                            Send
-                        </button>
-
-                    </div>
-
-
-                    <!-- QUICK QUESTIONS -->
-
-                    <div class="quick-buttons">
-
-                        <button
-                            onclick="quickMessage('My Wi-Fi is not working')">
-                            📶 Wi-Fi
-                        </button>
-
-                        <button
-                            onclick="quickMessage('My computer is very slow')">
-                            💻 Slow PC
-                        </button>
-
-                        <button
-                            onclick="quickMessage('My printer is not printing')">
-                            🖨️ Printer
-                        </button>
-
-                        <button
-                            onclick="quickMessage('I have a software problem')">
-                            💿 Software
-                        </button>
-
-                        <button
-                            onclick="quickMessage('I am nervous about my presentation')">
-                            🎤 Presentation
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- TROUBLESHOOTING -->
-
-        <section class="section">
-
-            <div class="section-title">
-
-                <h2>🛠️ Troubleshooting Guide</h2>
-
-                <p>
-                    Quick solutions for common IT problems.
-                </p>
-
-            </div>
-
-
-            <div class="accordion" id="troubleshootingAccordion">
-
-                <div class="accordion-item">
-
-                    <h2 class="accordion-header">
-
-                        <button
-                            class="accordion-button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#wifiHelp">
-
-                            📶 Wi-Fi / Internet
-                        </button>
-
-                    </h2>
-
-                    <div
-                        id="wifiHelp"
-                        class="accordion-collapse collapse">
-
-                        <div class="accordion-body">
-
-                            Check if Wi-Fi is enabled,
-                            reconnect to the network,
-                            restart your router,
-                            and try another device.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="accordion-item">
-
-                    <h2 class="accordion-header">
-
-                        <button
-                            class="accordion-button collapsed"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#pcHelp">
-
-                            💻 Slow Computer
-                        </button>
-
-                    </h2>
-
-                    <div
-                        id="pcHelp"
-                        class="accordion-collapse collapse">
-
-                        <div class="accordion-body">
-
-                            Close unnecessary applications,
-                            restart your computer,
-                            check available storage,
-                            and update your system.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="accordion-item">
-
-                    <h2 class="accordion-header">
-
-                        <button
-                            class="accordion-button collapsed"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#printerHelp">
-
-                            🖨️ Printer Problem
-                        </button>
-
-                    </h2>
-
-                    <div
-                        id="printerHelp"
-                        class="accordion-collapse collapse">
-
-                        <div class="accordion-body">
-
-                            Check the printer connection,
-                            paper, ink/toner, default printer,
-                            and restart the printer.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CONTACT IT -->
-
-        <section class="section">
-
-            <div class="section-title">
-
-                <h2>📩 Contact IT</h2>
-
-                <p>
-                    If the problem is not solved, submit a support request.
-                </p>
-
-            </div>
-
-
-            <div class="card-custom">
-
-                <div class="mb-3">
-
-                    <label>
-                        Problem
-                    </label>
-
-                    <input
-                        id="ticketProblem"
-                        class="form-control"
-                        placeholder="Describe your problem">
-
-                </div>
-
-
-                <div class="mb-3">
-
-                    <label>
-                        Priority
-                    </label>
-
-                    <select
-                        id="ticketPriority"
-                        class="form-control">
-
-                        <option>Low</option>
-                        <option>Medium</option>
-                        <option>High</option>
-
-                    </select>
-
-                </div>
-
-
-                <button
-                    class="btn btn-primary"
-                    onclick="submitTicket()">
-
-                    Submit IT Request
-
-                </button>
-
-
-                <div
-                    id="ticketResult"
-                    class="mt-3">
-
-                </div>
-
-            </div>
-
-        </section>
+        <section id="chatArea" class="chat-area"></section>
 
     </main>
 
 
-    <footer>
+    <!-- INPUT -->
 
-        AI IT Buddy © 2026<br>
+    <div class="input-area">
 
-        Student-Friendly AI IT Help Desk Prototype
+        <div class="input-box">
 
-    </footer>
+            <img id="imagePreview" class="preview">
+
+            <div class="input-row">
+
+                <button class="icon-btn"
+                        title="Upload image"
+                        onclick="document.getElementById('imageInput').click()">
+                    📷
+                </button>
+
+                <input type="file"
+                       id="imageInput"
+                       accept="image/*"
+                       hidden
+                       onchange="previewImage(event)">
+
+                <textarea
+                    id="messageInput"
+                    class="form-control"
+                    placeholder="Message AI IT Buddy..."
+                    rows="1"></textarea>
+
+                <button class="icon-btn"
+                        title="Voice input"
+                        onclick="startVoiceInput()">
+                    🎤
+                </button>
+
+                <button class="send-btn"
+                        onclick="sendMessage()">
+                    ➤
+                </button>
+
+            </div>
+
+            <div class="quick-actions">
+
+                <button onclick="quickMessage('My WiFi is not working.')">
+                    📶 WiFi Help
+                </button>
+
+                <button onclick="quickMessage('My computer is slow.')">
+                    💻 Computer
+                </button>
+
+                <button onclick="quickMessage('I need help with school.')">
+                    🎓 School
+                </button>
+
+                <button onclick="quickMessage('I just want to rant.')">
+                    💬 Just Rant
+                </button>
+
+                <button onclick="quickMessage('I need some advice.')">
+                    💡 Advice
+                </button>
+
+            </div>
+
+        </div>
+    </div>
 
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
 <script>
 
-/* ==================================================
-   AUTHENTICATION
-================================================== */
+/* =========================================================
+   USER / ACCOUNT
+========================================================= */
+
+let currentUser = localStorage.getItem("currentUser") || null;
 
 function showRegister() {
-
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("registerForm").style.display = "block";
-
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("registerBox").classList.remove("hidden");
 }
-
 
 function showLogin() {
-
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("registerForm").style.display = "none";
-
+    document.getElementById("registerBox").classList.add("hidden");
+    document.getElementById("loginBox").classList.remove("hidden");
 }
 
+function register() {
 
-function createAccount() {
+    const name = document.getElementById("regName").value.trim();
+    const username = document.getElementById("regUsername").value.trim();
+    const password = document.getElementById("regPassword").value;
 
-    const name =
-        document.getElementById("registerName").value.trim();
-
-    const email =
-        document.getElementById("registerEmail").value.trim();
-
-    const password =
-        document.getElementById("registerPassword").value;
-
-    if (!name || !email || !password) {
-
+    if (!name || !username || !password) {
         alert("Please complete all fields.");
-
         return;
     }
 
+    const users = JSON.parse(localStorage.getItem("users") || "{}");
 
-    const account = {
-        name: name,
-        email: email,
-        password: password
+    if (users[username]) {
+        alert("Username already exists.");
+        return;
+    }
+
+    users[username] = {
+        name,
+        password
     };
 
+    localStorage.setItem("users", JSON.stringify(users));
 
-    localStorage.setItem(
-        "itBuddyAccount",
-        JSON.stringify(account)
-    );
-
-
-    alert("Account created successfully!");
+    alert("Account created successfully.");
 
     showLogin();
 }
 
+function login() {
 
-function loginAccount() {
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
 
-    const email =
-        document.getElementById("loginEmail").value.trim();
+    const users = JSON.parse(localStorage.getItem("users") || "{}");
 
-    const password =
-        document.getElementById("loginPassword").value;
-
-
-    const savedAccount =
-        JSON.parse(
-            localStorage.getItem("itBuddyAccount")
-        );
-
-
-    if (!savedAccount) {
-
-        alert("No account found. Please create an account first.");
-
+    if (!users[username] || users[username].password !== password) {
+        alert("Invalid username or password.");
         return;
     }
 
+    currentUser = username;
+    localStorage.setItem("currentUser", username);
 
-    if (
-        email === savedAccount.email &&
-        password === savedAccount.password
-    ) {
-
-        localStorage.setItem(
-            "itBuddyLoggedIn",
-            "true"
-        );
-
-        showDashboard();
-
-    } else {
-
-        alert("Incorrect email or password.");
-
-    }
+    startApp();
 }
-
-
-function showDashboard() {
-
-    document.getElementById("authPage").style.display = "none";
-
-    document.getElementById("dashboard").style.display = "block";
-
-
-    const account =
-        JSON.parse(
-            localStorage.getItem("itBuddyAccount")
-        );
-
-
-    if (account) {
-
-        document.getElementById("welcomeName").textContent =
-            account.name;
-
-        document.getElementById("profileName").textContent =
-            account.name;
-
-        document.getElementById("profileEmail").textContent =
-            account.email;
-
-    }
-
-
-    loadTheme();
-
-    initializeChat();
-
-}
-
 
 function logout() {
 
-    localStorage.removeItem("itBuddyLoggedIn");
+    localStorage.removeItem("currentUser");
 
-    location.reload();
+    currentUser = null;
+
+    document.getElementById("app").style.display = "none";
+    document.getElementById("authScreen").style.display = "flex";
+}
+
+function startApp() {
+
+    document.getElementById("authScreen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    loadTheme();
+    loadCurrentChat();
+
+    /*
+       Important:
+       We intentionally DO NOT add the old long
+       "You can ask me about..." starter guide.
+       The chat starts clean.
+    */
 
 }
 
-
-/* ==================================================
-   AUTO LOGIN
-================================================== */
-
-window.addEventListener("DOMContentLoaded", function() {
-
-    if (
-        localStorage.getItem("itBuddyLoggedIn") === "true"
-    ) {
-
-        showDashboard();
-
-    }
-
-});
-
-
-/* ==================================================
-   SIDEBAR
-================================================== */
-
-function toggleSidebar() {
-
-    document
-        .getElementById("sidebar")
-        .classList.toggle("open");
-
+if (currentUser) {
+    startApp();
 }
 
 
-/* ==================================================
-   THEME
-================================================== */
+/* =========================================================
+   CHAT STATE / MEMORY
+========================================================= */
 
-function toggleTheme() {
+let conversation = [];
 
-    document.body.classList.toggle("dark");
+let currentImage = null;
 
-    const dark =
-        document.body.classList.contains("dark");
+let lastIntent = "";
+let lastTopic = "";
+let lastLanguage = "English";
 
+function loadCurrentChat() {
 
-    localStorage.setItem(
-        "itBuddyTheme",
-        dark ? "dark" : "light"
+    conversation = JSON.parse(
+        localStorage.getItem("currentChat_" + currentUser) || "[]"
     );
 
+    const chatArea = document.getElementById("chatArea");
 
-    updateThemeText();
+    chatArea.innerHTML = "";
 
-}
-
-
-function loadTheme() {
-
-    const theme =
-        localStorage.getItem("itBuddyTheme");
-
-
-    if (theme === "dark") {
-
-        document.body.classList.add("dark");
-
-    }
-
-
-    updateThemeText();
-
-}
-
-
-function updateThemeText() {
-
-    const dark =
-        document.body.classList.contains("dark");
-
-
-    document.getElementById("themeIcon").textContent =
-        dark ? "☀️" : "🌙";
-
-    document.getElementById("themeText").textContent =
-        dark ? "Light Mode" : "Dark Mode";
-
-}
-
-
-/* ==================================================
-   SETTINGS
-================================================== */
-
-function showSettings() {
-
-    const account =
-        JSON.parse(
-            localStorage.getItem("itBuddyAccount")
-        );
-
-
-    if (account) {
-
-        alert(
-            "Profile Settings\n\n" +
-            "Name: " + account.name + "\n" +
-            "Email: " + account.email
-        );
-
-    }
-
-}
-
-
-/* ==================================================
-   SEARCH
-================================================== */
-
-function focusSearch() {
-
-    const messageInput =
-        document.getElementById("messageInput");
-
-
-    messageInput.focus();
-
-    toggleSidebar();
-
-}
-
-
-function saveSearch(text) {
-
-    let history =
-        JSON.parse(
-            localStorage.getItem("itBuddySearchHistory")
-        ) || [];
-
-
-    history.unshift(text);
-
-
-    history =
-        [...new Set(history)].slice(0, 20);
-
-
-    localStorage.setItem(
-        "itBuddySearchHistory",
-        JSON.stringify(history)
-    );
-
-}
-
-
-function showHistory() {
-
-    const history =
-        JSON.parse(
-            localStorage.getItem("itBuddySearchHistory")
-        ) || [];
-
-
-    if (history.length === 0) {
-
-        alert("No search history yet.");
-
-        return;
-
-    }
-
-
-    alert(
-        "Recent Search History:\n\n" +
-        history.join("\n")
-    );
-
-}
-
-
-/* ==================================================
-   NEW CHAT
-================================================== */
-
-function newChat() {
-
-    document.getElementById("chatBox").innerHTML = "";
-
-    localStorage.removeItem("itBuddyChat");
-
-    initializeChat();
-
-    toggleSidebar();
-
-}
-
-
-/* ==================================================
-   CHAT
-================================================== */
-
-function initializeChat() {
-
-    const saved =
-        JSON.parse(
-            localStorage.getItem("itBuddyChat")
-        ) || [];
-
-
-    if (saved.length === 0) {
+    if (conversation.length === 0) {
 
         addMessage(
-            "Hello! 👋 I'm AI IT Buddy. You can ask me about IT problems, school concerns, or even just talk to me. Pwede English, Bisaya, Tagalog, or mix. 😊",
-            "bot"
+            "Hi! I'm AI IT Buddy 🤖\nHow can I help you today?",
+            "bot",
+            false
         );
 
     } else {
 
-        saved.forEach(function(message) {
+        conversation.forEach(item => {
 
             addMessage(
-                message.text,
-                message.type,
+                item.text,
+                item.sender,
                 false
             );
 
         });
 
     }
-
 }
 
-
-function saveChat(text, type) {
-
-    let chat =
-        JSON.parse(
-            localStorage.getItem("itBuddyChat")
-        ) || [];
-
-
-    chat.push({
-        text: text,
-        type: type
-    });
-
-
-    chat =
-        chat.slice(-50);
-
+function saveConversation() {
 
     localStorage.setItem(
-        "itBuddyChat",
-        JSON.stringify(chat)
+        "currentChat_" + currentUser,
+        JSON.stringify(conversation)
     );
-
 }
 
+function addMessage(text, sender, save = true) {
 
-function addMessage(text, type, save = true) {
+    const chatArea = document.getElementById("chatArea");
 
-    const chatBox =
-        document.getElementById("chatBox");
+    const message = document.createElement("div");
 
+    message.className =
+        "message " + sender;
 
-    const row =
-        document.createElement("div");
+    const bubble = document.createElement("div");
 
+    bubble.className = "bubble";
 
-    row.className =
-        "message-row " + type;
+    if (sender === "bot") {
 
+        const label = document.createElement("div");
 
-    const bubble =
-        document.createElement("div");
+        label.className = "bot-label";
 
+        label.textContent = "AI IT Buddy";
 
-    bubble.className =
-        "bubble";
-
-
-    if (type === "bot") {
-
-        bubble.innerHTML =
-            `<strong>IT Buddy 🤖</strong><br>` +
-            formatText(text) +
-
-            `<div class="reactions">
-
-                <button onclick="react(this, '👍')">
-                    👍
-                </button>
-
-                <button onclick="react(this, '❤️')">
-                    ❤️
-                </button>
-
-                <button onclick="react(this, '😂')">
-                    😂
-                </button>
-
-                <button onclick="react(this, '😕')">
-                    😕
-                </button>
-
-                <button onclick="react(this, '👎')">
-                    👎
-                </button>
-
-            </div>`;
-
-    } else {
-
-        bubble.textContent = text;
-
+        bubble.appendChild(label);
     }
 
+    const content = document.createElement("div");
 
-    row.appendChild(bubble);
+    content.textContent = text;
 
-    chatBox.appendChild(row);
+    bubble.appendChild(content);
 
-    chatBox.scrollTop =
-        chatBox.scrollHeight;
+    message.appendChild(bubble);
 
+    chatArea.appendChild(message);
+
+    chatArea.scrollTop = chatArea.scrollHeight;
 
     if (save) {
 
-        saveChat(text, type);
+        conversation.push({
+            sender,
+            text,
+            time: new Date().toISOString()
+        });
 
+        saveConversation();
     }
 
-}
-
-
-function formatText(text) {
-
-    return text
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\n/g, "<br>");
-
-}
-
-
-/* ==================================================
-   REACTIONS
-================================================== */
-
-function react(button, reaction) {
-
-    const parent =
-        button.parentElement;
-
-
-    if (
-        parent.querySelector(".reaction-message")
-    ) {
-
-        return;
-
+    if (sender === "bot") {
+        addReactions(message);
     }
+}
 
+function addReactions(message) {
 
-    const message =
-        document.createElement("div");
+    const reactions = document.createElement("div");
 
+    reactions.className = "reactions";
 
-    message.className =
-        "reaction-message";
+    ["👍","❤️","😂","😕","👎"].forEach(icon => {
 
+        const button = document.createElement("button");
 
-    message.textContent =
-        "You reacted " + reaction;
+        button.textContent = icon;
 
+        button.onclick = () => {
+            button.style.opacity = "1";
+        };
 
-    parent.appendChild(message);
+        reactions.appendChild(button);
+    });
 
+    message.appendChild(reactions);
 }
 
 
-/* ==================================================
-   ENTER KEY
-================================================== */
-
-function handleEnter(event) {
-
-    if (event.key === "Enter") {
-
-        sendMessage();
-
-    }
-
-}
-
-
-/* ==================================================
+/* =========================================================
    SEND MESSAGE
-================================================== */
+========================================================= */
 
 function sendMessage() {
 
-    const input =
-        document.getElementById("messageInput");
+    const input = document.getElementById("messageInput");
 
+    const text = input.value.trim();
 
-    const text =
-        input.value.trim();
+    if (!text && !currentImage) return;
 
-
-    if (!text) {
-
-        return;
-
+    if (text) {
+        addMessage(text, "user");
     }
-
-
-    saveSearch(text);
-
-    addMessage(text, "user");
 
     input.value = "";
 
+    if (currentImage) {
+
+        addMessage(
+            "📷 Image received. I'll check what I can determine from the uploaded image.",
+            "bot"
+        );
+
+        currentImage = null;
+
+        document.getElementById("imagePreview").style.display = "none";
+
+        setTimeout(() => {
+            analyzeImage();
+        }, 500);
+
+        return;
+    }
 
     showTyping();
 
-
-    setTimeout(function() {
+    setTimeout(() => {
 
         removeTyping();
 
-
-        const response =
-            generateResponse(text);
-
+        const response = generateResponse(text);
 
         addMessage(response, "bot");
 
-    }, 700);
-
+    }, 500 + Math.random() * 700);
 }
-
 
 function quickMessage(text) {
 
-    document.getElementById("messageInput").value =
-        text;
+    document.getElementById("messageInput").value = text;
 
     sendMessage();
-
 }
 
 
-/* ==================================================
+/* =========================================================
+   ENTER TO SEND
+========================================================= */
+
+document.getElementById("messageInput")
+.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter" && !event.shiftKey) {
+
+        event.preventDefault();
+
+        sendMessage();
+    }
+
+});
+
+
+/* =========================================================
    TYPING INDICATOR
-================================================== */
+========================================================= */
 
 function showTyping() {
 
-    const chatBox =
-        document.getElementById("chatBox");
+    const chatArea = document.getElementById("chatArea");
 
+    const typing = document.createElement("div");
 
-    const row =
-        document.createElement("div");
+    typing.id = "typingIndicator";
 
+    typing.className = "message bot";
 
-    row.id =
-        "typingIndicator";
-
-
-    row.className =
-        "message-row bot";
-
-
-    row.innerHTML = `
-
+    typing.innerHTML = `
         <div class="bubble">
-
+            <div class="bot-label">AI IT Buddy</div>
             <div class="typing">
-
-                <span></span>
-                <span></span>
-                <span></span>
-
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
             </div>
-
         </div>
-
     `;
 
+    chatArea.appendChild(typing);
 
-    chatBox.appendChild(row);
-
-    chatBox.scrollTop =
-        chatBox.scrollHeight;
-
+    chatArea.scrollTop = chatArea.scrollHeight;
 }
-
 
 function removeTyping() {
 
-    const typing =
-        document.getElementById("typingIndicator");
-
+    const typing = document.getElementById("typingIndicator");
 
     if (typing) {
-
         typing.remove();
-
     }
-
 }
 
 
-/* ==================================================
+/* =========================================================
    LANGUAGE DETECTION
-================================================== */
+========================================================= */
 
 function detectLanguage(text) {
 
-    const msg =
-        text.toLowerCase();
-
+    const t = text.toLowerCase();
 
     const bisayaWords = [
         "ako",
-        "ikaw",
-        "unsa",
-        "ngano",
-        "kanang",
-        "kapoy",
-        "kaayo",
-        "dili",
-        "wala",
-        "naa",
-        "gusto",
-        "buhaton",
-        "buhat",
-        "pwede",
-        "sige",
-        "salamat",
-        "tabang",
-        "maka",
         "ko",
         "nako",
         "nimo",
-        "imong",
-        "murag",
+        "mo",
+        "kaayo",
+        "kay",
+        "unya",
+        "wala",
+        "naa",
+        "dili",
+        "di",
+        "unsa",
+        "ngano",
+        "kanang",
         "gani",
+        "gyud",
+        "jud",
+        "buhaton",
+        "kapoy",
+        "ganahan",
+        "gusto",
+        "tabang",
+        "pwede",
+        "sige",
         "lang",
-        "man",
-        "ba",
-        "oi",
-        "bitaw"
+        "karon",
+        "adto",
+        "diri",
+        "sakit",
+        "lisod",
+        "murag",
+        "bitaw",
+        "ka",
+        "nako",
+        "pud"
     ];
-
 
     const tagalogWords = [
         "ako",
+        "ko",
+        "mo",
         "ikaw",
-        "ano",
-        "bakit",
-        "paano",
         "hindi",
         "wala",
         "may",
-        "gusto",
-        "salamat",
-        "tulong",
-        "pwede",
-        "paano",
-        "kailangan",
-        "nakakapagod",
-        "pagod",
-        "saan",
+        "mga",
+        "ang",
+        "ng",
+        "na",
+        "ito",
+        "iyan",
         "bakit",
-        "dapat"
+        "paano",
+        "saan",
+        "gusto",
+        "kailangan",
+        "tulong",
+        "pagod",
+        "masaya",
+        "malungkot",
+        "problema",
+        "araw",
+        "ngayon",
+        "mamaya",
+        "salamat",
+        "kasi"
     ];
 
+    let bisayaScore = 0;
+    let tagalogScore = 0;
 
-    let bisayaCount = 0;
-    let tagalogCount = 0;
+    bisayaWords.forEach(word => {
 
-
-    bisayaWords.forEach(function(word) {
-
-        if (msg.includes(word)) {
-
-            bisayaCount++;
-
+        if (new RegExp("\\b" + word + "\\b").test(t)) {
+            bisayaScore++;
         }
 
     });
 
+    tagalogWords.forEach(word => {
 
-    tagalogWords.forEach(function(word) {
-
-        if (msg.includes(word)) {
-
-            tagalogCount++;
-
+        if (new RegExp("\\b" + word + "\\b").test(t)) {
+            tagalogScore++;
         }
 
     });
 
+    const englishScore =
+        (t.match(/\b(the|is|are|am|my|you|your|what|why|how|help|need|want|feel|school|today|problem|please|can|just)\b/g) || []).length;
 
     if (
-        bisayaCount > 0 &&
-        tagalogCount > 0
+        bisayaScore > 0 &&
+        tagalogScore > 0 &&
+        englishScore > 0
     ) {
-
-        return "mixed";
-
+        return "Mixed";
     }
 
-
-    if (bisayaCount > tagalogCount) {
-
-        return "bisaya";
-
+    if (bisayaScore > tagalogScore && bisayaScore > englishScore) {
+        return "Bisaya";
     }
 
-
-    if (tagalogCount > bisayaCount) {
-
-        return "tagalog";
-
+    if (tagalogScore > bisayaScore && tagalogScore > englishScore) {
+        return "Tagalog";
     }
 
+    if (englishScore > 0) {
+        return "English";
+    }
 
-    return "english";
+    if (bisayaScore > 0) {
+        return "Bisaya";
+    }
 
+    if (tagalogScore > 0) {
+        return "Tagalog";
+    }
+
+    return "English";
 }
 
 
-/* ==================================================
-   QUESTION TYPE
-================================================== */
+/* =========================================================
+   INTENT DETECTION
+========================================================= */
 
 function detectQuestionType(text) {
 
-    const msg =
-        text.toLowerCase();
-
+    const t = text.toLowerCase();
 
     if (
-        msg.includes("hello") ||
-        msg.includes("hi") ||
-        msg.includes("hey") ||
-        msg.includes("good morning") ||
-        msg.includes("good afternoon") ||
-        msg.includes("good evening")
+        t.includes("rant") ||
+        t.includes("just want to talk") ||
+        t.includes("just want to vent") ||
+        t.includes("gusto lang ko mag rant") ||
+        t.includes("mag rant lang")
     ) {
-
-        return "greeting";
-
+        return "rant";
     }
 
+    if (
+        t.includes("advice") ||
+        t.includes("what should i do") ||
+        t.includes("unsay buhaton") ||
+        t.includes("unsa akong buhaton") ||
+        t.includes("anong gagawin ko") ||
+        t.includes("ano ang dapat kong gawin")
+    ) {
+        return "advice";
+    }
 
     if (
-        msg.includes("thank you") ||
-        msg.includes("thanks") ||
-        msg.includes("salamat")
+        t.includes("thank") ||
+        t.includes("salamat") ||
+        t.includes("thanks")
     ) {
-
         return "thanks";
-
     }
-
 
     if (
-        msg.includes("what is") ||
-        msg.includes("what are") ||
-        msg.includes("unsa ang") ||
-        msg.includes("ano ang")
+        /^(hi|hello|hey|yo|good morning|good afternoon|good evening)\b/i.test(t)
     ) {
-
-        return "definition";
-
+        return "greeting";
     }
-
 
     if (
-        msg.includes("how to") ||
-        msg.includes("how do i") ||
-        msg.includes("paano")
+        t.includes("?") ||
+        t.startsWith("how ") ||
+        t.startsWith("what ") ||
+        t.startsWith("why ") ||
+        t.startsWith("can you") ||
+        t.startsWith("pwede") ||
+        t.startsWith("unsa")
     ) {
-
-        return "howto";
-
+        return "question";
     }
 
-
-    return "general";
-
+    return "conversation";
 }
 
 
-/* ==================================================
+/* =========================================================
    IT TOPIC DETECTION
-================================================== */
+========================================================= */
 
 function detectITTopic(text) {
 
-    const msg =
-        text.toLowerCase();
-
+    const t = text.toLowerCase();
 
     if (
-        msg.includes("wifi") ||
-        msg.includes("wi-fi") ||
-        msg.includes("internet") ||
-        msg.includes("network") ||
-        msg.includes("no connection") ||
-        msg.includes("can't connect")
+        t.includes("wifi") ||
+        t.includes("internet") ||
+        t.includes("connection") ||
+        t.includes("connect")
     ) {
-
         return "wifi";
-
     }
 
-
     if (
-        msg.includes("slow computer") ||
-        msg.includes("computer is slow") ||
-        msg.includes("pc is slow") ||
-        msg.includes("laptop is slow") ||
-        msg.includes("slow laptop") ||
-        msg.includes("hang") ||
-        msg.includes("lagging")
+        t.includes("printer") ||
+        t.includes("print") ||
+        t.includes("printing")
     ) {
-
-        return "slow";
-
-    }
-
-
-    if (
-        msg.includes("printer") ||
-        msg.includes("printing") ||
-        msg.includes("print")
-    ) {
-
         return "printer";
-
     }
 
-
     if (
-        msg.includes("password") ||
-        msg.includes("account") ||
-        msg.includes("login") ||
-        msg.includes("log in")
+        t.includes("computer") ||
+        t.includes("pc") ||
+        t.includes("laptop") ||
+        t.includes("slow")
     ) {
-
-        return "account";
-
+        return "computer";
     }
 
-
     if (
-        msg.includes("ip address") ||
-        msg.includes("what is ip")
+        t.includes("keyboard") ||
+        t.includes("mouse") ||
+        t.includes("monitor") ||
+        t.includes("screen")
     ) {
-
-        return "ip";
-
-    }
-
-
-    if (
-        msg.includes("storage") ||
-        msg.includes("disk space") ||
-        msg.includes("full storage")
-    ) {
-
-        return "storage";
-
-    }
-
-
-    if (
-        msg.includes("software") ||
-        msg.includes("application") ||
-        msg.includes("app") ||
-        msg.includes("program")
-    ) {
-
-        return "software";
-
-    }
-
-
-    if (
-        msg.includes("keyboard") ||
-        msg.includes("mouse") ||
-        msg.includes("monitor") ||
-        msg.includes("hardware")
-    ) {
-
         return "hardware";
-
     }
-
 
     if (
-        msg.includes("virus") ||
-        msg.includes("malware") ||
-        msg.includes("hack") ||
-        msg.includes("security")
+        t.includes("virus") ||
+        t.includes("malware") ||
+        t.includes("hack") ||
+        t.includes("security") ||
+        t.includes("password")
     ) {
-
         return "security";
-
     }
 
+    if (
+        t.includes("code") ||
+        t.includes("coding") ||
+        t.includes("html") ||
+        t.includes("css") ||
+        t.includes("javascript") ||
+        t.includes("programming")
+    ) {
+        return "programming";
+    }
 
-    return null;
+    if (
+        t.includes("app") ||
+        t.includes("software") ||
+        t.includes("install") ||
+        t.includes("error")
+    ) {
+        return "software";
+    }
 
+    return "";
 }
 
 
-/* ==================================================
-   IT RESPONSE
-================================================== */
-
-function itResponse(topic, language) {
-
-    if (topic === "wifi") {
-
-        if (
-            language === "bisaya" ||
-            language === "mixed"
-        ) {
-
-            return `
-<strong>Let's fix your Wi-Fi 📶</strong><br><br>
-
-1. Check if Wi-Fi is turned on.<br>
-2. Turn Wi-Fi off, wait a few seconds, then turn it back on.<br>
-3. Forget the network and reconnect using the correct password.<br>
-4. Restart your router if you have access to it.<br>
-5. Try another device to check if the problem is only on your device.<br><br>
-
-If dili gihapon mo-connect, tell me what error message you're seeing.
-`;
-
-        }
-
-
-        if (language === "tagalog") {
-
-            return `
-<strong>Ayusin natin ang Wi-Fi 📶</strong><br><br>
-
-1. Check kung naka-on ang Wi-Fi.<br>
-2. I-off ang Wi-Fi, maghintay ng ilang segundo, then i-on ulit.<br>
-3. Forget the network, then reconnect gamit ang tamang password.<br>
-4. I-restart ang router kung may access ka.<br>
-5. Try another device para malaman kung device-specific ang problem.<br><br>
-
-Kung hindi pa rin gumana, sabihin sa akin kung anong error message ang lumalabas.
-`;
-
-        }
-
-
-        return `
-<strong>Let's fix your Wi-Fi 📶</strong><br><br>
-
-1. Check if Wi-Fi is turned on.<br>
-2. Turn Wi-Fi off, wait a few seconds, then turn it back on.<br>
-3. Forget the network and reconnect using the correct password.<br>
-4. Restart your router if you have access to it.<br>
-5. Try another device to see whether the problem is device-specific.<br><br>
-
-If it still doesn't connect, tell me the error message you're seeing.
-`;
-
-    }
-
-
-    if (topic === "slow") {
-
-        return `
-<strong>Let's check your computer's performance 💻</strong><br><br>
-
-Try these steps:<br>
-
-1. Close apps you are not currently using.<br>
-2. Restart your computer.<br>
-3. Check if your storage is almost full.<br>
-4. Check for system updates.<br>
-5. If the problem continues, tell me when the computer becomes slow — during startup, browsing, gaming, or opening programs.
-`;
-
-    }
-
-
-    if (topic === "printer") {
-
-        return `
-<strong>Let's troubleshoot your printer 🖨️</strong><br><br>
-
-1. Make sure the printer is powered on.<br>
-2. Check the USB or Wi-Fi connection.<br>
-3. Check if paper is loaded correctly.<br>
-4. Check the printer queue for stuck jobs.<br>
-5. Try printing a test page.<br><br>
-
-If it still doesn't work, tell me the printer model and what happens when you try to print.
-`;
-
-    }
-
-
-    if (topic === "account") {
-
-        return `
-<strong>Let's check your account problem 🔐</strong><br><br>
-
-First, make sure you are using the correct username or email.<br><br>
-
-If you forgot your password, use the service's official password-reset option. Avoid sharing your password or verification codes with anyone.<br><br>
-
-Tell me what happens when you try to log in, such as an error message or incorrect-password notice.
-`;
-
-    }
-
-
-    if (topic === "ip") {
-
-        return `
-<strong>What is an IP address? 🌐</strong><br><br>
-
-An IP address is a number used to identify a device on a network. Think of it like an address that helps network traffic know where to go.<br><br>
-
-For example, a device might have an address such as <strong>192.168.1.10</strong> on a local network.
-`;
-
-    }
-
-
-    if (topic === "storage") {
-
-        return `
-<strong>Let's check your storage 💾</strong><br><br>
-
-If your storage is almost full, try checking your Downloads folder, Recycle Bin, large videos, and applications you no longer need.<br><br>
-
-Avoid deleting important system files. If you're unsure about a file, ask me before removing it.
-`;
-
-    }
-
-
-    if (topic === "software") {
-
-        return `
-<strong>Let's troubleshoot the software problem 💿</strong><br><br>
-
-Tell me:<br>
-
-1. What application or software are you using?<br>
-2. What were you trying to do?<br>
-3. What happened instead?<br>
-4. Is there an error message?<br><br>
-
-If you can send a screenshot of the error, I can help you understand what it shows.
-`;
-
-    }
-
-
-    if (topic === "hardware") {
-
-        return `
-<strong>Let's check the hardware 🔧</strong><br><br>
-
-Tell me which device is having the problem — keyboard, mouse, monitor, laptop, or another component.<br><br>
-
-Also describe what happens when you use it. For example: "The keyboard is not responding" or "The monitor has no display."
-`;
-
-    }
-
-
-    if (topic === "security") {
-
-        return `
-<strong>Let's handle the security concern 🔐</strong><br><br>
-
-Avoid clicking suspicious links or downloading unknown files. Do not share passwords, verification codes, or other private account information.<br><br>
-
-If you think your account may be compromised, use the service's official security or password-reset process and tell a trusted adult or your IT support team if you need help.
-`;
-
-    }
-
-
-    return null;
-
-}
-
-
-/* ==================================================
-   CONVERSATIONAL TOPIC DETECTION
-================================================== */
+/* =========================================================
+   CONVERSATION TOPIC DETECTION
+========================================================= */
 
 function detectConversationTopic(text) {
 
-    const msg =
-        text.toLowerCase();
-
-
-    // SCHOOL
+    const t = text.toLowerCase();
 
     if (
-        msg.includes("assignment") ||
-        msg.includes("project") ||
-        msg.includes("exam") ||
-        msg.includes("quiz") ||
-        msg.includes("school") ||
-        msg.includes("teacher") ||
-        msg.includes("class") ||
-        msg.includes("presentation") ||
-        msg.includes("report") ||
-        msg.includes("homework")
+        t.includes("kapoy") ||
+        t.includes("tired") ||
+        t.includes("exhausted") ||
+        t.includes("pagod") ||
+        t.includes("drained")
     ) {
-
-        return "school";
-
+        return "tired";
     }
 
-
-    // STRESS
-
     if (
-        msg.includes("kapoy") ||
-        msg.includes("tired") ||
-        msg.includes("stress") ||
-        msg.includes("stressed") ||
-        msg.includes("overwhelmed") ||
-        msg.includes("pressure") ||
-        msg.includes("burnout") ||
-        msg.includes("pagod")
+        t.includes("sad") ||
+        t.includes("malungkot") ||
+        t.includes("mingaw") ||
+        t.includes("lonely") ||
+        t.includes("alone")
     ) {
-
-        return "stress";
-
+        return "sad";
     }
 
-
-    // NERVOUS
+    if (
+        t.includes("frustrated") ||
+        t.includes("frustrated ko") ||
+        t.includes("inis") ||
+        t.includes("annoyed") ||
+        t.includes("irita") ||
+        t.includes("fed up")
+    ) {
+        return "frustrated";
+    }
 
     if (
-        msg.includes("nervous") ||
-        msg.includes("scared") ||
-        msg.includes("afraid") ||
-        msg.includes("kulba") ||
-        msg.includes("nahadlok") ||
-        msg.includes("anxious") ||
-        msg.includes("worried") ||
-        msg.includes("kabado")
+        t.includes("nervous") ||
+        t.includes("nerbyos") ||
+        t.includes("kabado") ||
+        t.includes("scared") ||
+        t.includes("worried") ||
+        t.includes("anxious")
     ) {
-
         return "nervous";
-
     }
 
-
-    // FRIENDSHIP
+    if (
+        t.includes("assignment") ||
+        t.includes("exam") ||
+        t.includes("quiz") ||
+        t.includes("presentation") ||
+        t.includes("teacher") ||
+        t.includes("school") ||
+        t.includes("class") ||
+        t.includes("subject")
+    ) {
+        return "school";
+    }
 
     if (
-        msg.includes("friend") ||
-        msg.includes("friends") ||
-        msg.includes("amigo") ||
-        msg.includes("misunderstanding") ||
-        msg.includes("away") ||
-        msg.includes("nag-away") ||
-        msg.includes("friendship")
+        t.includes("friend") ||
+        t.includes("friendship") ||
+        t.includes("kaibigan") ||
+        t.includes("barkada")
     ) {
-
         return "friendship";
-
     }
 
-
-    // ADVICE
-
     if (
-        msg.includes("what should i do") ||
-        msg.includes("what do i do") ||
-        msg.includes("unsa akong buhaton") ||
-        msg.includes("unsay buhaton") ||
-        msg.includes("ano ang dapat kong gawin") ||
-        msg.includes("help me decide") ||
-        msg.includes("should i")
+        t.includes("motivation") ||
+        t.includes("motivated") ||
+        t.includes("give up") ||
+        t.includes("walay gana") ||
+        t.includes("wala koy gana")
     ) {
-
-        return "advice";
-
-    }
-
-
-    // MOTIVATION
-
-    if (
-        msg.includes("unmotivated") ||
-        msg.includes("no motivation") ||
-        msg.includes("lazy") ||
-        msg.includes("walay gana") ||
-        msg.includes("dili ko ganahan") ||
-        msg.includes("give up")
-    ) {
-
         return "motivation";
-
     }
-
-
-    // CASUAL
 
     if (
-        msg.includes("bored") ||
-        msg.includes("boring") ||
-        msg.includes("haha") ||
-        msg.includes("lol") ||
-        msg.includes("bro") ||
-        msg.includes("istorya") ||
-        msg.includes("talk to me")
+        t.includes("overwhelmed") ||
+        t.includes("overwhelm") ||
+        t.includes("too much") ||
+        t.includes("daghan kaayo") ||
+        t.includes("sobrang dami")
     ) {
-
-        return "casual";
-
+        return "overwhelmed";
     }
 
-
-    return null;
-
+    return "general";
 }
 
 
-/* ==================================================
-   CONVERSATIONAL RESPONSE
-================================================== */
+/* =========================================================
+   CONTEXT HELPERS
+========================================================= */
+
+function getRecentUserMessages() {
+
+    return conversation
+        .filter(item => item.sender === "user")
+        .slice(-3)
+        .map(item => item.text)
+        .join(" ");
+}
+
+function hasRecentTopic(topic) {
+
+    return getRecentUserMessages()
+        .toLowerCase()
+        .includes(topic);
+}
+
+
+/* =========================================================
+   VARIED RESPONSES
+========================================================= */
+
+function randomItem(array) {
+
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+
+/* =========================================================
+   IT RESPONSES
+========================================================= */
+
+function itResponse(topic, language, text) {
+
+    if (language === "Bisaya") {
+
+        if (topic === "wifi") {
+
+            return randomItem([
+                "Sige, atong tan-awon. Una, check kung connected ba gyud ang imong device sa WiFi. Kung connected pero walay internet, try ug disconnect then reconnect. Kung dili gihapon, unsa imong device—laptop or phone?",
+                "Atong troubleshoot step by step. 📶 Una, disconnect sa WiFi then reconnect. Kung wala gihapon, try ug restart sa imong device. Ingna ko unsay nahitabo after ana.",
+                "Okay, WiFi problem ni. Check sa una kung ang uban devices naa ba'y internet. Kung tanan walay connection, possible nga router/network ang issue. Kung imong device ra, lahi pud atong i-check."
+            ]);
+
+        }
+
+        if (topic === "computer") {
+
+            return randomItem([
+                "Kung hinay imong computer, possible nga daghan kaayog programs nga nagdagan. Try nato tan-awon unsay apps nga naka-open. Laptop ba ni or desktop?",
+                "Atong i-check step by step. Kanus-a man nagsugod pagkahinay sa imong computer—recently lang ba or dugay na?",
+                "Pwede nato ma-troubleshoot. Kung hinay siya after opening many apps, possible nga memory/resources ang na-consume. Unsa imong gibuhat sa computer before siya nahinay?"
+            ]);
+
+        }
+
+        if (topic === "printer") {
+
+            return randomItem([
+                "Atong tan-awon ang printer. Naka-on ba siya ug connected ba sa imong computer? Kung yes, unsay makita nga error?",
+                "Kung dili mo-print, check sa una kung sakto ang printer nga napili. Then tan-awon nato kung naa ba'y pending print jobs.",
+                "Sige, printer problem. Ingna ko kung unsa ang exact nga nahitabo—dili mo-print, offline, paper jam, or lain?"
+            ]);
+
+        }
+
+        if (topic === "programming") {
+
+            return randomItem([
+                "Sige, tabangan tika sa coding. I-send diri ang code ug ang error message kung naa. Tan-awon nato unsa gyud ang problem.",
+                "Pwede nato ni i-debug step by step. Unsa nga programming language imong gamit—HTML/CSS/JavaScript, C, or lain?",
+                "Okay, coding problem. Ayaw sa pag-usab-usab sa code. I-send ang part nga nagka-error para ma-check nato together."
+            ]);
+
+        }
+
+        if (topic === "security") {
+
+            return randomItem([
+                "Atong i-check safely. Kung password or account security ni, ayaw i-share diri ang imong actual password or private information.",
+                "Kung security concern ni, tell me what happened without sharing passwords or sensitive details, then I'll help you identify the safer next step."
+            ]);
+        }
+
+    }
+
+
+    if (language === "Tagalog") {
+
+        if (topic === "wifi") {
+
+            return randomItem([
+                "Sige, ayusin natin step by step. Una, tingnan kung connected talaga ang device mo sa WiFi. Kung connected pero walang internet, subukan mong mag-disconnect at reconnect. Anong device ang gamit mo?",
+                "Okay, WiFi problem. Check natin kung lahat ng devices walang internet o yung device mo lang. Malaking clue iyon para malaman kung saan ang problema.",
+                "Subukan muna nating i-reconnect ang WiFi. Kung hindi pa rin gumana, sabihin mo kung ano ang eksaktong lumalabas sa screen."
+            ]);
+        }
+
+        if (topic === "computer") {
+
+            return randomItem([
+                "Kung mabagal ang computer mo, tingnan natin kung maraming programs ang sabay-sabay na tumatakbo. Ano ang ginagawa mo bago ito bumagal?",
+                "Pwede natin itong i-troubleshoot step by step. Kailan nagsimula maging mabagal ang computer?",
+                "Okay, computer problem. Laptop ba o desktop? At mabagal ba siya sa lahat ng tasks o sa isang program lang?"
+            ]);
+        }
+
+        if (topic === "programming") {
+
+            return randomItem([
+                "Sige, tutulungan kitang i-debug. I-send mo yung code at error message para makita natin kung saan nanggagaling ang problema.",
+                "Anong programming language ang gamit mo? HTML/CSS/JavaScript, C, o iba? Pwede nating ayusin step by step.",
+                "Huwag muna nating palitan nang marami ang code. Send mo yung part na may error at tingnan natin kung ano talaga ang cause."
+            ]);
+        }
+
+    }
+
+
+    return randomItem([
+        "Sure. Let's troubleshoot it step by step. Tell me what device or application you're using and what happened.",
+        "I can help you with that. What exactly happened before the problem started, and what do you see on the screen now?",
+        "Let's narrow it down. Is the problem happening all the time, or did it just start recently?",
+        "Okay, let's work through it together. Give me the exact error message if there is one."
+    ]);
+}
+
+
+/* =========================================================
+   PERSONAL / CONVERSATIONAL RESPONSES
+========================================================= */
 
 function conversationalResponse(text, language) {
 
-    const topic =
-        detectConversationTopic(text);
+    const topic = detectConversationTopic(text);
 
+    /*
+       IMPORTANT:
+       We don't immediately give advice.
+       We first react to what the user actually said.
+    */
 
-    // =========================
-    // SCHOOL
-    // =========================
+    if (topic === "tired") {
 
-    if (topic === "school") {
+        if (language === "Bisaya") {
 
-        if (language === "bisaya") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Gets nako. School can be overwhelming usahay, especially kung daghan og assignments or projects.<br><br>
-
-Try breaking the task into smaller parts. Ayaw hunahunaa ang whole project at once. Pili og usa ka task nga imong sugdan, then proceed step by step.<br><br>
-
-If you want, pwede nimo i-send diri ang assignment or project instructions and I can help you understand or organize it.
-`;
+            return randomItem([
+                "Murag kapoy gyud kaayo imong adlaw. 😟 Dili kinahanglan nga ma-fix nimo tanan karon. If gusto nimo, pwede ra ka mag-rant diri. Unsa ang pinaka-nakapakapoy sa imong adlaw?",
+                "Gets nako, Buddy. Murag drained na gyud ka. Pahuway sa gamay kung kaya. Pero if naa kay gusto i-share, unsa man gyud ang nahitabo today?",
+                "Kapoy na kaayo sounds like daghan gyud kag gi-carry today. 😔 Gusto nimo mag-rant lang sa, or gusto nimo nga tabangan tika figure out unsay buhaton next?"
+            ]);
 
         }
 
+        if (language === "Tagalog") {
 
-        if (language === "tagalog") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Gets ko. Nakaka-overwhelm talaga ang school kapag maraming assignments o projects.<br><br>
-
-Try mong hatiin ang task into smaller parts. Huwag mong isipin lahat nang sabay-sabay. Pumili muna ng isang task at gawin ito step by step.<br><br>
-
-Kung gusto mo, puwede mong i-send dito ang instructions ng assignment o project at tutulungan kitang intindihin o ayusin ito.
-`;
-
+            return randomItem([
+                "Mukhang sobrang nakakapagod talaga ng araw mo. 😟 Hindi mo kailangang ayusin lahat agad. Kung gusto mong mag-rant, makikinig ako. Ano ang pinaka-nakapagod para sa'yo today?",
+                "Gets ko. Parang drained ka na talaga. Pwede mong ilabas muna dito kung ano ang nangyari. Ano ang pinaka-nakabigat sa araw mo?",
+                "Mukhang marami kang pinagdaanan today. Gusto mo bang mag-rant lang muna, o gusto mong tulungan kitang isipin kung ano ang puwedeng gawin next?"
+            ]);
         }
 
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-I get you. School can feel overwhelming, especially when you have many assignments or projects.<br><br>
-
-Try breaking the work into smaller tasks. Don't think about everything at once. Pick one task and work on it step by step.<br><br>
-
-If you want, you can send me your assignment or project instructions and I can help you understand or organize them.
-`;
-
+        return randomItem([
+            "It sounds like today really drained you. 😟 You don't have to solve everything at once. If you just want to rant, that's okay. What was the hardest part of your day?",
+            "That sounds exhausting. Take a moment if you can. You can tell me what happened today, even if you don't know how to explain it properly.",
+            "Sounds like you've had a lot on your plate today. Do you want to just let it out, or would you rather talk through what you can do next?"
+        ]);
     }
 
 
-    // =========================
-    // STRESS
-    // =========================
+    if (topic === "overwhelmed") {
 
-    if (topic === "stress") {
+        if (language === "Bisaya") {
 
-        if (language === "bisaya") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Murag bug-at na kaayo imong gibati karon. Okay ra nga mo-pause sa gamay kung overwhelmed na ka.<br><br>
-
-Try taking a short break, drink some water, then focus on one small thing at a time. Dili kinahanglan mahuman nimo tanan dayon.<br><br>
-
-If you want to talk about what's making you stressed, you can tell me. We can think through some possible next steps together.
-`;
-
+            return randomItem([
+                "Murag na-overwhelm na gyud ka sa kadaghan sa imong gi-handle. 😟 Sugdi lang nato sa usa. Unsa ang pinaka-urgent sa tanan?",
+                "Daghan kaayo ug buhaton, mao nang murag lisod na tan-awon tanan at once. Pwede nato i-break down one by one kung gusto nimo.",
+                "Gets nako. Ayaw sa huna-hunaa tanan sabay-sabay. Tell me unsa ang mga butang nga nagpa-overwhelm nimo karon."
+            ]);
         }
 
+        if (language === "Tagalog") {
 
-        if (language === "tagalog") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Mukhang mabigat na talaga para sa'yo ngayon. Okay lang na mag-pause muna kapag overwhelmed ka.<br><br>
-
-Try mong magpahinga sandali, uminom ng tubig, at mag-focus muna sa isang maliit na task. Hindi kailangang matapos lahat agad.<br><br>
-
-Kung gusto mong sabihin kung ano ang nakaka-stress sa'yo, puwede nating pag-isipan kung ano ang puwedeng gawin next.
-`;
-
+            return randomItem([
+                "Mukhang overwhelmed ka sa dami ng kailangan mong gawin. 😟 Huwag muna nating isipin lahat sabay-sabay. Ano ang pinaka-urgent?",
+                "Kapag sabay-sabay ang iniisip, talagang parang ang bigat. Pwede nating hati-hatiin kung gusto mo. Ano ang pinaka-problematic ngayon?",
+                "Gets ko. Isang bagay muna. Ano ang pinaka-nagpapabigat sa'yo ngayon?"
+            ]);
         }
 
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-It sounds like you're feeling really overwhelmed right now. It's okay to pause for a while when things feel too much.<br><br>
-
-Try taking a short break, drink some water, and focus on one small thing at a time. You don't have to finish everything immediately.<br><br>
-
-If you want to talk about what's stressing you out, you can tell me and we can think through some possible next steps.
-`;
-
+        return randomItem([
+            "It sounds like you're dealing with too many things at once. 😟 Let's not try to solve everything at the same time. What's the one thing bothering you the most right now?",
+            "That sounds overwhelming. We can take it one thing at a time. What feels most urgent to you right now?",
+            "When everything piles up, even simple things can feel heavy. Tell me what is taking up most of your mind right now."
+        ]);
     }
 
 
-    // =========================
-    // NERVOUS
-    // =========================
+    if (topic === "sad") {
+
+        if (language === "Bisaya") {
+
+            return randomItem([
+                "I'm sorry nga ing-ana imong na-feel. 😔 If gusto nimo, pwede nimo i-share unsay nahitabo. Paminawon tika.",
+                "Murag bug-at imong gibati karon. Dili kinahanglan perfect imong explanation. Sugdi lang sa unsay nahitabo.",
+                "Naa ra ko diri to listen. Unsa man ang nahitabo nga naka-feel nimo ana?"
+            ]);
+        }
+
+        if (language === "Tagalog") {
+
+            return randomItem([
+                "Mukhang mabigat yung nararamdaman mo ngayon. 😔 Kung gusto mo, sabihin mo lang kung ano ang nangyari. Makikinig ako.",
+                "Hindi mo kailangang ayusin agad yung nararamdaman mo. Pwede mong ikuwento kung ano ang nangyari.",
+                "Kung gusto mong ilabas muna dito, okay lang. Ano yung nangyari?"
+            ]);
+        }
+
+        return randomItem([
+            "I'm sorry you're having a difficult moment. 😔 If you want to talk about it, you can tell me what happened.",
+            "That sounds like a heavy feeling to carry. You don't have to explain everything perfectly. What happened?",
+            "You can talk about it here if you want. What has been bothering you?"
+        ]);
+    }
+
 
     if (topic === "nervous") {
 
-        if (language === "bisaya") {
+        if (language === "Bisaya") {
 
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Normal ra nga makulbaan ka, especially kung presentation or something important imong atubangon.<br><br>
-
-Try practicing your opening lines several times. Once makasugod naka, usually mas comfortable na ang flow.<br><br>
-
-Ayaw pud i-pressure imong kaugalingon nga dapat perfect. Focus on explaining your idea clearly.
-`;
-
+            return randomItem([
+                "Normal ra nga makulbaan before something important. 😌 Unsay pinaka-nakapa-nervous nimo?",
+                "Gets nako ang kaba. If school-related ni, pwede nato i-practice or i-prepare together. Unsay event or situation?",
+                "Ayaw sa pugsa imong kaugalingon nga mawala dayon ang kaba. Tell me unsa imong gi-worry about."
+            ]);
         }
 
+        if (language === "Tagalog") {
 
-        if (language === "tagalog") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Normal lang kabahan, lalo na kapag presentation o may importanteng gagawin.<br><br>
-
-Try mong praktisin nang ilang beses ang opening mo. Kapag nakapagsimula ka na, kadalasan mas magiging comfortable na ang flow.<br><br>
-
-Huwag mong i-pressure ang sarili mo na maging perfect. Mas importante na maipaliwanag mo nang malinaw ang idea mo.
-`;
-
+            return randomItem([
+                "Normal lang kabahan kapag may importanteng bagay. 😌 Ano yung pinaka-kinakabahan ka ngayon?",
+                "Gets ko yung kaba. Kung school-related ito, pwede nating paghandaan o i-practice. Ano yung situation?",
+                "Hindi kailangang mawala agad yung kaba. Sabihin mo lang kung ano yung pinaka-iniisip mo."
+            ]);
         }
 
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-It's normal to feel nervous, especially when you're about to present or do something important.<br><br>
-
-Try practicing your opening several times. Once you get started, the rest usually feels easier.<br><br>
-
-Don't pressure yourself to be perfect. Focus on explaining your ideas clearly and naturally.
-`;
-
+        return randomItem([
+            "It's understandable to feel nervous when something matters to you. 😌 What's making you nervous?",
+            "I get why you might feel nervous. If this is about school, we can practice or prepare together. What are you worried about?",
+            "You don't have to get rid of the nervous feeling immediately. Tell me what's on your mind."
+        ]);
     }
 
 
-    // =========================
-    // FRIENDSHIP
-    // =========================
+    if (topic === "frustrated") {
+
+        if (language === "Bisaya") {
+
+            return randomItem([
+                "Gets nako nganong ma-frustrate ka ana. 😕 Unsa man ang pinaka-naka-trigger sa imong frustration?",
+                "Lisod gyud kung sige kag try pero murag dili gihapon mo-work. I-share lang unsay nahitabo.",
+                "Sounds frustrating gyud. Unsa man ang part nga pinaka-nakainis para nimo?"
+            ]);
+        }
+
+        if (language === "Tagalog") {
+
+            return randomItem([
+                "Gets ko kung bakit ka na-frustrate. 😕 Ano yung pinaka-nakainis sa situation?",
+                "Nakakainis talaga kapag paulit-ulit mong sinusubukan pero hindi pa rin gumagana. Ano ang nangyari?",
+                "Mukhang may bagay na talagang nagpa-frustrate sa'yo. Gusto mo bang ikuwento?"
+            ]);
+        }
+
+        return randomItem([
+            "I can understand why that would be frustrating. 😕 What part of the situation bothered you the most?",
+            "That sounds frustrating, especially if you've already tried to deal with it. What happened?",
+            "Sounds like something really got on your nerves. What happened?"
+        ]);
+    }
+
+
+    if (topic === "school") {
+
+        if (language === "Bisaya") {
+
+            return randomItem([
+                "School-related diay ni. Pwede nato tan-awon unsa gyud ang nagpa-stress nimo—assignment, exam, presentation, or subject?",
+                "Gets. School can pile things up quickly. Unsa nga part sa imong school work ang pinaka-lisod karon?",
+                "Sige, tell me more. Unsay nahitabo sa school today?"
+            ]);
+        }
+
+        if (language === "Tagalog") {
+
+            return randomItem([
+                "School-related pala. Assignment ba, exam, presentation, o subject yung pinaka-problema ngayon?",
+                "Gets. Nakaka-pressure kapag sabay-sabay ang school requirements. Ano yung pinaka-mahirap ngayon?",
+                "Sige, sabihin mo lang. Ano ang nangyari sa school today?"
+            ]);
+        }
+
+        return randomItem([
+            "Sounds like this is connected to school. Is it an assignment, exam, presentation, or a particular subject?",
+            "School can get overwhelming when several things pile up. What's the hardest part right now?",
+            "Tell me more about what happened at school today. We can figure out what kind of help you need."
+        ]);
+    }
+
 
     if (topic === "friendship") {
 
-        if (language === "bisaya") {
+        if (language === "Bisaya") {
 
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Kung naa moy misunderstanding sa imong friend, basin makatabang nga mag-storya mo when both of you are already calm.<br><br>
-
-Try explaining what you feel without immediately blaming the other person. Paminawa pud iyang side kay basin lahi ang iyang pagsabot sa situation.<br><br>
-
-Sometimes a calm conversation can clear up a lot of misunderstandings.
-`;
-
+            return randomItem([
+                "Friendship problem diay. 😕 Gusto nimo mag-rant lang sa or gusto nimo nga tabangan tika tan-aw sa situation?",
+                "Gets nako. Sometimes lisod gyud kung friendship ang involved kay personal kaayo. Unsay nahitabo?",
+                "Pwede ra nimo i-share ang story gikan sa beginning. Paminawon tika."
+            ]);
         }
 
+        if (language === "Tagalog") {
 
-        if (language === "tagalog") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Kung may misunderstanding kayo ng friend mo, baka makatulong na mag-usap kayo kapag pareho na kayong kalmado.<br><br>
-
-Subukan mong sabihin kung ano ang nararamdaman mo nang hindi agad naninisi. Pakinggan mo rin ang side niya dahil baka iba ang pagkakaintindi niya sa nangyari.<br><br>
-
-Minsan, malaking tulong ang mahinahong pag-uusap para maayos ang misunderstanding.
-`;
-
+            return randomItem([
+                "Friendship problem pala. 😕 Gusto mo bang mag-rant lang muna o gusto mong pag-usapan natin kung ano ang puwedeng gawin?",
+                "Gets ko. Mas mahirap minsan kapag friendship ang involved dahil personal talaga. Ano ang nangyari?",
+                "Pwede mong ikuwento mula sa simula. Makikinig ako."
+            ]);
         }
 
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-If you and your friend are having a misunderstanding, it may help to talk when both of you are calm.<br><br>
-
-Try explaining how you feel without immediately blaming the other person. Also listen to their side because they may have understood the situation differently.<br><br>
-
-Sometimes a calm and honest conversation can clear up a lot of misunderstandings.
-`;
-
+        return randomItem([
+            "Sounds like this is about a friendship. 😕 Do you want to vent first, or do you want help thinking through the situation?",
+            "Friendship problems can be complicated because they feel personal. What happened?",
+            "You can tell me the story from the beginning if you want. I'll help you sort through what you're dealing with."
+        ]);
     }
 
-
-    // =========================
-    // MOTIVATION
-    // =========================
 
     if (topic === "motivation") {
 
-        if (language === "bisaya") {
+        if (language === "Bisaya") {
 
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Okay ra kung wala kay gana usahay. Dili man ta always motivated every day.<br><br>
-
-Instead of waiting for motivation, try starting with something very small. Bisan 5 or 10 minutes lang. Sometimes, once makasugod ka, mosunod na ang momentum.<br><br>
-
-One small step is still progress.
-`;
-
+            return randomItem([
+                "Murag nawad-an ka ug gana karon. Dili kinahanglan nga solve dayon tanan. Unsa man ang pinaka-naka-drain sa imong motivation?",
+                "Usahay lisod gyud magpadayon kung kapoy na. Unsa nga part ang gusto nimo ma-overcome?",
+                "Let's take it small. Unsay usa ka thing nga kinahanglan nimo buhaton karon?"
+            ]);
         }
 
+        if (language === "Tagalog") {
 
-        if (language === "tagalog") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Okay lang kung wala kang gana minsan. Hindi naman tayo motivated every day.<br><br>
-
-Instead na hintayin ang motivation, try mong magsimula sa maliit na task. Kahit 5 or 10 minutes lang. Minsan kapag nagsimula ka na, susunod na ang momentum.<br><br>
-
-Kahit maliit na progress, progress pa rin.
-`;
-
+            return randomItem([
+                "Mukhang nawawalan ka ng motivation ngayon. Hindi kailangang ayusin lahat agad. Ano ang pinaka-nakaka-drain sa'yo?",
+                "Mahirap talagang magpatuloy kapag pagod na. Ano yung isang bagay na gusto mong malagpasan ngayon?",
+                "Small step muna. Ano ang isang bagay na kailangan mong gawin today?"
+            ]);
         }
 
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-It's okay to have days when you don't feel motivated. Nobody feels motivated all the time.<br><br>
-
-Instead of waiting for motivation, try starting with something very small. Even 5 or 10 minutes can help. Sometimes, once you start, the momentum follows.<br><br>
-
-One small step is still progress.
-`;
-
+        return randomItem([
+            "Sounds like your motivation is pretty low right now. You don't have to fix everything at once. What's the one thing you need to get through today?",
+            "It's hard to keep going when you're already drained. What part are you struggling with the most?",
+            "Let's make it smaller. What's one thing you need to deal with right now?"
+        ]);
     }
 
 
-    // =========================
-    // GENERAL ADVICE
-    // =========================
+    /* =========================
+       GENERAL CONVERSATION
+    ========================= */
 
-    if (topic === "advice") {
+    if (language === "Bisaya") {
 
-        if (language === "bisaya") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Let's think about it together. Before making a decision, try asking yourself:<br><br>
-
-“Unsa akong gusto mahitabo?”<br>
-“Unsa ang possible consequence sa akong choice?”<br><br>
-
-Consider both the short-term and long-term effects, then choose the option that is safest and most reasonable for your situation.
-`;
-
-        }
-
-
-        if (language === "tagalog") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Pag-isipan natin together. Bago gumawa ng decision, tanungin mo ang sarili mo:<br><br>
-
-“Ano ba talaga ang gusto kong mangyari?”<br>
-“Ano ang possible consequences ng choice ko?”<br><br>
-
-Isipin ang short-term at long-term effects bago pumili. Piliin ang option na mas safe at reasonable para sa situation mo.
-`;
-
-        }
-
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-Let's think about it together. Before making a decision, ask yourself:<br><br>
-
-“What do I want to happen?”<br>
-“What could happen because of this choice?”<br><br>
-
-Consider both the short-term and long-term effects, then choose the option that is safest and most reasonable for your situation.
-`;
-
+        return randomItem([
+            "Sige, paminawon tika. 😄 Unsa man imong gusto i-share?",
+            "Okay, Buddy. Tell me more about ana. Unsay nahitabo?",
+            "Naa ra ko. I-share lang unsay naa sa imong mind.",
+            "Gets. Padayon lang, unsa pa man?"
+        ]);
     }
 
+    if (language === "Tagalog") {
 
-    // =========================
-    // CASUAL
-    // =========================
-
-    if (topic === "casual") {
-
-        if (
-            language === "bisaya" ||
-            language === "mixed"
-        ) {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Hahaha 😄 unsa man, chill-chill lang ta? Pwede ra ta mag-storya about school, games, random ideas, or anything nga naa sa imong mind.
-`;
-
-        }
-
-
-        if (language === "tagalog") {
-
-            return `
-<strong>AI Buddy 🤖</strong><br>
-
-Haha 😄 chill lang tayo. Puwede tayong mag-usap tungkol sa school, games, random ideas, or kahit anong nasa isip mo.
-`;
-
-        }
-
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-Haha 😄 sure, we can just chill. We can talk about school, games, random ideas, or pretty much anything on your mind.
-`;
-
+        return randomItem([
+            "Sige, makikinig ako. 😄 Ano ang gusto mong i-share?",
+            "Okay, Buddy. Sabihin mo lang kung ano ang nangyari.",
+            "Nandito lang ako. Ano ang nasa isip mo ngayon?",
+            "Gets. Sige lang, ikuwento mo."
+        ]);
     }
 
-
-    return null;
-
+    return randomItem([
+        "I'm listening. 😄 What would you like to tell me?",
+        "Okay, Buddy. Tell me more about what happened.",
+        "I'm here to listen. What's on your mind?",
+        "Got you. Keep going—what happened next?"
+    ]);
 }
 
 
-/* ==================================================
+/* =========================================================
    GREETING
-================================================== */
+========================================================= */
 
 function greetingResponse(language) {
 
-    if (
-        language === "bisaya" ||
-        language === "mixed"
-    ) {
+    if (language === "Bisaya") {
 
-        return `
-<strong>AI Buddy 🤖</strong><br>
-Hello! 👋 Kumusta? Unsa may atong pag-storyahan karon? Pwede IT problem, school concern, advice, or casual talk lang.
-`;
+        return randomItem([
+            "Hey, Buddy! 👋 Unsay ma-tabang nako nimo today?",
+            "Hello! 😄 Naa ra ko diri. Unsa imong gusto istoryahan?",
+            "Hey! Kumusta imong adlaw?"
+        ]);
 
     }
 
+    if (language === "Tagalog") {
 
-    if (language === "tagalog") {
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-Hello! 👋 Kumusta? Ano ang gusto mong pag-usapan? Puwedeng IT problem, school concern, advice, or casual conversation lang.
-`;
+        return randomItem([
+            "Hello, Buddy! 👋 Ano ang maitutulong ko sa'yo today?",
+            "Hi! 😄 Nandito lang ako. Ano ang gusto mong pag-usapan?",
+            "Hello! Kumusta ang araw mo?"
+        ]);
 
     }
 
-
-    return `
-<strong>AI Buddy 🤖</strong><br>
-Hello! 👋 How are you? What would you like to talk about today? It can be an IT problem, a school concern, advice, or just a casual conversation.
-`;
-
+    return randomItem([
+        "Hey, Buddy! 👋 What can I help you with today?",
+        "Hello! 😄 I'm here. What would you like to talk about?",
+        "Hey! How's your day going?"
+    ]);
 }
 
 
-/* ==================================================
+/* =========================================================
    THANKS
-================================================== */
+========================================================= */
 
 function thanksResponse(language) {
 
-    if (
-        language === "bisaya" ||
-        language === "mixed"
-    ) {
+    if (language === "Bisaya") {
 
-        return `
-<strong>AI Buddy 🤖</strong><br>
-You're welcome! 😄 If naa pa kay question, just message me anytime.
-`;
+        return randomItem([
+            "Walay sapayan, Buddy! 😊",
+            "You're welcome! Naa ra ko if naa pa kay kailangan.",
+            "No worries! Happy to help. 🤖"
+        ]);
 
     }
 
+    if (language === "Tagalog") {
 
-    if (language === "tagalog") {
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-Walang anuman! 😄 Kung may iba ka pang question, message mo lang ako.
-`;
+        return randomItem([
+            "Walang anuman, Buddy! 😊",
+            "You're welcome! Nandito lang ako kung may kailangan ka pa.",
+            "No worries! Masaya akong makatulong."
+        ]);
 
     }
 
-
-    return `
-<strong>AI Buddy 🤖</strong><br>
-You're welcome! 😄 If you have another question, just message me anytime.
-`;
-
+    return randomItem([
+        "You're welcome, Buddy! 😊",
+        "No problem! I'm here if you need anything else.",
+        "Anytime! Happy to help. 🤖"
+    ]);
 }
 
 
-/* ==================================================
-   CLARIFICATION
-================================================== */
+/* =========================================================
+   RANT RESPONSE
+========================================================= */
 
-function clarificationResponse(language) {
+function rantResponse(language) {
 
-    if (
-        language === "bisaya" ||
-        language === "mixed"
-    ) {
+    if (language === "Bisaya") {
 
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-I can help. Pero medyo unclear pa ang question. 😅<br><br>
-
-Pwede nimo i-explain gamay unsa imong problem or unsa imong gusto mahibal-an?
-`;
+        return randomItem([
+            "Sige lang. I-rant lang diri kung unsa imong gusto i-share. Dili kinahanglan nga organized imong thoughts.",
+            "Go ahead, Buddy. Paminawon tika. Unsay gusto nimo i-release gikan sa imong mind?",
+            "Okay ra. No advice muna. I-share lang unsay naa sa imong heart/mind."
+        ]);
 
     }
 
+    if (language === "Tagalog") {
 
-    if (language === "tagalog") {
-
-        return `
-<strong>AI Buddy 🤖</strong><br>
-
-I can help. Pero medyo unclear pa ang question. 😅<br><br>
-
-Puwede mo bang sabihin nang kaunti kung ano ang problem o kung ano ang gusto mong malaman?
-`;
+        return randomItem([
+            "Sige lang. I-rant mo lang dito kung ano ang gusto mong sabihin. Hindi kailangang organized ang thoughts mo.",
+            "Go ahead, Buddy. Makikinig ako. Ano ang gusto mong ilabas?",
+            "Okay lang. Advice muna? Hindi. Ikaw muna—sabihin mo lang lahat ng gusto mong sabihin."
+        ]);
 
     }
 
-
-    return `
-<strong>AI Buddy 🤖</strong><br>
-
-I can help. But I'm not completely sure what you need yet. 😅<br><br>
-
-Could you explain a little more about the problem or what you would like to know?
-`;
-
+    return randomItem([
+        "Go ahead, Buddy. You can rant here. You don't have to organize your thoughts first.",
+        "I'm listening. You can just let it out. No need to make it sound perfect.",
+        "Okay. No advice for now. Tell me what's bothering you."
+    ]);
 }
 
 
-/* ==================================================
+/* =========================================================
    MAIN RESPONSE ENGINE
-================================================== */
+========================================================= */
 
 function generateResponse(text) {
 
-    const language =
-        detectLanguage(text);
+    const language = detectLanguage(text);
 
+    const questionType = detectQuestionType(text);
 
-    // IMPORTANT:
-    // IT detection comes first.
+    const itTopic = detectITTopic(text);
 
-    const itTopic =
-        detectITTopic(text);
+    const conversationTopic = detectConversationTopic(text);
 
+    lastLanguage = language;
+    lastIntent = questionType;
+
+    /*
+       IT gets priority when the message clearly describes
+       an IT problem.
+    */
 
     if (itTopic) {
 
+        lastTopic = itTopic;
+
         return itResponse(
             itTopic,
-            language
+            language,
+            text
         );
-
     }
-
-
-    // Then conversational/advice detection.
-
-    const conversational =
-        conversationalResponse(
-            text,
-            language
-        );
-
-
-    if (conversational) {
-
-        return conversational;
-
-    }
-
-
-    // Existing question detection.
-
-    const questionType =
-        detectQuestionType(text);
 
 
     if (questionType === "greeting") {
 
         return greetingResponse(language);
-
     }
 
 
     if (questionType === "thanks") {
 
         return thanksResponse(language);
-
     }
 
 
-    if (
-        questionType === "definition" ||
-        questionType === "howto"
-    ) {
+    if (questionType === "rant") {
 
-        return `
-<strong>AI Buddy 🤖</strong><br>
+        lastTopic = "rant";
 
-That's a good question. I can help explain it in a simple way. 😊<br><br>
-
-For a more accurate answer, you can give me a little more context about what you're asking.
-`;
-
+        return rantResponse(language);
     }
 
 
-    return clarificationResponse(
+    /*
+       Advice mode:
+       don't force a solution immediately.
+       First understand the situation.
+    */
+
+    if (questionType === "advice") {
+
+        lastTopic = conversationTopic;
+
+        if (language === "Bisaya") {
+
+            return "Sige, tabangan tika. Pero para dili ko mag-assume, unsa gyud ang situation? I-share lang unsay nahitabo ug unsa imong gusto mahitabo.";
+        }
+
+        if (language === "Tagalog") {
+
+            return "Sige, tutulungan kita. Pero ayokong mag-assume agad. Ano muna ang situation at ano ang gusto mong mangyari?";
+        }
+
+        return "Sure, I can help you think it through. Tell me what happened and what outcome you're hoping for, so I don't give you advice based on assumptions.";
+    }
+
+
+    /*
+       Personal / school / casual conversation
+    */
+
+    lastTopic = conversationTopic;
+
+    return conversationalResponse(
+        text,
         language
     );
-
 }
 
 
-/* ==================================================
+/* =========================================================
+   IMAGE
+========================================================= */
+
+function previewImage(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    currentImage = file;
+
+    const preview = document.getElementById("imagePreview");
+
+    preview.src = URL.createObjectURL(file);
+
+    preview.style.display = "block";
+}
+
+function analyzeImage() {
+
+    addMessage(
+        "Image analysis demo: I received your image successfully. In this prototype, the browser can preview the image, but real visual understanding would require connecting this feature to a vision-capable AI backend.",
+        "bot"
+    );
+}
+
+
+/* =========================================================
    VOICE INPUT
-================================================== */
+========================================================= */
 
 function startVoiceInput() {
 
@@ -3000,21 +1894,14 @@ function startVoiceInput() {
         window.SpeechRecognition ||
         window.webkitSpeechRecognition;
 
-
     if (!SpeechRecognition) {
 
-        alert(
-            "Voice input is not supported by this browser."
-        );
+        alert("Voice recognition is not supported in this browser.");
 
         return;
-
     }
 
-
-    const recognition =
-        new SpeechRecognition();
-
+    const recognition = new SpeechRecognition();
 
     recognition.lang = "en-US";
 
@@ -3022,210 +1909,370 @@ function startVoiceInput() {
 
     recognition.maxAlternatives = 1;
 
+    recognition.start();
 
-    recognition.onstart = function() {
+    recognition.onstart = function () {
 
-        alert(
-            "Voice input started. Speak now."
-        );
-
+        document.getElementById("messageInput").placeholder =
+            "Listening...";
     };
-
 
     recognition.onresult = function(event) {
 
-        const speech =
+        const text =
             event.results[0][0].transcript;
 
-
-        document.getElementById(
-            "messageInput"
-        ).value = speech;
-
+        document.getElementById("messageInput").value = text;
     };
-
 
     recognition.onerror = function() {
 
-        alert(
-            "Voice input could not be completed."
-        );
-
+        document.getElementById("messageInput").placeholder =
+            "Message AI IT Buddy...";
     };
 
+    recognition.onend = function() {
 
-    recognition.start();
-
-}
-
-
-/* ==================================================
-   IMAGE UPLOAD
-================================================== */
-
-function previewImage(event) {
-
-    const file =
-        event.target.files[0];
-
-
-    if (!file) {
-
-        return;
-
-    }
-
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload = function(e) {
-
-        document.getElementById(
-            "previewImage"
-        ).src = e.target.result;
-
-
-        document.getElementById(
-            "imagePreview"
-        ).style.display = "block";
-
+        document.getElementById("messageInput").placeholder =
+            "Message AI IT Buddy...";
     };
-
-
-    reader.readAsDataURL(file);
-
 }
 
 
-function removeImage() {
+/* =========================================================
+   NEW CHAT
+========================================================= */
 
-    document.getElementById(
-        "imageInput"
-    ).value = "";
+function newChat() {
 
+    conversation = [];
 
-    document.getElementById(
-        "imagePreview"
-    ).style.display = "none";
-
-}
-
-
-/* ==================================================
-   IMAGE ANALYSIS
-================================================== */
-
-function analyzeImage() {
-
-    const image =
-        document.getElementById(
-            "imageInput"
-        ).files[0];
-
-
-    if (!image) {
-
-        alert("Please upload an image first.");
-
-        return;
-
-    }
-
-
-    addMessage(
-        "I uploaded an image. Can you check it?",
-        "user"
+    localStorage.removeItem(
+        "currentChat_" + currentUser
     );
 
+    document.getElementById("chatArea").innerHTML = "";
 
-    showTyping();
-
-
-    setTimeout(function() {
-
-        removeTyping();
-
-
-        addMessage(
-            `
-I received your image 📷.<br><br>
-
-In this current prototype, I can preview the uploaded image, but true visual understanding requires a vision-capable AI model connected through a backend/API.<br><br>
-
-For the research prototype, this feature demonstrates where image-based IT diagnosis can be integrated.
-`,
-            "bot"
-        );
-
-    }, 800);
-
+    addMessage(
+        "Hi! I'm AI IT Buddy 🤖\nHow can I help you today?",
+        "bot",
+        false
+    );
 }
 
 
-/* ==================================================
-   CONTACT IT / TICKET
-================================================== */
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function toggleSidebar() {
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function focusSearch() {
+
+    const query = prompt("Search your current chat:");
+
+    if (!query) return;
+
+    const results = conversation.filter(item =>
+        item.text.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (results.length === 0) {
+
+        alert("No matching messages found.");
+
+        return;
+    }
+
+    alert(
+        results
+        .map(item => item.sender.toUpperCase() + ": " + item.text)
+        .join("\n\n")
+    );
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function showHistory() {
+
+    const content = `
+        <div class="content-card">
+            <h4>🕘 Chat History</h4>
+
+            <p>
+                Your current conversation is saved locally
+                in this browser.
+            </p>
+
+            <button class="btn btn-danger"
+                    onclick="clearCurrentHistory()">
+                Clear Current Chat
+            </button>
+        </div>
+    `;
+
+    document.getElementById("chatArea").innerHTML = content;
+}
+
+function clearCurrentHistory() {
+
+    if (!confirm("Clear this chat?")) return;
+
+    localStorage.removeItem(
+        "currentChat_" + currentUser
+    );
+
+    newChat();
+}
+
+
+/* =========================================================
+   TROUBLESHOOTING GUIDE
+========================================================= */
+
+function showGuide() {
+
+    document.getElementById("chatArea").innerHTML = `
+
+        <div class="content-card">
+
+            <h3>🛠 Troubleshooting Guide</h3>
+
+            <hr>
+
+            <h5>📶 WiFi / Internet</h5>
+
+            <ol>
+                <li>Check your WiFi connection.</li>
+                <li>Disconnect and reconnect.</li>
+                <li>Restart your device.</li>
+                <li>Check whether other devices can connect.</li>
+            </ol>
+
+            <h5>💻 Slow Computer</h5>
+
+            <ol>
+                <li>Close unnecessary applications.</li>
+                <li>Restart the computer.</li>
+                <li>Check available storage.</li>
+                <li>Look for applications using too many resources.</li>
+            </ol>
+
+            <h5>🖨 Printer</h5>
+
+            <ol>
+                <li>Check power and connection.</li>
+                <li>Check the selected printer.</li>
+                <li>Check for paper or error messages.</li>
+                <li>Clear stuck print jobs.</li>
+            </ol>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   SUPPORT TICKET
+========================================================= */
+
+function showSupport() {
+
+    document.getElementById("chatArea").innerHTML = `
+
+        <div class="content-card">
+
+            <h3>🎫 Contact IT / Support Ticket</h3>
+
+            <p>
+                Submit a basic support request.
+            </p>
+
+            <input id="ticketName"
+                   class="form-control mb-2"
+                   placeholder="Your name">
+
+            <select id="ticketCategory"
+                    class="form-select mb-2">
+
+                <option>WiFi / Internet</option>
+                <option>Computer</option>
+                <option>Printer</option>
+                <option>Software</option>
+                <option>Account</option>
+                <option>Other</option>
+
+            </select>
+
+            <textarea id="ticketProblem"
+                      class="form-control mb-2"
+                      placeholder="Describe your problem"></textarea>
+
+            <button class="btn btn-primary"
+                    onclick="submitTicket()">
+                Submit Ticket
+            </button>
+
+            <div id="ticketResult" class="mt-3"></div>
+
+        </div>
+    `;
+}
 
 function submitTicket() {
 
+    const name =
+        document.getElementById("ticketName").value.trim();
+
+    const category =
+        document.getElementById("ticketCategory").value;
+
     const problem =
-        document.getElementById(
-            "ticketProblem"
-        ).value.trim();
+        document.getElementById("ticketProblem").value.trim();
 
+    if (!name || !problem) {
 
-    const priority =
-        document.getElementById(
-            "ticketPriority"
-        ).value;
-
-
-    if (!problem) {
-
-        alert(
-            "Please describe your problem."
-        );
+        alert("Please complete the required fields.");
 
         return;
-
     }
 
+    const tickets =
+        JSON.parse(localStorage.getItem("tickets") || "[]");
 
-    const ticketID =
-        "IT-" +
-        Math.floor(
-            100000 + Math.random() * 900000
-        );
+    const ticket = {
 
+        id: "IT-" + Date.now(),
 
-    document.getElementById(
-        "ticketResult"
-    ).innerHTML = `
+        user: currentUser,
+
+        name,
+
+        category,
+
+        problem,
+
+        status: "Submitted",
+
+        date: new Date().toLocaleString()
+
+    };
+
+    tickets.push(ticket);
+
+    localStorage.setItem(
+        "tickets",
+        JSON.stringify(tickets)
+    );
+
+    document.getElementById("ticketResult").innerHTML = `
 
         <div class="alert alert-success">
 
-            <strong>Support request submitted!</strong><br><br>
+            <strong>Ticket submitted!</strong><br>
 
-            Ticket ID:
-            <strong>${ticketID}</strong><br>
+            Ticket ID: ${ticket.id}<br>
 
-            Priority:
-            <strong>${priority}</strong><br><br>
-
-            Your request has been recorded in this prototype.
+            Status: ${ticket.status}
 
         </div>
-
     `;
-
 }
 
 
-/* ==================================================
-   END
-================================================== */
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function showSettings() {
+
+    const users =
+        JSON.parse(localStorage.getItem("users") || "{}");
+
+    const user =
+        users[currentUser] || {};
+
+    document.getElementById("chatArea").innerHTML = `
+
+        <div class="content-card">
+
+            <h3>⚙ Settings / Profile</h3>
+
+            <hr>
+
+            <p>
+                <strong>Name:</strong>
+                ${user.name || "Student"}
+            </p>
+
+            <p>
+                <strong>Username:</strong>
+                ${currentUser}
+            </p>
+
+            <p>
+                <strong>System:</strong>
+                AI IT Buddy
+            </p>
+
+            <p>
+                <strong>Mode:</strong>
+                Student-friendly AI Help Desk
+            </p>
+
+            <button class="btn btn-outline-primary"
+                    onclick="toggleTheme()">
+                Toggle Theme
+            </button>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   DARK / LIGHT MODE
+========================================================= */
+
+function toggleTheme() {
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("dark")
+            ? "dark"
+            : "light"
+    );
+}
+
+function loadTheme() {
+
+    const theme =
+        localStorage.getItem("theme");
+
+    if (theme === "dark") {
+
+        document.body.classList.add("dark");
+
+    } else {
+
+        document.body.classList.remove("dark");
+    }
+}
 
 </script>
 

@@ -3,2276 +3,4485 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI IT Buddy</title>
+<title>AI IT Buddy | Student Help Desk</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-* {
-    box-sizing: border-box;
+
+:root{
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#6b7280;
+    --primary:#2563eb;
+    --primary2:#4f46e5;
+    --border:#e5e7eb;
+    --sidebar:#ffffff;
+    --user:#2563eb;
+    --bot:#eef3f9;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
-    color: #20242b;
+body.dark{
+    --bg:#0f172a;
+    --card:#172033;
+    --text:#f1f5f9;
+    --muted:#94a3b8;
+    --border:#293548;
+    --sidebar:#111827;
+    --bot:#202c40;
 }
 
-button {
-    cursor: pointer;
+*{
+    box-sizing:border-box;
 }
 
-.hidden {
-    display: none !important;
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial, Helvetica, sans-serif;
+    min-height:100vh;
 }
 
 /* =========================
    LOGIN
 ========================= */
 
-#authScreen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #eef5ff, #f8fbff);
-    padding: 20px;
+#authPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
 }
 
-.auth-card {
-    width: 100%;
-    max-width: 420px;
-    background: white;
-    border-radius: 18px;
-    padding: 30px;
-    box-shadow: 0 15px 45px rgba(0,0,0,.12);
+.auth-card{
+    width:100%;
+    max-width:420px;
+    background:var(--card);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 45px rgba(0,0,0,.2);
 }
 
-.logo {
-    font-size: 30px;
-    font-weight: 800;
-    color: #0d6efd;
-    text-align: center;
+.auth-logo{
+    text-align:center;
+    font-size:55px;
+    margin-bottom:10px;
 }
 
-.subtitle {
-    text-align: center;
-    color: #777;
-    margin-bottom: 25px;
+.auth-title{
+    text-align:center;
+    font-weight:800;
+    margin-bottom:5px;
 }
 
-.auth-card input {
-    margin-bottom: 12px;
+.auth-subtitle{
+    text-align:center;
+    color:var(--muted);
+    margin-bottom:25px;
+}
+
+.auth-tabs{
+    display:flex;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--border);
+}
+
+.auth-tabs button{
+    flex:1;
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    padding:10px;
+    font-weight:bold;
+}
+
+.auth-tabs button.active{
+    color:var(--primary);
+    border-bottom:3px solid var(--primary);
+}
+
+.form-control,
+.form-select,
+textarea{
+    background:var(--card)!important;
+    color:var(--text)!important;
+    border-color:var(--border)!important;
+}
+
+.form-control::placeholder,
+textarea::placeholder{
+    color:var(--muted);
+}
+
+.btn-main{
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    border:0;
+    color:white;
+    font-weight:bold;
+    border-radius:10px;
+    padding:11px 18px;
+}
+
+.btn-main:hover{
+    color:white;
+    opacity:.9;
 }
 
 /* =========================
    APP
 ========================= */
 
-#app {
-    display: none;
-    min-height: 100vh;
+#app{
+    display:none;
+    min-height:100vh;
 }
 
-.topbar {
-    height: 64px;
-    background: white;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    padding: 0 18px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
+.topbar{
+    height:65px;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    padding:0 18px;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
 }
 
-.menu-btn {
-    border: none;
-    background: transparent;
-    font-size: 25px;
-    margin-right: 15px;
+.menu-btn{
+    border:0;
+    background:transparent;
+    color:var(--text);
+    font-size:27px;
+    width:45px;
+    height:45px;
+    border-radius:10px;
 }
 
-.brand {
-    font-weight: bold;
-    font-size: 20px;
+.menu-btn:hover{
+    background:var(--bot);
 }
 
-.status {
-    color: #198754;
-    font-size: 13px;
-    margin-left: 10px;
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-left:5px;
+    font-weight:800;
+    font-size:18px;
 }
 
-.sidebar {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    bottom: 0;
-    width: 250px;
-    background: white;
-    border-right: 1px solid #ddd;
-    padding: 18px;
-    overflow-y: auto;
-    z-index: 10;
+.brand-icon{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
 }
 
-.sidebar button {
-    width: 100%;
-    border: none;
-    background: transparent;
-    padding: 11px 13px;
-    text-align: left;
-    border-radius: 10px;
-    margin-bottom: 5px;
+.online{
+    margin-left:auto;
+    color:#16a34a;
+    font-size:13px;
+    font-weight:bold;
 }
 
-.sidebar button:hover {
-    background: #eef4ff;
+.main-area{
+    padding-top:65px;
+    min-height:100vh;
 }
 
-.sidebar .section-title {
-    font-size: 12px;
-    color: #888;
-    margin: 20px 10px 8px;
-    text-transform: uppercase;
-    font-weight: bold;
+.page{
+    display:none;
+    min-height:calc(100vh - 65px);
+    padding:30px;
 }
 
-.main {
-    margin-left: 250px;
-    padding-top: 64px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+.page.active{
+    display:block;
 }
 
-.chat-area {
-    flex: 1;
-    max-width: 1000px;
-    width: 100%;
-    margin: auto;
-    padding: 30px 25px 150px;
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-320px;
+    width:300px;
+    height:100vh;
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+    z-index:2000;
+    transition:.25s ease;
+    overflow-y:auto;
+    box-shadow:10px 0 30px rgba(0,0,0,.12);
 }
 
-.message {
-    display: flex;
-    margin-bottom: 18px;
+.sidebar.open{
+    left:0;
 }
 
-.message.user {
-    justify-content: flex-end;
+.menu-header{
+    height:65px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--border);
 }
 
-.bubble {
-    max-width: 78%;
-    padding: 12px 16px;
-    border-radius: 16px;
-    line-height: 1.55;
-    white-space: pre-wrap;
+.menu-header-title{
+    font-weight:800;
 }
 
-.user .bubble {
-    background: #0d6efd;
-    color: white;
-    border-bottom-right-radius: 5px;
+.close-menu{
+    margin-left:auto;
+    border:0;
+    background:transparent;
+    color:var(--text);
+    font-size:25px;
 }
 
-.bot .bubble {
-    background: white;
-    border: 1px solid #e4e7ec;
-    border-bottom-left-radius: 5px;
+.menu-section{
+    padding:18px 12px 5px;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1px;
 }
 
-.bot-label {
-    font-size: 12px;
-    color: #777;
-    margin-bottom: 5px;
+.menu-item{
+    width:calc(100% - 20px);
+    margin:3px 10px;
+    padding:12px 14px;
+    border:0;
+    border-radius:10px;
+    background:transparent;
+    color:var(--text);
+    text-align:left;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:14px;
 }
 
-.input-area {
-    position: fixed;
-    left: 250px;
-    right: 0;
-    bottom: 0;
-    background: rgba(255,255,255,.96);
-    border-top: 1px solid #ddd;
-    padding: 15px 20px;
-    z-index: 15;
+.menu-item:hover{
+    background:var(--bot);
 }
 
-.input-box {
-    max-width: 1000px;
-    margin: auto;
+.menu-item.active{
+    background:#e8efff;
+    color:var(--primary);
+    font-weight:bold;
 }
 
-.input-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+body.dark .menu-item.active{
+    background:#202d48;
 }
 
-#messageInput {
-    flex: 1;
-    min-height: 46px;
-    max-height: 130px;
-    resize: none;
+.menu-icon{
+    width:25px;
+    text-align:center;
+    font-size:17px;
 }
 
-.icon-btn {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: white;
+.menu-profile{
+    margin:15px;
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.send-btn {
-    width: 50px;
-    height: 45px;
-    border: none;
-    border-radius: 12px;
-    background: #0d6efd;
-    color: white;
+.avatar-small{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
 }
 
-.preview {
-    max-width: 180px;
-    max-height: 150px;
-    border-radius: 10px;
-    margin: 8px 0;
-    display: none;
+.profile-name{
+    font-size:14px;
+    font-weight:bold;
 }
 
-.quick-actions {
-    display: flex;
-    gap: 7px;
-    overflow-x: auto;
-    margin-top: 10px;
+.profile-role{
+    font-size:11px;
+    color:var(--muted);
 }
 
-.quick-actions button {
-    white-space: nowrap;
-    border: 1px solid #dce2ea;
-    background: white;
-    border-radius: 20px;
-    padding: 7px 13px;
-    font-size: 13px;
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.35);
+    z-index:1500;
 }
 
-/* typing */
-
-.typing {
-    display: flex;
-    gap: 5px;
-    padding: 12px;
+.overlay.show{
+    display:block;
 }
 
-.dot {
-    width: 7px;
-    height: 7px;
-    background: #999;
-    border-radius: 50%;
-    animation: bounce 1s infinite;
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-wrap{
+    max-width:1200px;
+    margin:auto;
 }
 
-.dot:nth-child(2) {
-    animation-delay: .15s;
+.welcome{
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    padding:30px;
+    border-radius:20px;
+    margin-bottom:25px;
 }
 
-.dot:nth-child(3) {
-    animation-delay: .3s;
+.welcome h1{
+    font-size:30px;
+    font-weight:800;
 }
 
-@keyframes bounce {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+.welcome p{
+    margin:0;
+    opacity:.92;
 }
 
-/* reactions */
-
-.reactions {
-    display: flex;
-    gap: 8px;
-    margin-top: 5px;
+.status-pill{
+    display:inline-block;
+    margin-top:15px;
+    background:rgba(255,255,255,.18);
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
 }
 
-.reactions button {
-    border: none;
-    background: transparent;
-    opacity: .65;
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
 }
 
-/* cards */
-
-.content-card {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    padding: 22px;
-    margin-bottom: 15px;
+.info-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
 }
 
-/* dark */
-
-body.dark {
-    background: #15171c;
-    color: #eee;
+.info-card h4{
+    font-size:17px;
+    font-weight:800;
 }
 
-body.dark .topbar,
-body.dark .sidebar,
-body.dark .input-area,
-body.dark .bot .bubble,
-body.dark .content-card,
-body.dark .quick-actions button,
-body.dark .icon-btn {
-    background: #202329;
-    color: #eee;
-    border-color: #353941;
+.info-card p{
+    color:var(--muted);
+    font-size:13px;
 }
 
-body.dark .sidebar button:hover {
-    background: #30343b;
+.big-icon{
+    font-size:30px;
+    margin-bottom:12px;
 }
 
-body.dark .bot .bubble {
-    color: #eee;
+.quick-actions{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:20px;
 }
 
-body.dark .bot-label,
-body.dark .sidebar .section-title {
-    color: #aaa;
+.quick-action{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:14px;
+    padding:18px;
+    cursor:pointer;
+    text-align:left;
 }
 
-body.dark #messageInput {
-    background: #17191d;
-    color: white;
-    border-color: #444;
+.quick-action:hover{
+    transform:translateY(-2px);
+    border-color:var(--primary);
 }
 
-/* mobile */
+/* =========================
+   CHAT
+========================= */
 
-@media(max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: .25s;
+.chat-page{
+    padding:0!important;
+}
+
+.chat-container{
+    max-width:950px;
+    margin:auto;
+    height:calc(100vh - 65px);
+    display:flex;
+    flex-direction:column;
+}
+
+.chat-header{
+    padding:18px 20px;
+    border-bottom:1px solid var(--border);
+    background:var(--card);
+}
+
+.chat-header h2{
+    font-size:18px;
+    margin:0;
+    font-weight:800;
+}
+
+.chat-header small{
+    color:var(--muted);
+}
+
+.chat-messages{
+    flex:1;
+    overflow-y:auto;
+    padding:25px 15px 120px;
+}
+
+.message-row{
+    display:flex;
+    margin-bottom:18px;
+}
+
+.message-row.user{
+    justify-content:flex-end;
+}
+
+.message{
+    max-width:75%;
+    padding:13px 16px;
+    border-radius:16px;
+    line-height:1.5;
+    font-size:14px;
+    white-space:pre-wrap;
+}
+
+.bot .message{
+    background:var(--bot);
+    border-bottom-left-radius:5px;
+}
+
+.user .message{
+    background:var(--user);
+    color:white;
+    border-bottom-right-radius:5px;
+}
+
+/* IMAGE INSIDE CHAT */
+
+.chat-image{
+    display:block;
+    max-width:280px;
+    max-height:280px;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    border-radius:12px;
+    margin-bottom:8px;
+    cursor:pointer;
+}
+
+.user .message:has(.chat-image){
+    padding:8px;
+}
+
+.image-caption{
+    margin-top:6px;
+    font-size:13px;
+    word-break:break-word;
+}
+
+.message-time{
+    font-size:10px;
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.reactions{
+    margin-top:7px;
+    display:flex;
+    gap:4px;
+}
+
+.reaction-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    border-radius:20px;
+    font-size:12px;
+    padding:3px 7px;
+    cursor:pointer;
+}
+
+.chat-input-area{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:var(--card);
+    border-top:1px solid var(--border);
+    padding:12px 18px;
+    z-index:500;
+}
+
+.chat-input-wrap{
+    max-width:950px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.chat-input{
+    flex:1;
+    min-height:48px;
+    max-height:130px;
+    resize:none;
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:13px 17px;
+    outline:none;
+}
+
+.icon-btn{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    cursor:pointer;
+}
+
+.icon-btn:hover{
+    border-color:var(--primary);
+    color:var(--primary);
+}
+
+.send-btn{
+    background:var(--primary);
+    color:white;
+    border:0;
+}
+
+.send-btn:hover{
+    color:white;
+    opacity:.9;
+}
+
+.quick-question-bar{
+    max-width:950px;
+    margin:0 auto 8px;
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+}
+
+.quick-question{
+    white-space:nowrap;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:20px;
+    padding:7px 12px;
+    font-size:11px;
+    cursor:pointer;
+}
+
+.typing{
+    display:none;
+    color:var(--muted);
+    font-size:12px;
+    padding:5px 15px;
+}
+
+/* =========================
+   OTHER PAGES
+========================= */
+
+.content-container{
+    max-width:1050px;
+    margin:auto;
+}
+
+.page-title{
+    font-size:27px;
+    font-weight:800;
+    margin-bottom:6px;
+}
+
+.page-subtitle{
+    color:var(--muted);
+    margin-bottom:25px;
+}
+
+.feature-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:15px;
+}
+
+.feature-card h4{
+    font-size:18px;
+    font-weight:800;
+}
+
+.feature-card p{
+    color:var(--muted);
+}
+
+.search-box{
+    position:relative;
+    margin-bottom:20px;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px 16px 14px 45px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--card);
+    color:var(--text);
+}
+
+.search-icon{
+    position:absolute;
+    left:16px;
+    top:12px;
+}
+
+.history-item{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:17px;
+    border-radius:14px;
+    margin-bottom:10px;
+    cursor:pointer;
+}
+
+.history-item:hover{
+    border-color:var(--primary);
+}
+
+.history-title{
+    font-weight:bold;
+}
+
+.history-preview{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.guide-step{
+    display:flex;
+    gap:15px;
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.step-number{
+    width:35px;
+    height:35px;
+    min-width:35px;
+    border-radius:50%;
+    background:var(--primary);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.ticket-form{
+    max-width:700px;
+}
+
+.settings-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.settings-label{
+    font-weight:bold;
+}
+
+.settings-description{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.profile-box{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.avatar-large{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.image-preview{
+    display:none;
+    max-width:250px;
+    max-height:180px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    margin:10px auto 5px;
+    object-fit:contain;
+}
+
+.toast-message{
+    position:fixed;
+    bottom:90px;
+    right:20px;
+    background:#111827;
+    color:white;
+    padding:12px 17px;
+    border-radius:10px;
+    display:none;
+    z-index:3000;
+    font-size:13px;
+}
+
+@media(max-width:800px){
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
     }
 
-    .sidebar.open {
-        transform: translateX(0);
+    .quick-actions{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .main {
-        margin-left: 0;
+    .page{
+        padding:20px 15px;
     }
 
-    .input-area {
-        left: 0;
+    .message{
+        max-width:88%;
     }
 
-    .bubble {
-        max-width: 90%;
-    }
 }
+
+@media(max-width:500px){
+
+    .quick-actions{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .welcome h1{
+        font-size:24px;
+    }
+
+    .brand span:last-child{
+        display:none;
+    }
+
+    .chat-input-area{
+        padding:8px;
+    }
+
+    .chat-image{
+        max-width:230px;
+        max-height:230px;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- =========================
+<!-- ==================================================
      LOGIN
-========================= -->
+================================================== -->
 
-<div id="authScreen">
-    <div class="auth-card">
+<section id="authPage">
 
-        <div class="logo">🤖 AI IT Buddy</div>
-        <div class="subtitle">
-            Your student-friendly AI support buddy
-        </div>
+<div class="auth-card">
 
-        <div id="loginBox">
-            <input id="loginUsername" class="form-control" placeholder="Username">
-            <input id="loginPassword" type="password" class="form-control" placeholder="Password">
+<div class="auth-logo">🤖</div>
 
-            <button class="btn btn-primary w-100 mt-2" onclick="login()">
-                Login
-            </button>
+<h2 class="auth-title">AI IT Buddy</h2>
 
-            <p class="text-center mt-3 mb-0">
-                No account?
-                <a href="#" onclick="showRegister()">Create one</a>
-            </p>
-        </div>
+<p class="auth-subtitle">
+Student-Friendly AI IT Help Desk
+</p>
 
-        <div id="registerBox" class="hidden">
-            <input id="regName" class="form-control" placeholder="Full name">
-            <input id="regUsername" class="form-control" placeholder="Username">
-            <input id="regPassword" type="password" class="form-control" placeholder="Password">
+<div class="auth-tabs">
 
-            <button class="btn btn-success w-100 mt-2" onclick="register()">
-                Create Account
-            </button>
+<button id="loginTab"
+class="active"
+onclick="showLogin()">
+Login
+</button>
 
-            <p class="text-center mt-3 mb-0">
-                Already have an account?
-                <a href="#" onclick="showLogin()">Login</a>
-            </p>
-        </div>
+<button id="registerTab"
+onclick="showRegister()">
+Create Account
+</button>
 
-    </div>
 </div>
 
 
-<!-- =========================
+<div id="loginForm">
+
+<div class="mb-3">
+
+<label class="form-label">
+Username
+</label>
+
+<input
+id="loginUsername"
+class="form-control"
+placeholder="Enter username">
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Password
+</label>
+
+<input
+id="loginPassword"
+type="password"
+class="form-control"
+placeholder="Enter password">
+
+</div>
+
+
+<button
+class="btn btn-main w-100"
+onclick="loginUser()">
+
+Login
+
+</button>
+
+</div>
+
+
+<div id="registerForm" style="display:none;">
+
+<div class="mb-3">
+
+<label class="form-label">
+Full Name
+</label>
+
+<input
+id="registerName"
+class="form-control"
+placeholder="Enter your name">
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Username
+</label>
+
+<input
+id="registerUsername"
+class="form-control"
+placeholder="Create username">
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Password
+</label>
+
+<input
+id="registerPassword"
+type="password"
+class="form-control"
+placeholder="Create password">
+
+</div>
+
+
+<button
+class="btn btn-main w-100"
+onclick="registerUser()">
+
+Create Account
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
      APP
-========================= -->
+================================================== -->
 
-<div id="app">
+<section id="app">
 
-    <!-- TOPBAR -->
+<header class="topbar">
 
-    <div class="topbar">
-        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-
-        <div class="brand">
-            AI IT Buddy 🤖
-        </div>
-
-        <div class="status">
-            ● Online
-        </div>
-    </div>
+<button
+class="menu-btn"
+onclick="toggleMenu()">
+☰
+</button>
 
 
-    <!-- SIDEBAR -->
+<div class="brand">
 
-    <aside id="sidebar" class="sidebar">
+<div class="brand-icon">
+🤖
+</div>
 
-        <button onclick="newChat()">➕ New Chat</button>
+<span>AI IT Buddy</span>
 
-        <button onclick="focusSearch()">🔎 Search</button>
-
-        <button onclick="showHistory()">🕘 Chat History</button>
-
-        <div class="section-title">Support</div>
-
-        <button onclick="showGuide()">🛠 Troubleshooting Guide</button>
-
-        <button onclick="showSupport()">🎫 Contact IT / Support Ticket</button>
-
-        <div class="section-title">Account</div>
-
-        <button onclick="showSettings()">⚙ Settings</button>
-
-        <button onclick="toggleTheme()">🌙 / ☀ Theme</button>
-
-        <button onclick="logout()">🚪 Logout</button>
-
-    </aside>
+</div>
 
 
-    <!-- MAIN -->
+<div class="online">
+● Online
+</div>
 
-    <main class="main">
-
-        <section id="chatArea" class="chat-area"></section>
-
-    </main>
+</header>
 
 
-    <!-- INPUT -->
+<!-- SIDEBAR -->
 
-    <div class="input-area">
+<aside id="sidebar" class="sidebar">
 
-        <div class="input-box">
+<div class="menu-header">
 
-            <img id="imagePreview" class="preview">
+<div class="brand-icon">
+🤖
+</div>
 
-            <div class="input-row">
+<div class="menu-header-title">
+AI IT Buddy
+</div>
 
-                <button class="icon-btn"
-                        title="Upload image"
-                        onclick="document.getElementById('imageInput').click()">
-                    📷
-                </button>
+<button
+class="close-menu"
+onclick="closeMenu()">
+×
+</button>
 
-                <input type="file"
-                       id="imageInput"
-                       accept="image/*"
-                       hidden
-                       onchange="previewImage(event)">
+</div>
 
-                <textarea
-                    id="messageInput"
-                    class="form-control"
-                    placeholder="Message AI IT Buddy..."
-                    rows="1"></textarea>
 
-                <button class="icon-btn"
-                        title="Voice input"
-                        onclick="startVoiceInput()">
-                    🎤
-                </button>
+<div class="menu-profile">
 
-                <button class="send-btn"
-                        onclick="sendMessage()">
-                    ➤
-                </button>
+<div
+class="avatar-small"
+id="menuAvatar">
+CR
+</div>
 
-            </div>
+<div>
 
-            <div class="quick-actions">
+<div
+class="profile-name"
+id="menuName">
+Student
+</div>
 
-                <button onclick="quickMessage('My WiFi is not working.')">
-                    📶 WiFi Help
-                </button>
+<div class="profile-role">
+Student User
+</div>
 
-                <button onclick="quickMessage('My computer is slow.')">
-                    💻 Computer
-                </button>
+</div>
 
-                <button onclick="quickMessage('I need help with school.')">
-                    🎓 School
-                </button>
+</div>
 
-                <button onclick="quickMessage('I just want to rant.')">
-                    💬 Just Rant
-                </button>
 
-                <button onclick="quickMessage('I need some advice.')">
-                    💡 Advice
-                </button>
+<div class="menu-section">
+MAIN
+</div>
 
-            </div>
 
-        </div>
-    </div>
+<button
+class="menu-item active"
+data-page="dashboardPage"
+onclick="openPage('dashboardPage')">
 
+<span class="menu-icon">
+🏠
+</span>
+
+Dashboard
+
+</button>
+
+
+<button
+class="menu-item"
+data-page="chatPage"
+onclick="openPage('chatPage')">
+
+<span class="menu-icon">
+➕
+</span>
+
+New Chat
+
+</button>
+
+
+<button
+class="menu-item"
+data-page="searchPage"
+onclick="openPage('searchPage')">
+
+<span class="menu-icon">
+🔎
+</span>
+
+Search
+
+</button>
+
+
+<button
+class="menu-item"
+data-page="historyPage"
+onclick="openPage('historyPage')">
+
+<span class="menu-icon">
+🕘
+</span>
+
+History
+
+</button>
+
+
+<div class="menu-section">
+SUPPORT
+</div>
+
+
+<button
+class="menu-item"
+data-page="guidePage"
+onclick="openPage('guidePage')">
+
+<span class="menu-icon">
+🛠
+</span>
+
+Troubleshooting Guide
+
+</button>
+
+
+<button
+class="menu-item"
+data-page="supportPage"
+onclick="openPage('supportPage')">
+
+<span class="menu-icon">
+🎫
+</span>
+
+Contact IT / Support
+
+</button>
+
+
+<div class="menu-section">
+ACCOUNT
+</div>
+
+
+<button
+class="menu-item"
+data-page="settingsPage"
+onclick="openPage('settingsPage')">
+
+<span class="menu-icon">
+⚙
+</span>
+
+Settings / Profile
+
+</button>
+
+
+<button
+class="menu-item"
+onclick="toggleTheme()">
+
+<span
+class="menu-icon"
+id="themeIcon">
+🌙
+</span>
+
+<span id="themeText">
+Dark Mode
+</span>
+
+</button>
+
+
+<button
+class="menu-item"
+onclick="logoutUser()">
+
+<span class="menu-icon">
+🚪
+</span>
+
+Logout
+
+</button>
+
+</aside>
+
+
+<div
+id="overlay"
+class="overlay"
+onclick="closeMenu()">
+</div>
+
+
+<main class="main-area">
+
+
+<!-- ==================================================
+     DASHBOARD
+================================================== -->
+
+<section
+id="dashboardPage"
+class="page active">
+
+<div class="dashboard-wrap">
+
+<div class="welcome">
+
+<h1 id="welcomeText">
+Welcome to AI IT Buddy! 👋
+</h1>
+
+<p>
+Your student-friendly AI assistant for IT support,
+troubleshooting, school-related concerns, and everyday questions.
+</p>
+
+<span class="status-pill">
+● Ready to help
+</span>
+
+</div>
+
+
+<div class="dashboard-grid">
+
+
+<div class="info-card">
+
+<div class="big-icon">
+🤖
+</div>
+
+<h4>
+AI IT Support
+</h4>
+
+<p>
+Describe your technical problem using normal language
+and AI IT Buddy will provide possible troubleshooting steps.
+</p>
+
+<button
+class="btn btn-main btn-sm"
+onclick="openPage('chatPage')">
+
+Start Chat
+
+</button>
+
+</div>
+
+
+<div class="info-card">
+
+<div class="big-icon">
+🛠
+</div>
+
+<h4>
+Troubleshooting
+</h4>
+
+<p>
+Find quick guides for common Wi-Fi, computer,
+software, printer, account, and basic IT problems.
+</p>
+
+<button
+class="btn btn-outline-primary btn-sm"
+onclick="openPage('guidePage')">
+
+View Guide
+
+</button>
+
+</div>
+
+
+<div class="info-card">
+
+<div class="big-icon">
+🎫
+</div>
+
+<h4>
+Need IT Staff?
+</h4>
+
+<p>
+If the problem cannot be solved through basic troubleshooting,
+you can submit a support request.
+</p>
+
+<button
+class="btn btn-outline-primary btn-sm"
+onclick="openPage('supportPage')">
+
+Contact IT
+
+</button>
+
+</div>
+
+</div>
+
+
+<h4 class="mt-4 mb-3">
+Quick Actions
+</h4>
+
+
+<div class="quick-actions">
+
+<button
+class="quick-action"
+onclick="startNewChat()">
+
+<div>
+💬
+</div>
+
+<strong>
+New Chat
+</strong>
+
+<br>
+
+<small>
+Ask AI IT Buddy
+</small>
+
+</button>
+
+
+<button
+class="quick-action"
+onclick="openPage('searchPage')">
+
+<div>
+🔎
+</div>
+
+<strong>
+Search
+</strong>
+
+<br>
+
+<small>
+Find previous conversations
+</small>
+
+</button>
+
+
+<button
+class="quick-action"
+onclick="openPage('historyPage')">
+
+<div>
+🕘
+</div>
+
+<strong>
+History
+</strong>
+
+<br>
+
+<small>
+View your chats
+</small>
+
+</button>
+
+
+<button
+class="quick-action"
+onclick="openPage('guidePage')">
+
+<div>
+🛠
+</div>
+
+<strong>
+Guide
+</strong>
+
+<br>
+
+<small>
+Fix common IT problems
+</small>
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     CHAT PAGE
+================================================== -->
+
+<section
+id="chatPage"
+class="page chat-page">
+
+<div class="chat-container">
+
+<div class="chat-header">
+
+<h2>
+💬 AI IT Buddy Chat
+</h2>
+
+<small>
+Ask about IT problems, school concerns,
+or just talk about your day.
+</small>
+
+</div>
+
+
+<div
+id="chatMessages"
+class="chat-messages">
+</div>
+
+
+<div
+id="typingIndicator"
+class="typing">
+
+🤖 AI IT Buddy is typing...
+
+</div>
+
+</div>
+
+
+<div class="chat-input-area">
+
+
+<div class="quick-question-bar">
+
+<button
+class="quick-question"
+onclick="quickAsk('My Wi-Fi is not connecting.')">
+
+Wi-Fi Problem
+
+</button>
+
+
+<button
+class="quick-question"
+onclick="quickAsk('My computer is running slowly.')">
+
+Slow Computer
+
+</button>
+
+
+<button
+class="quick-question"
+onclick="quickAsk('My printer is not printing.')">
+
+Printer
+
+</button>
+
+
+<button
+class="quick-question"
+onclick="quickAsk('I just want to rant.')">
+
+I want to rant
+
+</button>
+
+
+<button
+class="quick-question"
+onclick="quickAsk('I am nervous about my presentation.')">
+
+Presentation
+
+</button>
+
+</div>
+
+
+<div class="chat-input-wrap">
+
+
+<input
+type="file"
+id="imageInput"
+accept="image/*"
+style="display:none"
+onchange="previewImage(event)">
+
+
+<button
+class="icon-btn"
+title="Upload image"
+onclick="document.getElementById('imageInput').click()">
+
+🖼️
+
+</button>
+
+
+<button
+class="icon-btn"
+title="Voice input"
+onclick="startVoiceInput()">
+
+🎤
+
+</button>
+
+
+<textarea
+id="chatInput"
+class="chat-input"
+rows="1"
+placeholder="Message AI IT Buddy..."
+onkeydown="handleEnter(event)">
+</textarea>
+
+
+<button
+class="icon-btn send-btn"
+onclick="sendMessage()">
+
+➤
+
+</button>
+
+</div>
+
+
+<img
+id="imagePreview"
+class="image-preview">
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     SEARCH
+================================================== -->
+
+<section
+id="searchPage"
+class="page">
+
+<div class="content-container">
+
+<h1 class="page-title">
+🔎 Search
+</h1>
+
+<p class="page-subtitle">
+Search through your previous AI IT Buddy conversations.
+</p>
+
+
+<div class="search-box">
+
+<span class="search-icon">
+🔎
+</span>
+
+<input
+id="searchInput"
+placeholder="Search your conversations..."
+oninput="searchHistory()">
+
+</div>
+
+
+<div id="searchResults">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     HISTORY
+================================================== -->
+
+<section
+id="historyPage"
+class="page">
+
+<div class="content-container">
+
+<h1 class="page-title">
+🕘 Chat History
+</h1>
+
+<p class="page-subtitle">
+Your previous conversations are stored locally in this prototype.
+</p>
+
+
+<div id="historyList">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     TROUBLESHOOTING
+================================================== -->
+
+<section
+id="guidePage"
+class="page">
+
+<div class="content-container">
+
+<h1 class="page-title">
+🛠 Troubleshooting Guide
+</h1>
+
+<p class="page-subtitle">
+Basic steps for common student IT problems.
+</p>
+
+
+<div class="feature-card">
+
+<h4>
+📶 Wi-Fi / Internet Not Working
+</h4>
+
+<div class="guide-step">
+
+<div class="step-number">
+1
+</div>
+
+<div>
+Check if Wi-Fi is turned on and airplane mode is off.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+2
+</div>
+
+<div>
+Disconnect from the network and reconnect.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+3
+</div>
+
+<div>
+Restart your router or device if appropriate.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+4
+</div>
+
+<div>
+Check if other devices can connect.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<h4>
+💻 Computer Running Slowly
+</h4>
+
+<div class="guide-step">
+
+<div class="step-number">
+1
+</div>
+
+<div>
+Close applications and browser tabs that you are not using.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+2
+</div>
+
+<div>
+Restart the computer.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+3
+</div>
+
+<div>
+Check available storage space.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+4
+</div>
+
+<div>
+Check whether updates are available.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<h4>
+🖨️ Printer Not Printing
+</h4>
+
+<div class="guide-step">
+
+<div class="step-number">
+1
+</div>
+
+<div>
+Check if the printer is powered on.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+2
+</div>
+
+<div>
+Check the paper and ink/toner.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+3
+</div>
+
+<div>
+Check whether the correct printer is selected.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+4
+</div>
+
+<div>
+Try restarting the printer and computer.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<h4>
+🔐 Account / Login Problem
+</h4>
+
+<div class="guide-step">
+
+<div class="step-number">
+1
+</div>
+
+<div>
+Check that your username and password are entered correctly.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+2
+</div>
+
+<div>
+Check whether Caps Lock is enabled.
+</div>
+
+</div>
+
+
+<div class="guide-step">
+
+<div class="step-number">
+3
+</div>
+
+<div>
+Use the official password recovery process if available.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     SUPPORT
+================================================== -->
+
+<section
+id="supportPage"
+class="page">
+
+<div class="content-container">
+
+<h1 class="page-title">
+🎫 Contact IT / Support Ticket
+</h1>
+
+<p class="page-subtitle">
+Submit a request when basic troubleshooting does not solve the problem.
+</p>
+
+
+<div class="feature-card ticket-form">
+
+<div class="mb-3">
+
+<label class="form-label">
+Student Name
+</label>
+
+<input
+id="ticketName"
+class="form-control">
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Issue Category
+</label>
+
+<select
+id="ticketCategory"
+class="form-select">
+
+<option>
+Wi-Fi / Internet
+</option>
+
+<option>
+Computer / Laptop
+</option>
+
+<option>
+Software
+</option>
+
+<option>
+Printer
+</option>
+
+<option>
+Account / Login
+</option>
+
+<option>
+Other
+</option>
+
+</select>
+
+</div>
+
+
+<div class="mb-3">
+
+<label class="form-label">
+Describe the Problem
+</label>
+
+<textarea
+id="ticketProblem"
+class="form-control"
+rows="5"
+placeholder="Describe what happened...">
+</textarea>
+
+</div>
+
+
+<button
+class="btn btn-main"
+onclick="submitTicket()">
+
+Submit Support Request
+
+</button>
+
+</div>
+
+
+<div id="ticketResult">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==================================================
+     SETTINGS
+================================================== -->
+
+<section
+id="settingsPage"
+class="page">
+
+<div class="content-container">
+
+<h1 class="page-title">
+⚙ Settings / Profile
+</h1>
+
+<p class="page-subtitle">
+Manage your profile and AI IT Buddy preferences.
+</p>
+
+
+<div class="feature-card">
+
+<div class="profile-box">
+
+<div
+class="avatar-large"
+id="profileAvatar">
+CR
+</div>
+
+<div>
+
+<h4 id="profileName">
+Student
+</h4>
+
+<p id="profileUsername">
+@student
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="settings-row">
+
+<div>
+
+<div class="settings-label">
+🌙 Dark Mode
+</div>
+
+<div class="settings-description">
+Change the appearance of AI IT Buddy.
+</div>
+
+</div>
+
+
+<div>
+
+<button
+class="btn btn-outline-primary btn-sm"
+onclick="toggleTheme()">
+
+Toggle Theme
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="settings-row">
+
+<div>
+
+<div class="settings-label">
+🗑 Clear Chat History
+</div>
+
+<div class="settings-description">
+Remove locally stored conversations.
+</div>
+
+</div>
+
+
+<div>
+
+<button
+class="btn btn-outline-danger btn-sm"
+onclick="clearHistory()">
+
+Clear
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+</section>
+
+
+<div
+id="toast"
+class="toast-message">
 </div>
 
 
 <script>
 
-/* =========================================================
-   USER / ACCOUNT
-========================================================= */
+/* ==================================================
+   DATA
+================================================== */
 
-let currentUser = localStorage.getItem("currentUser") || null;
+let currentUser =
+JSON.parse(localStorage.getItem("aiitbuddy_user")) || null;
 
-function showRegister() {
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("registerBox").classList.remove("hidden");
-}
+let conversations =
+JSON.parse(localStorage.getItem("aiitbuddy_conversations")) || [];
 
-function showLogin() {
-    document.getElementById("registerBox").classList.add("hidden");
-    document.getElementById("loginBox").classList.remove("hidden");
-}
+let currentConversation = [];
 
-function register() {
+let currentConversationId =
+Date.now().toString();
 
-    const name = document.getElementById("regName").value.trim();
-    const username = document.getElementById("regUsername").value.trim();
-    const password = document.getElementById("regPassword").value;
+let pendingImage = null;
 
-    if (!name || !username || !password) {
-        alert("Please complete all fields.");
-        return;
-    }
 
-    const users = JSON.parse(localStorage.getItem("users") || "{}");
+/* ==================================================
+   AUTH
+================================================== */
 
-    if (users[username]) {
-        alert("Username already exists.");
-        return;
-    }
+function showLogin(){
 
-    users[username] = {
-        name,
-        password
-    };
+document.getElementById("loginForm").style.display="block";
 
-    localStorage.setItem("users", JSON.stringify(users));
+document.getElementById("registerForm").style.display="none";
 
-    alert("Account created successfully.");
+document.getElementById("loginTab").classList.add("active");
 
-    showLogin();
-}
-
-function login() {
-
-    const username = document.getElementById("loginUsername").value.trim();
-    const password = document.getElementById("loginPassword").value;
-
-    const users = JSON.parse(localStorage.getItem("users") || "{}");
-
-    if (!users[username] || users[username].password !== password) {
-        alert("Invalid username or password.");
-        return;
-    }
-
-    currentUser = username;
-    localStorage.setItem("currentUser", username);
-
-    startApp();
-}
-
-function logout() {
-
-    localStorage.removeItem("currentUser");
-
-    currentUser = null;
-
-    document.getElementById("app").style.display = "none";
-    document.getElementById("authScreen").style.display = "flex";
-}
-
-function startApp() {
-
-    document.getElementById("authScreen").style.display = "none";
-    document.getElementById("app").style.display = "block";
-
-    loadTheme();
-    loadCurrentChat();
-
-    /*
-       Important:
-       We intentionally DO NOT add the old long
-       "You can ask me about..." starter guide.
-       The chat starts clean.
-    */
+document.getElementById("registerTab").classList.remove("active");
 
 }
 
-if (currentUser) {
-    startApp();
+
+function showRegister(){
+
+document.getElementById("loginForm").style.display="none";
+
+document.getElementById("registerForm").style.display="block";
+
+document.getElementById("loginTab").classList.remove("active");
+
+document.getElementById("registerTab").classList.add("active");
+
 }
 
 
-/* =========================================================
-   CHAT STATE / MEMORY
-========================================================= */
+function registerUser(){
 
-let conversation = [];
+let name=
+document.getElementById("registerName").value.trim();
 
-let currentImage = null;
+let username=
+document.getElementById("registerUsername").value.trim();
 
-let lastIntent = "";
-let lastTopic = "";
-let lastLanguage = "English";
+let password=
+document.getElementById("registerPassword").value.trim();
 
-function loadCurrentChat() {
 
-    conversation = JSON.parse(
-        localStorage.getItem("currentChat_" + currentUser) || "[]"
-    );
+if(!name || !username || !password){
 
-    const chatArea = document.getElementById("chatArea");
+showToast("Please complete all fields.");
 
-    chatArea.innerHTML = "";
+return;
 
-    if (conversation.length === 0) {
-
-        addMessage(
-            "Hi! I'm AI IT Buddy 🤖\nHow can I help you today?",
-            "bot",
-            false
-        );
-
-    } else {
-
-        conversation.forEach(item => {
-
-            addMessage(
-                item.text,
-                item.sender,
-                false
-            );
-
-        });
-
-    }
-}
-
-function saveConversation() {
-
-    localStorage.setItem(
-        "currentChat_" + currentUser,
-        JSON.stringify(conversation)
-    );
-}
-
-function addMessage(text, sender, save = true) {
-
-    const chatArea = document.getElementById("chatArea");
-
-    const message = document.createElement("div");
-
-    message.className =
-        "message " + sender;
-
-    const bubble = document.createElement("div");
-
-    bubble.className = "bubble";
-
-    if (sender === "bot") {
-
-        const label = document.createElement("div");
-
-        label.className = "bot-label";
-
-        label.textContent = "AI IT Buddy";
-
-        bubble.appendChild(label);
-    }
-
-    const content = document.createElement("div");
-
-    content.textContent = text;
-
-    bubble.appendChild(content);
-
-    message.appendChild(bubble);
-
-    chatArea.appendChild(message);
-
-    chatArea.scrollTop = chatArea.scrollHeight;
-
-    if (save) {
-
-        conversation.push({
-            sender,
-            text,
-            time: new Date().toISOString()
-        });
-
-        saveConversation();
-    }
-
-    if (sender === "bot") {
-        addReactions(message);
-    }
-}
-
-function addReactions(message) {
-
-    const reactions = document.createElement("div");
-
-    reactions.className = "reactions";
-
-    ["👍","❤️","😂","😕","👎"].forEach(icon => {
-
-        const button = document.createElement("button");
-
-        button.textContent = icon;
-
-        button.onclick = () => {
-            button.style.opacity = "1";
-        };
-
-        reactions.appendChild(button);
-    });
-
-    message.appendChild(reactions);
 }
 
 
-/* =========================================================
-   SEND MESSAGE
-========================================================= */
+let user={
+name:name,
+username:username,
+password:password
+};
 
-function sendMessage() {
+localStorage.setItem(
+"aiitbuddy_user",
+JSON.stringify(user)
+);
 
-    const input = document.getElementById("messageInput");
+currentUser=user;
 
-    const text = input.value.trim();
+showToast("Account created successfully!");
 
-    if (!text && !currentImage) return;
+setTimeout(showApp,500);
 
-    if (text) {
-        addMessage(text, "user");
-    }
-
-    input.value = "";
-
-    if (currentImage) {
-
-        addMessage(
-            "📷 Image received. I'll check what I can determine from the uploaded image.",
-            "bot"
-        );
-
-        currentImage = null;
-
-        document.getElementById("imagePreview").style.display = "none";
-
-        setTimeout(() => {
-            analyzeImage();
-        }, 500);
-
-        return;
-    }
-
-    showTyping();
-
-    setTimeout(() => {
-
-        removeTyping();
-
-        const response = generateResponse(text);
-
-        addMessage(response, "bot");
-
-    }, 500 + Math.random() * 700);
-}
-
-function quickMessage(text) {
-
-    document.getElementById("messageInput").value = text;
-
-    sendMessage();
 }
 
 
-/* =========================================================
-   ENTER TO SEND
-========================================================= */
+function loginUser(){
 
-document.getElementById("messageInput")
-.addEventListener("keydown", function(event) {
+let username=
+document.getElementById("loginUsername").value.trim();
 
-    if (event.key === "Enter" && !event.shiftKey) {
+let password=
+document.getElementById("loginPassword").value.trim();
 
-        event.preventDefault();
 
-        sendMessage();
-    }
+let savedUser=
+JSON.parse(localStorage.getItem("aiitbuddy_user"));
+
+
+if(!savedUser){
+
+showToast("No account found. Please create an account first.");
+
+return;
+
+}
+
+
+if(
+username===savedUser.username &&
+password===savedUser.password
+){
+
+currentUser=savedUser;
+
+showApp();
+
+}else{
+
+showToast("Incorrect username or password.");
+
+}
+
+}
+
+
+function showApp(){
+
+document.getElementById("authPage").style.display="none";
+
+document.getElementById("app").style.display="block";
+
+loadUserProfile();
+
+loadHistory();
+
+openPage("dashboardPage");
+
+}
+
+
+/* ==================================================
+   LOGOUT
+================================================== */
+
+function logoutUser(){
+
+if(confirm("Are you sure you want to logout?")){
+
+currentUser=null;
+
+document.getElementById("app").style.display="none";
+
+document.getElementById("authPage").style.display="flex";
+
+showLogin();
+
+}
+
+}
+
+
+/* ==================================================
+   MENU
+================================================== */
+
+function toggleMenu(){
+
+document
+.getElementById("sidebar")
+.classList.toggle("open");
+
+document
+.getElementById("overlay")
+.classList.toggle("show");
+
+}
+
+
+function closeMenu(){
+
+document
+.getElementById("sidebar")
+.classList.remove("open");
+
+document
+.getElementById("overlay")
+.classList.remove("show");
+
+}
+
+
+function openPage(pageId){
+
+document
+.querySelectorAll(".page")
+.forEach(page=>{
+page.classList.remove("active");
+});
+
+
+let target=
+document.getElementById(pageId);
+
+if(target){
+
+target.classList.add("active");
+
+}
+
+
+document
+.querySelectorAll(".menu-item[data-page]")
+.forEach(item=>{
+item.classList.remove("active");
+});
+
+
+let selected=
+document.querySelector(
+'.menu-item[data-page="'+pageId+'"]'
+);
+
+
+if(selected){
+
+selected.classList.add("active");
+
+}
+
+
+closeMenu();
+
+
+if(pageId==="historyPage"){
+
+loadHistory();
+
+}
+
+
+if(pageId==="searchPage"){
+
+searchHistory();
+
+}
+
+
+if(pageId==="chatPage"){
+
+setTimeout(()=>{
+document.getElementById("chatInput").focus();
+},100);
+
+}
+
+}
+
+
+/* ==================================================
+   PROFILE
+================================================== */
+
+function loadUserProfile(){
+
+if(!currentUser)
+return;
+
+
+let name=
+currentUser.name || "Student";
+
+
+document.getElementById("menuName")
+.textContent=name;
+
+
+document.getElementById("profileName")
+.textContent=name;
+
+
+document.getElementById("profileUsername")
+.textContent="@"+currentUser.username;
+
+
+let initials=
+name
+.split(" ")
+.map(word=>word.charAt(0))
+.join("")
+.substring(0,2)
+.toUpperCase();
+
+
+document.getElementById("menuAvatar")
+.textContent=initials;
+
+
+document.getElementById("profileAvatar")
+.textContent=initials;
+
+
+document.getElementById("welcomeText")
+.textContent=
+"Welcome, "+name+"! 👋";
+
+
+document.getElementById("ticketName")
+.value=name;
+
+}
+
+
+/* ==================================================
+   THEME
+================================================== */
+
+function toggleTheme(){
+
+document.body.classList.toggle("dark");
+
+let dark=
+document.body.classList.contains("dark");
+
+
+localStorage.setItem(
+"aiitbuddy_theme",
+dark ? "dark" : "light"
+);
+
+
+updateThemeUI();
+
+}
+
+
+function updateThemeUI(){
+
+let dark=
+document.body.classList.contains("dark");
+
+
+document.getElementById("themeIcon")
+.textContent=
+dark ? "☀️" : "🌙";
+
+
+document.getElementById("themeText")
+.textContent=
+dark ? "Light Mode" : "Dark Mode";
+
+}
+
+
+function loadTheme(){
+
+let theme=
+localStorage.getItem("aiitbuddy_theme");
+
+
+if(theme==="dark"){
+
+document.body.classList.add("dark");
+
+}
+
+
+updateThemeUI();
+
+}
+
+loadTheme();
+
+
+/* ==================================================
+   HTML ESCAPE
+================================================== */
+
+function escapeHTML(text){
+
+return String(text)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* ==================================================
+   TIME
+================================================== */
+
+function getTime(){
+
+return new Date().toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit"
+});
+
+}
+
+
+/* ==================================================
+   NORMAL MESSAGE
+================================================== */
+
+function addMessage(text,type){
+
+let box=
+document.getElementById("chatMessages");
+
+
+let row=
+document.createElement("div");
+
+row.className=
+"message-row "+type;
+
+
+let message=
+document.createElement("div");
+
+message.className="message";
+
+
+message.innerHTML=
+escapeHTML(text)
+.replace(/\n/g,"<br>");
+
+
+row.appendChild(message);
+
+box.appendChild(row);
+
+box.scrollTop=box.scrollHeight;
+
+
+currentConversation.push({
+
+text:text,
+type:type,
+time:getTime()
+
+});
+
+}
+
+
+/* ==================================================
+   BOT MESSAGE + REACTIONS
+================================================== */
+
+function addBotMessageWithReaction(text){
+
+let box=
+document.getElementById("chatMessages");
+
+
+let row=
+document.createElement("div");
+
+row.className="message-row bot";
+
+
+let wrapper=
+document.createElement("div");
+
+
+let message=
+document.createElement("div");
+
+message.className="message";
+
+
+message.innerHTML=
+escapeHTML(text)
+.replace(/\n/g,"<br>");
+
+
+wrapper.appendChild(message);
+
+
+let time=
+document.createElement("div");
+
+time.className="message-time";
+
+time.textContent=getTime();
+
+wrapper.appendChild(time);
+
+
+let reactions=
+document.createElement("div");
+
+reactions.className="reactions";
+
+
+["👍","❤️","😂","😕","👎"].forEach(icon=>{
+
+let btn=
+document.createElement("button");
+
+btn.className="reaction-btn";
+
+btn.textContent=icon;
+
+
+btn.onclick=function(){
+
+showToast(
+"Reaction recorded: "+icon
+);
+
+};
+
+
+reactions.appendChild(btn);
 
 });
 
 
-/* =========================================================
-   TYPING INDICATOR
-========================================================= */
+wrapper.appendChild(reactions);
 
-function showTyping() {
+row.appendChild(wrapper);
 
-    const chatArea = document.getElementById("chatArea");
+box.appendChild(row);
 
-    const typing = document.createElement("div");
+box.scrollTop=box.scrollHeight;
 
-    typing.id = "typingIndicator";
 
-    typing.className = "message bot";
+currentConversation.push({
 
-    typing.innerHTML = `
-        <div class="bubble">
-            <div class="bot-label">AI IT Buddy</div>
-            <div class="typing">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        </div>
-    `;
+text:text,
+type:"bot",
+time:getTime()
 
-    chatArea.appendChild(typing);
+});
 
-    chatArea.scrollTop = chatArea.scrollHeight;
-}
-
-function removeTyping() {
-
-    const typing = document.getElementById("typingIndicator");
-
-    if (typing) {
-        typing.remove();
-    }
 }
 
 
-/* =========================================================
+/* ==================================================
+   NEW IMAGE MESSAGE
+   THIS IS THE IMPORTANT FIX
+================================================== */
+
+function addImageMessage(
+imageData,
+fileName,
+caption
+){
+
+let box=
+document.getElementById("chatMessages");
+
+
+let row=
+document.createElement("div");
+
+row.className="message-row user";
+
+
+let wrapper=
+document.createElement("div");
+
+
+let message=
+document.createElement("div");
+
+message.className="message";
+
+
+/* ACTUAL IMAGE */
+
+let image=
+document.createElement("img");
+
+image.src=imageData;
+
+image.className="chat-image";
+
+image.alt=
+fileName || "Uploaded image";
+
+
+/* Optional click to enlarge */
+
+image.onclick=function(){
+
+window.open(imageData,"_blank");
+
+};
+
+
+message.appendChild(image);
+
+
+/* Caption */
+
+if(caption){
+
+let captionText=
+document.createElement("div");
+
+captionText.className=
+"image-caption";
+
+captionText.textContent=
+caption;
+
+message.appendChild(captionText);
+
+}
+
+
+wrapper.appendChild(message);
+
+
+/* Time */
+
+let time=
+document.createElement("div");
+
+time.className="message-time";
+
+time.textContent=getTime();
+
+wrapper.appendChild(time);
+
+
+row.appendChild(wrapper);
+
+box.appendChild(row);
+
+box.scrollTop=box.scrollHeight;
+
+
+/*
+   Save BOTH the text and actual image data
+   so History can display the image again.
+*/
+
+currentConversation.push({
+
+text:
+caption ||
+"Image uploaded: "+fileName,
+
+type:"user",
+
+time:getTime(),
+
+image:imageData,
+
+fileName:fileName
+
+});
+
+}
+
+
+/* ==================================================
    LANGUAGE DETECTION
-========================================================= */
+================================================== */
 
-function detectLanguage(text) {
+function detectLanguage(text){
 
-    const t = text.toLowerCase();
+let t=
+text.toLowerCase();
 
-    const bisayaWords = [
-        "ako",
-        "ko",
-        "nako",
-        "nimo",
-        "mo",
-        "kaayo",
-        "kay",
-        "unya",
-        "wala",
-        "naa",
-        "dili",
-        "di",
-        "unsa",
-        "ngano",
-        "kanang",
-        "gani",
-        "gyud",
-        "jud",
-        "buhaton",
-        "kapoy",
-        "ganahan",
-        "gusto",
-        "tabang",
-        "pwede",
-        "sige",
-        "lang",
-        "karon",
-        "adto",
-        "diri",
-        "sakit",
-        "lisod",
-        "murag",
-        "bitaw",
-        "ka",
-        "nako",
-        "pud"
-    ];
 
-    const tagalogWords = [
-        "ako",
-        "ko",
-        "mo",
-        "ikaw",
-        "hindi",
-        "wala",
-        "may",
-        "mga",
-        "ang",
-        "ng",
-        "na",
-        "ito",
-        "iyan",
-        "bakit",
-        "paano",
-        "saan",
-        "gusto",
-        "kailangan",
-        "tulong",
-        "pagod",
-        "masaya",
-        "malungkot",
-        "problema",
-        "araw",
-        "ngayon",
-        "mamaya",
-        "salamat",
-        "kasi"
-    ];
+let bisayaWords=[
+"ako","ikaw","siya","nako","nimo","niya",
+"kapoy","kaayo","unsa","ngano","kay",
+"pero","wala","naa","dili","ganahan",
+"gusto","tabang","sakit","adlaw",
+"problema","lisod","mao","bitaw",
+"pirme","gani","gyud","jud","murag"
+];
 
-    let bisayaScore = 0;
-    let tagalogScore = 0;
 
-    bisayaWords.forEach(word => {
+let tagalogWords=[
+"ako","ikaw","siya","ko","mo","niya",
+"pagod","bakit","ano","hindi","wala",
+"gusto","tulong","problema","mahirap",
+"araw","salamat","paano","kasi","pero",
+"school","aral","nakakainis"
+];
 
-        if (new RegExp("\\b" + word + "\\b").test(t)) {
-            bisayaScore++;
-        }
 
-    });
+let bisayaScore=0;
+let tagalogScore=0;
 
-    tagalogWords.forEach(word => {
 
-        if (new RegExp("\\b" + word + "\\b").test(t)) {
-            tagalogScore++;
-        }
+bisayaWords.forEach(word=>{
 
-    });
+if(
+new RegExp("\\b"+word+"\\b","i")
+.test(t)
+){
 
-    const englishScore =
-        (t.match(/\b(the|is|are|am|my|you|your|what|why|how|help|need|want|feel|school|today|problem|please|can|just)\b/g) || []).length;
+bisayaScore++;
 
-    if (
-        bisayaScore > 0 &&
-        tagalogScore > 0 &&
-        englishScore > 0
-    ) {
-        return "Mixed";
-    }
+}
 
-    if (bisayaScore > tagalogScore && bisayaScore > englishScore) {
-        return "Bisaya";
-    }
+});
 
-    if (tagalogScore > bisayaScore && tagalogScore > englishScore) {
-        return "Tagalog";
-    }
 
-    if (englishScore > 0) {
-        return "English";
-    }
+tagalogWords.forEach(word=>{
 
-    if (bisayaScore > 0) {
-        return "Bisaya";
-    }
+if(
+new RegExp("\\b"+word+"\\b","i")
+.test(t)
+){
 
-    if (tagalogScore > 0) {
-        return "Tagalog";
-    }
+tagalogScore++;
 
-    return "English";
+}
+
+});
+
+
+let englishScore=
+(
+t.match(
+/\b(the|is|are|my|you|I|it|this|that|can|how|what|why|please|help|problem|school|today|feel)\b/gi
+)||[]
+).length;
+
+
+if(
+bisayaScore>0 &&
+englishScore>0
+)
+return "mixed-bisaya";
+
+
+if(
+tagalogScore>0 &&
+englishScore>0
+)
+return "mixed-tagalog";
+
+
+if(
+bisayaScore>0 &&
+bisayaScore>=tagalogScore
+)
+return "bisaya";
+
+
+if(
+tagalogScore>0 &&
+tagalogScore>bisayaScore
+)
+return "tagalog";
+
+
+return "english";
+
 }
 
 
-/* =========================================================
-   INTENT DETECTION
-========================================================= */
+/* ==================================================
+   IT TOPIC
+================================================== */
 
-function detectQuestionType(text) {
+function detectITTopic(text){
 
-    const t = text.toLowerCase();
+let t=
+text.toLowerCase();
 
-    if (
-        t.includes("rant") ||
-        t.includes("just want to talk") ||
-        t.includes("just want to vent") ||
-        t.includes("gusto lang ko mag rant") ||
-        t.includes("mag rant lang")
-    ) {
-        return "rant";
-    }
 
-    if (
-        t.includes("advice") ||
-        t.includes("what should i do") ||
-        t.includes("unsay buhaton") ||
-        t.includes("unsa akong buhaton") ||
-        t.includes("anong gagawin ko") ||
-        t.includes("ano ang dapat kong gawin")
-    ) {
-        return "advice";
-    }
+if(
+t.includes("wifi") ||
+t.includes("wi-fi") ||
+t.includes("internet") ||
+t.includes("connection") ||
+t.includes("connect")
+)
+return "wifi";
 
-    if (
-        t.includes("thank") ||
-        t.includes("salamat") ||
-        t.includes("thanks")
-    ) {
-        return "thanks";
-    }
 
-    if (
-        /^(hi|hello|hey|yo|good morning|good afternoon|good evening)\b/i.test(t)
-    ) {
-        return "greeting";
-    }
+if(
+t.includes("slow") ||
+t.includes("lag") ||
+t.includes("hang") ||
+t.includes("freez") ||
+t.includes("performance")
+)
+return "slow";
 
-    if (
-        t.includes("?") ||
-        t.startsWith("how ") ||
-        t.startsWith("what ") ||
-        t.startsWith("why ") ||
-        t.startsWith("can you") ||
-        t.startsWith("pwede") ||
-        t.startsWith("unsa")
-    ) {
-        return "question";
-    }
 
-    return "conversation";
+if(
+t.includes("printer") ||
+t.includes("print") ||
+t.includes("printing")
+)
+return "printer";
+
+
+if(
+t.includes("password") ||
+t.includes("login") ||
+t.includes("account") ||
+t.includes("username")
+)
+return "account";
+
+
+if(
+t.includes("virus") ||
+t.includes("malware") ||
+t.includes("hacked")
+)
+return "security";
+
+
+if(
+t.includes("software") ||
+t.includes("application") ||
+t.includes("app") ||
+t.includes("program")
+)
+return "software";
+
+
+if(
+t.includes("keyboard") ||
+t.includes("mouse") ||
+t.includes("monitor") ||
+t.includes("screen") ||
+t.includes("laptop") ||
+t.includes("computer")
+)
+return "hardware";
+
+
+return null;
+
 }
 
 
-/* =========================================================
-   IT TOPIC DETECTION
-========================================================= */
+/* ==================================================
+   CONVERSATION TOPIC
+================================================== */
 
-function detectITTopic(text) {
+function detectConversationTopic(text){
 
-    const t = text.toLowerCase();
+let t=
+text.toLowerCase();
 
-    if (
-        t.includes("wifi") ||
-        t.includes("internet") ||
-        t.includes("connection") ||
-        t.includes("connect")
-    ) {
-        return "wifi";
-    }
 
-    if (
-        t.includes("printer") ||
-        t.includes("print") ||
-        t.includes("printing")
-    ) {
-        return "printer";
-    }
+if(
+t.includes("rant") ||
+t.includes("vent") ||
+t.includes("just want to talk") ||
+t.includes("just want to tell")
+)
+return "rant";
 
-    if (
-        t.includes("computer") ||
-        t.includes("pc") ||
-        t.includes("laptop") ||
-        t.includes("slow")
-    ) {
-        return "computer";
-    }
 
-    if (
-        t.includes("keyboard") ||
-        t.includes("mouse") ||
-        t.includes("monitor") ||
-        t.includes("screen")
-    ) {
-        return "hardware";
-    }
+if(
+t.includes("kapoy") ||
+t.includes("tired") ||
+t.includes("exhausted") ||
+t.includes("drained") ||
+t.includes("pagod")
+)
+return "tired";
 
-    if (
-        t.includes("virus") ||
-        t.includes("malware") ||
-        t.includes("hack") ||
-        t.includes("security") ||
-        t.includes("password")
-    ) {
-        return "security";
-    }
 
-    if (
-        t.includes("code") ||
-        t.includes("coding") ||
-        t.includes("html") ||
-        t.includes("css") ||
-        t.includes("javascript") ||
-        t.includes("programming")
-    ) {
-        return "programming";
-    }
+if(
+t.includes("nervous") ||
+t.includes("worried") ||
+t.includes("kabado") ||
+t.includes("kinakabahan")
+)
+return "nervous";
 
-    if (
-        t.includes("app") ||
-        t.includes("software") ||
-        t.includes("install") ||
-        t.includes("error")
-    ) {
-        return "software";
-    }
 
-    return "";
+if(
+t.includes("sad") ||
+t.includes("malungkot") ||
+t.includes("mingaw") ||
+t.includes("lonely")
+)
+return "sad";
+
+
+if(
+t.includes("frustrated") ||
+t.includes("frustrating") ||
+t.includes("annoyed") ||
+t.includes("inis") ||
+t.includes("nakakainis")
+)
+return "frustrated";
+
+
+if(
+t.includes("friend") ||
+t.includes("friendship") ||
+t.includes("kaibigan")
+)
+return "friendship";
+
+
+if(
+t.includes("motivation") ||
+t.includes("motivated") ||
+t.includes("unmotivated") ||
+t.includes("tamad")
+)
+return "motivation";
+
+
+return null;
+
 }
 
 
-/* =========================================================
-   CONVERSATION TOPIC DETECTION
-========================================================= */
-
-function detectConversationTopic(text) {
-
-    const t = text.toLowerCase();
-
-    if (
-        t.includes("kapoy") ||
-        t.includes("tired") ||
-        t.includes("exhausted") ||
-        t.includes("pagod") ||
-        t.includes("drained")
-    ) {
-        return "tired";
-    }
-
-    if (
-        t.includes("sad") ||
-        t.includes("malungkot") ||
-        t.includes("mingaw") ||
-        t.includes("lonely") ||
-        t.includes("alone")
-    ) {
-        return "sad";
-    }
-
-    if (
-        t.includes("frustrated") ||
-        t.includes("frustrated ko") ||
-        t.includes("inis") ||
-        t.includes("annoyed") ||
-        t.includes("irita") ||
-        t.includes("fed up")
-    ) {
-        return "frustrated";
-    }
-
-    if (
-        t.includes("nervous") ||
-        t.includes("nerbyos") ||
-        t.includes("kabado") ||
-        t.includes("scared") ||
-        t.includes("worried") ||
-        t.includes("anxious")
-    ) {
-        return "nervous";
-    }
-
-    if (
-        t.includes("assignment") ||
-        t.includes("exam") ||
-        t.includes("quiz") ||
-        t.includes("presentation") ||
-        t.includes("teacher") ||
-        t.includes("school") ||
-        t.includes("class") ||
-        t.includes("subject")
-    ) {
-        return "school";
-    }
-
-    if (
-        t.includes("friend") ||
-        t.includes("friendship") ||
-        t.includes("kaibigan") ||
-        t.includes("barkada")
-    ) {
-        return "friendship";
-    }
-
-    if (
-        t.includes("motivation") ||
-        t.includes("motivated") ||
-        t.includes("give up") ||
-        t.includes("walay gana") ||
-        t.includes("wala koy gana")
-    ) {
-        return "motivation";
-    }
-
-    if (
-        t.includes("overwhelmed") ||
-        t.includes("overwhelm") ||
-        t.includes("too much") ||
-        t.includes("daghan kaayo") ||
-        t.includes("sobrang dami")
-    ) {
-        return "overwhelmed";
-    }
-
-    return "general";
-}
-
-
-/* =========================================================
-   CONTEXT HELPERS
-========================================================= */
-
-function getRecentUserMessages() {
-
-    return conversation
-        .filter(item => item.sender === "user")
-        .slice(-3)
-        .map(item => item.text)
-        .join(" ");
-}
-
-function hasRecentTopic(topic) {
-
-    return getRecentUserMessages()
-        .toLowerCase()
-        .includes(topic);
-}
-
-
-/* =========================================================
-   VARIED RESPONSES
-========================================================= */
-
-function randomItem(array) {
-
-    return array[Math.floor(Math.random() * array.length)];
-}
-
-
-/* =========================================================
-   IT RESPONSES
-========================================================= */
-
-function itResponse(topic, language, text) {
-
-    if (language === "Bisaya") {
-
-        if (topic === "wifi") {
-
-            return randomItem([
-                "Sige, atong tan-awon. Una, check kung connected ba gyud ang imong device sa WiFi. Kung connected pero walay internet, try ug disconnect then reconnect. Kung dili gihapon, unsa imong device—laptop or phone?",
-                "Atong troubleshoot step by step. 📶 Una, disconnect sa WiFi then reconnect. Kung wala gihapon, try ug restart sa imong device. Ingna ko unsay nahitabo after ana.",
-                "Okay, WiFi problem ni. Check sa una kung ang uban devices naa ba'y internet. Kung tanan walay connection, possible nga router/network ang issue. Kung imong device ra, lahi pud atong i-check."
-            ]);
-
-        }
-
-        if (topic === "computer") {
-
-            return randomItem([
-                "Kung hinay imong computer, possible nga daghan kaayog programs nga nagdagan. Try nato tan-awon unsay apps nga naka-open. Laptop ba ni or desktop?",
-                "Atong i-check step by step. Kanus-a man nagsugod pagkahinay sa imong computer—recently lang ba or dugay na?",
-                "Pwede nato ma-troubleshoot. Kung hinay siya after opening many apps, possible nga memory/resources ang na-consume. Unsa imong gibuhat sa computer before siya nahinay?"
-            ]);
-
-        }
-
-        if (topic === "printer") {
-
-            return randomItem([
-                "Atong tan-awon ang printer. Naka-on ba siya ug connected ba sa imong computer? Kung yes, unsay makita nga error?",
-                "Kung dili mo-print, check sa una kung sakto ang printer nga napili. Then tan-awon nato kung naa ba'y pending print jobs.",
-                "Sige, printer problem. Ingna ko kung unsa ang exact nga nahitabo—dili mo-print, offline, paper jam, or lain?"
-            ]);
-
-        }
-
-        if (topic === "programming") {
-
-            return randomItem([
-                "Sige, tabangan tika sa coding. I-send diri ang code ug ang error message kung naa. Tan-awon nato unsa gyud ang problem.",
-                "Pwede nato ni i-debug step by step. Unsa nga programming language imong gamit—HTML/CSS/JavaScript, C, or lain?",
-                "Okay, coding problem. Ayaw sa pag-usab-usab sa code. I-send ang part nga nagka-error para ma-check nato together."
-            ]);
-
-        }
-
-        if (topic === "security") {
-
-            return randomItem([
-                "Atong i-check safely. Kung password or account security ni, ayaw i-share diri ang imong actual password or private information.",
-                "Kung security concern ni, tell me what happened without sharing passwords or sensitive details, then I'll help you identify the safer next step."
-            ]);
-        }
-
-    }
-
-
-    if (language === "Tagalog") {
-
-        if (topic === "wifi") {
-
-            return randomItem([
-                "Sige, ayusin natin step by step. Una, tingnan kung connected talaga ang device mo sa WiFi. Kung connected pero walang internet, subukan mong mag-disconnect at reconnect. Anong device ang gamit mo?",
-                "Okay, WiFi problem. Check natin kung lahat ng devices walang internet o yung device mo lang. Malaking clue iyon para malaman kung saan ang problema.",
-                "Subukan muna nating i-reconnect ang WiFi. Kung hindi pa rin gumana, sabihin mo kung ano ang eksaktong lumalabas sa screen."
-            ]);
-        }
-
-        if (topic === "computer") {
-
-            return randomItem([
-                "Kung mabagal ang computer mo, tingnan natin kung maraming programs ang sabay-sabay na tumatakbo. Ano ang ginagawa mo bago ito bumagal?",
-                "Pwede natin itong i-troubleshoot step by step. Kailan nagsimula maging mabagal ang computer?",
-                "Okay, computer problem. Laptop ba o desktop? At mabagal ba siya sa lahat ng tasks o sa isang program lang?"
-            ]);
-        }
-
-        if (topic === "programming") {
-
-            return randomItem([
-                "Sige, tutulungan kitang i-debug. I-send mo yung code at error message para makita natin kung saan nanggagaling ang problema.",
-                "Anong programming language ang gamit mo? HTML/CSS/JavaScript, C, o iba? Pwede nating ayusin step by step.",
-                "Huwag muna nating palitan nang marami ang code. Send mo yung part na may error at tingnan natin kung ano talaga ang cause."
-            ]);
-        }
-
-    }
-
-
-    return randomItem([
-        "Sure. Let's troubleshoot it step by step. Tell me what device or application you're using and what happened.",
-        "I can help you with that. What exactly happened before the problem started, and what do you see on the screen now?",
-        "Let's narrow it down. Is the problem happening all the time, or did it just start recently?",
-        "Okay, let's work through it together. Give me the exact error message if there is one."
-    ]);
-}
-
-
-/* =========================================================
-   PERSONAL / CONVERSATIONAL RESPONSES
-========================================================= */
-
-function conversationalResponse(text, language) {
-
-    const topic = detectConversationTopic(text);
-
-    /*
-       IMPORTANT:
-       We don't immediately give advice.
-       We first react to what the user actually said.
-    */
-
-    if (topic === "tired") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "Murag kapoy gyud kaayo imong adlaw. 😟 Dili kinahanglan nga ma-fix nimo tanan karon. If gusto nimo, pwede ra ka mag-rant diri. Unsa ang pinaka-nakapakapoy sa imong adlaw?",
-                "Gets nako, Buddy. Murag drained na gyud ka. Pahuway sa gamay kung kaya. Pero if naa kay gusto i-share, unsa man gyud ang nahitabo today?",
-                "Kapoy na kaayo sounds like daghan gyud kag gi-carry today. 😔 Gusto nimo mag-rant lang sa, or gusto nimo nga tabangan tika figure out unsay buhaton next?"
-            ]);
-
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "Mukhang sobrang nakakapagod talaga ng araw mo. 😟 Hindi mo kailangang ayusin lahat agad. Kung gusto mong mag-rant, makikinig ako. Ano ang pinaka-nakapagod para sa'yo today?",
-                "Gets ko. Parang drained ka na talaga. Pwede mong ilabas muna dito kung ano ang nangyari. Ano ang pinaka-nakabigat sa araw mo?",
-                "Mukhang marami kang pinagdaanan today. Gusto mo bang mag-rant lang muna, o gusto mong tulungan kitang isipin kung ano ang puwedeng gawin next?"
-            ]);
-        }
-
-        return randomItem([
-            "It sounds like today really drained you. 😟 You don't have to solve everything at once. If you just want to rant, that's okay. What was the hardest part of your day?",
-            "That sounds exhausting. Take a moment if you can. You can tell me what happened today, even if you don't know how to explain it properly.",
-            "Sounds like you've had a lot on your plate today. Do you want to just let it out, or would you rather talk through what you can do next?"
-        ]);
-    }
-
-
-    if (topic === "overwhelmed") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "Murag na-overwhelm na gyud ka sa kadaghan sa imong gi-handle. 😟 Sugdi lang nato sa usa. Unsa ang pinaka-urgent sa tanan?",
-                "Daghan kaayo ug buhaton, mao nang murag lisod na tan-awon tanan at once. Pwede nato i-break down one by one kung gusto nimo.",
-                "Gets nako. Ayaw sa huna-hunaa tanan sabay-sabay. Tell me unsa ang mga butang nga nagpa-overwhelm nimo karon."
-            ]);
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "Mukhang overwhelmed ka sa dami ng kailangan mong gawin. 😟 Huwag muna nating isipin lahat sabay-sabay. Ano ang pinaka-urgent?",
-                "Kapag sabay-sabay ang iniisip, talagang parang ang bigat. Pwede nating hati-hatiin kung gusto mo. Ano ang pinaka-problematic ngayon?",
-                "Gets ko. Isang bagay muna. Ano ang pinaka-nagpapabigat sa'yo ngayon?"
-            ]);
-        }
-
-        return randomItem([
-            "It sounds like you're dealing with too many things at once. 😟 Let's not try to solve everything at the same time. What's the one thing bothering you the most right now?",
-            "That sounds overwhelming. We can take it one thing at a time. What feels most urgent to you right now?",
-            "When everything piles up, even simple things can feel heavy. Tell me what is taking up most of your mind right now."
-        ]);
-    }
-
-
-    if (topic === "sad") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "I'm sorry nga ing-ana imong na-feel. 😔 If gusto nimo, pwede nimo i-share unsay nahitabo. Paminawon tika.",
-                "Murag bug-at imong gibati karon. Dili kinahanglan perfect imong explanation. Sugdi lang sa unsay nahitabo.",
-                "Naa ra ko diri to listen. Unsa man ang nahitabo nga naka-feel nimo ana?"
-            ]);
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "Mukhang mabigat yung nararamdaman mo ngayon. 😔 Kung gusto mo, sabihin mo lang kung ano ang nangyari. Makikinig ako.",
-                "Hindi mo kailangang ayusin agad yung nararamdaman mo. Pwede mong ikuwento kung ano ang nangyari.",
-                "Kung gusto mong ilabas muna dito, okay lang. Ano yung nangyari?"
-            ]);
-        }
-
-        return randomItem([
-            "I'm sorry you're having a difficult moment. 😔 If you want to talk about it, you can tell me what happened.",
-            "That sounds like a heavy feeling to carry. You don't have to explain everything perfectly. What happened?",
-            "You can talk about it here if you want. What has been bothering you?"
-        ]);
-    }
-
-
-    if (topic === "nervous") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "Normal ra nga makulbaan before something important. 😌 Unsay pinaka-nakapa-nervous nimo?",
-                "Gets nako ang kaba. If school-related ni, pwede nato i-practice or i-prepare together. Unsay event or situation?",
-                "Ayaw sa pugsa imong kaugalingon nga mawala dayon ang kaba. Tell me unsa imong gi-worry about."
-            ]);
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "Normal lang kabahan kapag may importanteng bagay. 😌 Ano yung pinaka-kinakabahan ka ngayon?",
-                "Gets ko yung kaba. Kung school-related ito, pwede nating paghandaan o i-practice. Ano yung situation?",
-                "Hindi kailangang mawala agad yung kaba. Sabihin mo lang kung ano yung pinaka-iniisip mo."
-            ]);
-        }
-
-        return randomItem([
-            "It's understandable to feel nervous when something matters to you. 😌 What's making you nervous?",
-            "I get why you might feel nervous. If this is about school, we can practice or prepare together. What are you worried about?",
-            "You don't have to get rid of the nervous feeling immediately. Tell me what's on your mind."
-        ]);
-    }
-
-
-    if (topic === "frustrated") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "Gets nako nganong ma-frustrate ka ana. 😕 Unsa man ang pinaka-naka-trigger sa imong frustration?",
-                "Lisod gyud kung sige kag try pero murag dili gihapon mo-work. I-share lang unsay nahitabo.",
-                "Sounds frustrating gyud. Unsa man ang part nga pinaka-nakainis para nimo?"
-            ]);
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "Gets ko kung bakit ka na-frustrate. 😕 Ano yung pinaka-nakainis sa situation?",
-                "Nakakainis talaga kapag paulit-ulit mong sinusubukan pero hindi pa rin gumagana. Ano ang nangyari?",
-                "Mukhang may bagay na talagang nagpa-frustrate sa'yo. Gusto mo bang ikuwento?"
-            ]);
-        }
-
-        return randomItem([
-            "I can understand why that would be frustrating. 😕 What part of the situation bothered you the most?",
-            "That sounds frustrating, especially if you've already tried to deal with it. What happened?",
-            "Sounds like something really got on your nerves. What happened?"
-        ]);
-    }
-
-
-    if (topic === "school") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "School-related diay ni. Pwede nato tan-awon unsa gyud ang nagpa-stress nimo—assignment, exam, presentation, or subject?",
-                "Gets. School can pile things up quickly. Unsa nga part sa imong school work ang pinaka-lisod karon?",
-                "Sige, tell me more. Unsay nahitabo sa school today?"
-            ]);
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "School-related pala. Assignment ba, exam, presentation, o subject yung pinaka-problema ngayon?",
-                "Gets. Nakaka-pressure kapag sabay-sabay ang school requirements. Ano yung pinaka-mahirap ngayon?",
-                "Sige, sabihin mo lang. Ano ang nangyari sa school today?"
-            ]);
-        }
-
-        return randomItem([
-            "Sounds like this is connected to school. Is it an assignment, exam, presentation, or a particular subject?",
-            "School can get overwhelming when several things pile up. What's the hardest part right now?",
-            "Tell me more about what happened at school today. We can figure out what kind of help you need."
-        ]);
-    }
-
-
-    if (topic === "friendship") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "Friendship problem diay. 😕 Gusto nimo mag-rant lang sa or gusto nimo nga tabangan tika tan-aw sa situation?",
-                "Gets nako. Sometimes lisod gyud kung friendship ang involved kay personal kaayo. Unsay nahitabo?",
-                "Pwede ra nimo i-share ang story gikan sa beginning. Paminawon tika."
-            ]);
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "Friendship problem pala. 😕 Gusto mo bang mag-rant lang muna o gusto mong pag-usapan natin kung ano ang puwedeng gawin?",
-                "Gets ko. Mas mahirap minsan kapag friendship ang involved dahil personal talaga. Ano ang nangyari?",
-                "Pwede mong ikuwento mula sa simula. Makikinig ako."
-            ]);
-        }
-
-        return randomItem([
-            "Sounds like this is about a friendship. 😕 Do you want to vent first, or do you want help thinking through the situation?",
-            "Friendship problems can be complicated because they feel personal. What happened?",
-            "You can tell me the story from the beginning if you want. I'll help you sort through what you're dealing with."
-        ]);
-    }
-
-
-    if (topic === "motivation") {
-
-        if (language === "Bisaya") {
-
-            return randomItem([
-                "Murag nawad-an ka ug gana karon. Dili kinahanglan nga solve dayon tanan. Unsa man ang pinaka-naka-drain sa imong motivation?",
-                "Usahay lisod gyud magpadayon kung kapoy na. Unsa nga part ang gusto nimo ma-overcome?",
-                "Let's take it small. Unsay usa ka thing nga kinahanglan nimo buhaton karon?"
-            ]);
-        }
-
-        if (language === "Tagalog") {
-
-            return randomItem([
-                "Mukhang nawawalan ka ng motivation ngayon. Hindi kailangang ayusin lahat agad. Ano ang pinaka-nakaka-drain sa'yo?",
-                "Mahirap talagang magpatuloy kapag pagod na. Ano yung isang bagay na gusto mong malagpasan ngayon?",
-                "Small step muna. Ano ang isang bagay na kailangan mong gawin today?"
-            ]);
-        }
-
-        return randomItem([
-            "Sounds like your motivation is pretty low right now. You don't have to fix everything at once. What's the one thing you need to get through today?",
-            "It's hard to keep going when you're already drained. What part are you struggling with the most?",
-            "Let's make it smaller. What's one thing you need to deal with right now?"
-        ]);
-    }
-
-
-    /* =========================
-       GENERAL CONVERSATION
-    ========================= */
-
-    if (language === "Bisaya") {
-
-        return randomItem([
-            "Sige, paminawon tika. 😄 Unsa man imong gusto i-share?",
-            "Okay, Buddy. Tell me more about ana. Unsay nahitabo?",
-            "Naa ra ko. I-share lang unsay naa sa imong mind.",
-            "Gets. Padayon lang, unsa pa man?"
-        ]);
-    }
-
-    if (language === "Tagalog") {
-
-        return randomItem([
-            "Sige, makikinig ako. 😄 Ano ang gusto mong i-share?",
-            "Okay, Buddy. Sabihin mo lang kung ano ang nangyari.",
-            "Nandito lang ako. Ano ang nasa isip mo ngayon?",
-            "Gets. Sige lang, ikuwento mo."
-        ]);
-    }
-
-    return randomItem([
-        "I'm listening. 😄 What would you like to tell me?",
-        "Okay, Buddy. Tell me more about what happened.",
-        "I'm here to listen. What's on your mind?",
-        "Got you. Keep going—what happened next?"
-    ]);
-}
-
-
-/* =========================================================
+/* ==================================================
    GREETING
-========================================================= */
+================================================== */
 
-function greetingResponse(language) {
+function greetingResponse(language){
 
-    if (language === "Bisaya") {
+if(language==="bisaya")
+return "Hello! 👋 Naa ra ko diri. Unsa imong gusto i-share or ipangutana today? Pwede IT problem, school concern, or bisan rant lang.";
 
-        return randomItem([
-            "Hey, Buddy! 👋 Unsay ma-tabang nako nimo today?",
-            "Hello! 😄 Naa ra ko diri. Unsa imong gusto istoryahan?",
-            "Hey! Kumusta imong adlaw?"
-        ]);
+if(language==="tagalog")
+return "Hello! 👋 Nandito lang ako. Ano ang gusto mong itanong o i-share today? Puwedeng IT problem, school concern, o simpleng rant lang.";
 
-    }
+if(language==="mixed-bisaya")
+return "Hello! 👋 Naa ra ko diri. You can ask me about IT, school, or even rant lang about your day.";
 
-    if (language === "Tagalog") {
+if(language==="mixed-tagalog")
+return "Hello! 👋 Nandito lang ako. You can ask about IT, school, or puwede rin mag-rant tungkol sa day mo.";
 
-        return randomItem([
-            "Hello, Buddy! 👋 Ano ang maitutulong ko sa'yo today?",
-            "Hi! 😄 Nandito lang ako. Ano ang gusto mong pag-usapan?",
-            "Hello! Kumusta ang araw mo?"
-        ]);
+return "Hello! 👋 I'm AI IT Buddy. You can ask me about IT problems, school concerns, or even talk about your day.";
 
-    }
-
-    return randomItem([
-        "Hey, Buddy! 👋 What can I help you with today?",
-        "Hello! 😄 I'm here. What would you like to talk about?",
-        "Hey! How's your day going?"
-    ]);
 }
 
 
-/* =========================================================
+/* ==================================================
    THANKS
-========================================================= */
+================================================== */
 
-function thanksResponse(language) {
+function thanksResponse(language){
 
-    if (language === "Bisaya") {
+if(language==="bisaya")
+return "You're welcome! 😊 Naa ra ko if naa pa kay pangutana.";
 
-        return randomItem([
-            "Walay sapayan, Buddy! 😊",
-            "You're welcome! Naa ra ko if naa pa kay kailangan.",
-            "No worries! Happy to help. 🤖"
-        ]);
+if(language==="tagalog")
+return "Walang anuman! 😊 Nandito lang ako kung may iba ka pang tanong.";
 
-    }
+if(language.startsWith("mixed"))
+return "You're welcome! 😊 Naa ra ko if you need more help.";
 
-    if (language === "Tagalog") {
+return "You're welcome! 😊 I'm here if you need anything else.";
 
-        return randomItem([
-            "Walang anuman, Buddy! 😊",
-            "You're welcome! Nandito lang ako kung may kailangan ka pa.",
-            "No worries! Masaya akong makatulong."
-        ]);
-
-    }
-
-    return randomItem([
-        "You're welcome, Buddy! 😊",
-        "No problem! I'm here if you need anything else.",
-        "Anytime! Happy to help. 🤖"
-    ]);
 }
 
 
-/* =========================================================
-   RANT RESPONSE
-========================================================= */
+/* ==================================================
+   RANT
+================================================== */
 
-function rantResponse(language) {
+function rantResponse(language){
 
-    if (language === "Bisaya") {
+if(language==="bisaya")
+return "Sige, paminawon tika. 🫶 Pwede ra gyud ka mag-rant diri. Dili kinahanglan nga i-solve dayon nato. Unsa ang pinaka-nakapakapoy or pinaka-nakastress sa imong adlaw?";
 
-        return randomItem([
-            "Sige lang. I-rant lang diri kung unsa imong gusto i-share. Dili kinahanglan nga organized imong thoughts.",
-            "Go ahead, Buddy. Paminawon tika. Unsay gusto nimo i-release gikan sa imong mind?",
-            "Okay ra. No advice muna. I-share lang unsay naa sa imong heart/mind."
-        ]);
+if(language==="tagalog")
+return "Sige, makikinig ako. 🫶 Puwede kang mag-rant dito. Hindi natin kailangang ayusin agad ang problema. Ano ang pinaka-nakakapagod o pinaka-nakastress sa araw mo?";
 
-    }
+if(language.startsWith("mixed"))
+return "Sige, tell me. 🫶 You can rant here. Dili nato kailangan i-solve dayon. What happened today?";
 
-    if (language === "Tagalog") {
+return "Sure. 🫶 You can rant here. You don't have to solve everything immediately. What happened today.";
 
-        return randomItem([
-            "Sige lang. I-rant mo lang dito kung ano ang gusto mong sabihin. Hindi kailangang organized ang thoughts mo.",
-            "Go ahead, Buddy. Makikinig ako. Ano ang gusto mong ilabas?",
-            "Okay lang. Advice muna? Hindi. Ikaw muna—sabihin mo lang lahat ng gusto mong sabihin."
-        ]);
-
-    }
-
-    return randomItem([
-        "Go ahead, Buddy. You can rant here. You don't have to organize your thoughts first.",
-        "I'm listening. You can just let it out. No need to make it sound perfect.",
-        "Okay. No advice for now. Tell me what's bothering you."
-    ]);
 }
 
 
-/* =========================================================
-   MAIN RESPONSE ENGINE
-========================================================= */
+/* ==================================================
+   PERSONAL RESPONSE
+================================================== */
 
-function generateResponse(text) {
+function personalResponse(topic,language){
 
-    const language = detectLanguage(text);
+let responses={
 
-    const questionType = detectQuestionType(text);
+tired:{
+english:[
+"That sounds like a really exhausting day. You don't have to explain everything perfectly. What part of your day drained you the most?",
+"Sounds like you've had a lot going on. If you want, tell me what happened first, and we can take it one step at a time."
+],
 
-    const itTopic = detectITTopic(text);
+bisaya:[
+"Murag kapoy gyud kaayo imong adlaw. 😔 Unsa ang pinaka-nakapakapoy nimo today?",
+"Daghan siguro kaayo kag gi-handle today. Sige lang, pwede nimo i-share unsa ang nahitabo."
+],
 
-    const conversationTopic = detectConversationTopic(text);
+tagalog:[
+"Parang sobrang nakakapagod ng araw mo. 😔 Ano ang pinaka-nakapagod para sa'yo today?",
+"Parang marami kang kinailangan harapin today. Sige lang, sabihin mo kung ano ang nangyari."
+]
 
-    lastLanguage = language;
-    lastIntent = questionType;
+},
 
-    /*
-       IT gets priority when the message clearly describes
-       an IT problem.
-    */
+nervous:{
+english:[
+"It's normal to feel nervous when something important is coming up. If this is about school or a presentation, we can practice together. What are you most worried about?",
+"Being nervous doesn't mean you're not prepared. Tell me what you're nervous about and we can work through it."
+],
 
-    if (itTopic) {
+bisaya:[
+"Normal ra nga makulbaan kung importante ang usa ka butang. Kung about school or presentation ni, pwede ta mag-practice. Unsay pinaka-kabalak-an nimo?",
+"Ang pagkulba dili pasabot nga dili ka prepared. Sulti lang unsa imong gikabalak-an."
+],
 
-        lastTopic = itTopic;
+tagalog:[
+"Normal lang kabahan kapag importante ang isang bagay. Kung tungkol ito sa school o presentation, puwede tayong mag-practice. Ano ang pinaka-kinakabahan ka?",
+"Ang pagkabahan ay hindi ibig sabihin na hindi ka prepared. Sabihin mo kung ano ang pinaka-iniisip mo."
+]
 
-        return itResponse(
-            itTopic,
-            language,
-            text
-        );
-    }
+},
+
+sad:{
+english:[
+"I'm sorry you're having a difficult day. You can tell me what happened if you want. I can listen first.",
+"That sounds heavy. You don't have to explain it perfectly. What happened?"
+],
+
+bisaya:[
+"Sorry nga lisod imong adlaw karon. 😔 Pwede nimo i-share nako unsa ang nahitabo. Maminaw sa ko.",
+"Murag bug-at gyud na. Dili kinahanglan perfect imong explanation. Unsa man ang nahitabo?"
+],
+
+tagalog:[
+"Sorry na mahirap ang araw mo. 😔 Puwede mong sabihin kung ano ang nangyari. Makikinig muna ako.",
+"Parang mabigat iyon. Hindi mo kailangang ipaliwanag nang perfect. Ano ang nangyari?"
+]
+
+},
+
+frustrated:{
+english:[
+"I get why that would be frustrating. Tell me what happened, and let's figure out whether you want to vent or solve it.",
+"That sounds really annoying. What part is giving you the most trouble?"
+],
+
+bisaya:[
+"Kasabot ko nganong makafrustrate na. Sulti lang unsa ang nahitabo, then tan-awon nato kung gusto nimo mag-rant or mangita og solution.",
+"Makalagot gyud na. Unsa ang pinaka-nakaproblema nimo?"
+],
+
+tagalog:[
+"Gets ko kung bakit nakakafrustrate iyon. Sabihin mo kung ano ang nangyari, tapos puwede nating piliin kung gusto mong mag-rant o maghanap ng solution.",
+"Ang hirap kapag paulit-ulit kang nai-stress sa isang bagay. Ano ang pinaka-nakakainis?"
+]
+
+},
+
+friendship:{
+english:[
+"Friend problems can be difficult, especially when you don't know what the other person is thinking. What happened between you two?",
+"If you want to talk about it, tell me what happened. I won't rush you into a solution."
+],
+
+bisaya:[
+"Lisod gyud usahay ang problema sa friendship, labi na kung dili ka sure unsay nahuna-hunaan sa imong friend. Unsa man ang nahitabo?",
+"Pwede ra nimo i-share ang situation. Dili tika pugson nga mag-decide dayon."
+],
+
+tagalog:[
+"Mahirap minsan ang friendship problems, lalo na kapag hindi mo alam kung ano ang iniisip ng friend mo. Ano ang nangyari?",
+"Puwede mong ikuwento ang situation. Hindi kita pipilitin na mag-decide agad."
+]
+
+},
+
+motivation:{
+english:[
+"It's okay to have days when your motivation is low. Instead of trying to finish everything at once, what is one small thing you need to get done today?",
+"You don't have to be productive every second. What task is currently making you feel stuck?"
+],
+
+bisaya:[
+"Okay ra nga naa kay days nga ubos ang motivation. Imbis tanan dayon, unsa ang usa ka gamay nga task nga kinahanglan nimo mahuman today?",
+"Dili kinahanglan productive ka every second. Unsa nga task ang murag nagpugong nimo karon?"
+],
+
+tagalog:[
+"Okay lang na may araw na mababa ang motivation. Imbes lahat agad, ano ang isang maliit na task na kailangan mong matapos today?",
+"Hindi mo kailangang maging productive every second. Anong task ang nagpapastuck sa'yo ngayon?"
+]
+
+}
+
+};
 
 
-    if (questionType === "greeting") {
-
-        return greetingResponse(language);
-    }
+let set=
+responses[topic];
 
 
-    if (questionType === "thanks") {
-
-        return thanksResponse(language);
-    }
+if(!set)
+return "I'm listening. Tell me more about what you're dealing with.";
 
 
-    if (questionType === "rant") {
-
-        lastTopic = "rant";
-
-        return rantResponse(language);
-    }
+let arr=
+set[language] ||
+set.english;
 
 
-    /*
-       Advice mode:
-       don't force a solution immediately.
-       First understand the situation.
-    */
+return arr[
+Math.floor(Math.random()*arr.length)
+];
 
-    if (questionType === "advice") {
-
-        lastTopic = conversationTopic;
-
-        if (language === "Bisaya") {
-
-            return "Sige, tabangan tika. Pero para dili ko mag-assume, unsa gyud ang situation? I-share lang unsay nahitabo ug unsa imong gusto mahitabo.";
-        }
-
-        if (language === "Tagalog") {
-
-            return "Sige, tutulungan kita. Pero ayokong mag-assume agad. Ano muna ang situation at ano ang gusto mong mangyari?";
-        }
-
-        return "Sure, I can help you think it through. Tell me what happened and what outcome you're hoping for, so I don't give you advice based on assumptions.";
-    }
-
-
-    /*
-       Personal / school / casual conversation
-    */
-
-    lastTopic = conversationTopic;
-
-    return conversationalResponse(
-        text,
-        language
-    );
 }
 
 
-/* =========================================================
-   IMAGE
-========================================================= */
+/* ==================================================
+   IT RESPONSE
+================================================== */
 
-function previewImage(event) {
+function itResponse(topic,language){
 
-    const file = event.target.files[0];
+let data={
 
-    if (!file) return;
+wifi:{
+english:[
+"Let's troubleshoot your Wi-Fi step by step.\n\n1. Check if Wi-Fi is enabled.\n2. Disconnect and reconnect to the network.\n3. Restart your device.\n4. Check if another device can connect.\n5. If other devices also fail, the problem may be with the router or network.\n\nIf you tell me what happens when you try to connect, I can narrow it down."
+],
 
-    currentImage = file;
+bisaya:[
+"Atong i-troubleshoot step by step ang Wi-Fi.\n\n1. Check kung naka-on ang Wi-Fi.\n2. Disconnect then reconnect sa network.\n3. Restart imong device.\n4. Tan-awa kung maka-connect ba ang lain nga device.\n5. Kung tanan devices dili maka-connect, possible sa router or network ang problema.\n\nUnsay makita nimo pag-connect nimo?"
+],
 
-    const preview = document.getElementById("imagePreview");
+tagalog:[
+"Subukan natin i-troubleshoot ang Wi-Fi step by step.\n\n1. Check kung naka-on ang Wi-Fi.\n2. I-disconnect at reconnect ang network.\n3. I-restart ang device.\n4. Tingnan kung nakakonekta ang ibang device.\n5. Kung lahat ng device ay hindi makakonekta, maaaring router o network ang problema.\n\nAno ang nangyayari kapag nagco-connect ka?"
+]
 
-    preview.src = URL.createObjectURL(file);
+},
 
-    preview.style.display = "block";
+slow:{
+english:[
+"Let's check why your computer is slow.\n\n• Close apps and browser tabs you don't need.\n• Restart the computer.\n• Check available storage.\n• Check for system updates.\n• Notice whether it becomes slow only when using a specific application.\n\nIf you tell me your device and when it becomes slow, I can suggest more specific steps."
+],
+
+bisaya:[
+"Atong tan-awon nganong hinay imong computer.\n\n• Close ang apps ug browser tabs nga wala nimo gigamit.\n• Restart ang computer.\n• Check ang available storage.\n• Check kung naa bay updates.\n• Tan-awa kung hinay ba siya only sa specific application.\n\nKung isulti nimo unsa imong device ug kanus-a siya maghinay, mas ma-specific nato ang troubleshooting."
+],
+
+tagalog:[
+"Check natin kung bakit mabagal ang computer mo.\n\n• Isara ang apps at browser tabs na hindi ginagamit.\n• I-restart ang computer.\n• Check ang available storage.\n• Tingnan kung may system updates.\n• Observe kung mabagal lang siya kapag gumagamit ng isang specific na app.\n\nSabihin mo kung anong device at kailan ito bumabagal para mas specific ang troubleshooting."
+]
+
+},
+
+printer:{
+english:[
+"Let's check the printer.\n\n1. Make sure it is powered on.\n2. Check paper and ink/toner.\n3. Confirm that the correct printer is selected.\n4. Check whether the print job is stuck in the queue.\n5. Restart the printer if needed.\n\nTell me what happens when you press Print."
+],
+
+bisaya:[
+"Atong i-check ang printer.\n\n1. Siguraduhon nga naka-on siya.\n2. Check ang papel ug ink/toner.\n3. Confirm nga sakto nga printer ang selected.\n4. Check kung na-stuck ang print job.\n5. Restart ang printer kung kinahanglan.\n\nUnsay mahitabo kung i-press nimo ang Print?"
+],
+
+tagalog:[
+"Check natin ang printer.\n\n1. Siguraduhing naka-on ito.\n2. Check ang paper at ink/toner.\n3. Siguraduhing tamang printer ang selected.\n4. Check kung may stuck na print job.\n5. I-restart ang printer kung kailangan.\n\nAno ang nangyayari kapag pinipindot mo ang Print?"
+]
+
+},
+
+account:{
+english:[
+"If you're having a login or account problem, first check your username and password carefully. Make sure Caps Lock is not causing an issue. If the account is locked or you forgot your password, use the official recovery process rather than repeatedly guessing the password."
+],
+
+bisaya:[
+"Kung login or account problem ni, i-check una ang username ug password. Tan-awa pud kung naka-Caps Lock. Kung locked ang account or nakalimot ka sa password, gamita ang official recovery process."
+],
+
+tagalog:[
+"Kung login o account problem ito, i-check muna ang username at password. Tingnan din kung naka-Caps Lock. Kung locked ang account o nakalimutan ang password, gamitin ang official recovery process."
+]
+
+},
+
+security:{
+english:[
+"If you suspect a security problem, avoid clicking unknown links or installing suspicious files. If you believe a school account or device may be compromised, contact your school's IT staff."
+],
+
+bisaya:[
+"Kung nagduda ka nga security problem ni, ayaw pag-click og unknown links or pag-install og suspicious files. Kung school account or device ni, mas maayo nga i-contact ang IT staff."
+],
+
+tagalog:[
+"Kung sa tingin mo ay security problem ito, iwasang mag-click ng unknown links o mag-install ng suspicious files. Kung school account o device ito, mas mabuting i-contact ang IT staff."
+]
+
+},
+
+software:{
+english:[
+"Let's identify the software problem first. What application are you using, and what exactly happens when you open or use it? If there is an error message, you can type it here or upload a screenshot."
+],
+
+bisaya:[
+"Atong i-identify una ang software problem. Unsang application imong gigamit ug unsay exact nga mahitabo pag-open or paggamit nimo? Kung naa kay error message, pwede nimo i-type or i-upload ang screenshot."
+],
+
+tagalog:[
+"Alamin muna natin ang software problem. Anong application ang ginagamit mo at ano mismo ang nangyayari kapag binubuksan o ginagamit mo ito? Kung may error message, puwede mong i-type o i-upload ang screenshot."
+]
+
+},
+
+hardware:{
+english:[
+"Let's narrow down the hardware issue. Tell me which device or component is having the problem and what you observe. For example: the screen is blank, keyboard keys don't respond, the mouse isn't detected, or the laptop won't start."
+],
+
+bisaya:[
+"Atong i-narrow down ang hardware issue. Unsang device or component ang naay problema ug unsa imong nakita? Pananglitan: blank ang screen, dili morespond ang keyboard, dili ma-detect ang mouse, or dili mo-start ang laptop."
+],
+
+tagalog:[
+"Alamin natin kung anong hardware ang may problema. Anong device o component ang may issue at ano ang napapansin mo? Halimbawa: blank ang screen, hindi gumagana ang keyboard, hindi nadedetect ang mouse, o ayaw mag-start ng laptop."
+]
+
 }
 
-function analyzeImage() {
+};
 
-    addMessage(
-        "Image analysis demo: I received your image successfully. In this prototype, the browser can preview the image, but real visual understanding would require connecting this feature to a vision-capable AI backend.",
-        "bot"
-    );
+
+let set=
+data[topic];
+
+
+if(!set)
+return "Tell me more about the IT problem so I can help narrow it down.";
+
+
+let arr=
+set[language] ||
+set.english;
+
+
+return arr[
+Math.floor(Math.random()*arr.length)
+];
+
 }
 
 
-/* =========================================================
+/* ==================================================
+   GENERAL RESPONSE
+================================================== */
+
+function generalResponse(text,language){
+
+let t=
+text.toLowerCase();
+
+
+if(
+t.includes("thank") ||
+t.includes("salamat")
+)
+return thanksResponse(language);
+
+
+if(
+t.match(/\b(hi|hello|hey|good morning|good afternoon|good evening)\b/)
+)
+return greetingResponse(language);
+
+
+if(
+t.includes("how are you") ||
+t.includes("kumusta ka") ||
+t.includes("kumusta")
+){
+
+if(language==="bisaya")
+return "Okay ra ko! 😄 Ready ko maminaw or motabang. Ikaw, kumusta man imong adlaw?";
+
+if(language==="tagalog")
+return "Okay naman ako! 😄 Handa akong makinig o tumulong. Ikaw, kumusta ang araw mo?";
+
+return "I'm doing well! 😄 I'm ready to listen or help. How has your day been?";
+
+}
+
+
+if(
+t.includes("school") ||
+t.includes("assignment") ||
+t.includes("homework") ||
+t.includes("exam") ||
+t.includes("quiz") ||
+t.includes("project")
+){
+
+if(language==="bisaya")
+return "Sure, makatabang ko sa school concerns. Unsay subject or assignment? Pwede nimo i-send ang instructions.";
+
+if(language==="tagalog")
+return "Sure, makakatulong ako sa school concerns. Anong subject o assignment? Puwede mong i-send ang instructions.";
+
+return "Sure, I can help with school concerns. What subject or assignment are you working on? You can send the instructions.";
+
+}
+
+
+if(
+t.includes("what can you do") ||
+t.includes("unsa imong mahimo") ||
+t.includes("ano ang kaya mo")
+){
+
+return "I can help with common IT troubleshooting, school-related questions, basic technical guidance, support requests, and general conversation. You can also rant about your day if you just need someone to listen.";
+
+}
+
+
+if(
+t.includes("good night") ||
+t.includes("goodbye") ||
+t.includes("bye")
+){
+
+if(language==="bisaya")
+return "Goodbye! 👋 Amping, and good luck sa imong school work!";
+
+if(language==="tagalog")
+return "Goodbye! 👋 Ingat, at good luck sa school work mo!";
+
+return "Goodbye! 👋 Take care, and good luck with your school work!";
+
+}
+
+
+return null;
+
+}
+
+
+/* ==================================================
+   CONTEXT
+================================================== */
+
+function getLastUserMessage(){
+
+for(
+let i=currentConversation.length-1;
+i>=0;
+i--
+){
+
+if(
+currentConversation[i].type==="user"
+)
+return currentConversation[i].text;
+
+}
+
+return "";
+
+}
+
+
+/* ==================================================
+   GENERATE RESPONSE
+================================================== */
+
+function generateResponse(text){
+
+let language=
+detectLanguage(text);
+
+let itTopic=
+detectITTopic(text);
+
+let conversationTopic=
+detectConversationTopic(text);
+
+let lower=
+text.toLowerCase();
+
+
+if(
+lower.includes("just want to rant") ||
+lower.includes("i want to rant") ||
+lower.includes("gusto ko mag-rant") ||
+lower.includes("mag rant")
+){
+
+return rantResponse(language);
+
+}
+
+
+if(itTopic){
+
+return itResponse(
+itTopic,
+language
+);
+
+}
+
+
+if(conversationTopic){
+
+return personalResponse(
+conversationTopic,
+language
+);
+
+}
+
+
+let general=
+generalResponse(
+text,
+language
+);
+
+
+if(general)
+return general;
+
+
+let previous=
+getLastUserMessage();
+
+
+if(previous){
+
+let previousIT=
+detectITTopic(previous);
+
+
+if(
+previousIT &&
+(
+lower.length<30 ||
+lower.includes("yes") ||
+lower.includes("mao") ||
+lower.includes("school") ||
+lower.includes("programming")
+)
+){
+
+if(language==="bisaya")
+return "Sige, padayon ta. Unsa exactly ang part sa problem nga gusto nimo i-focus?";
+
+if(language==="tagalog")
+return "Sige, ituloy natin. Anong specific na part ng problem ang gusto mong pag-focusan?";
+
+return "Sure, let's continue. Which specific part of the problem do you want to focus on?";
+
+}
+
+}
+
+
+if(language==="bisaya")
+return "Sige, gets nako. 😊 Pwede nimo i-explain pa gamay unsay imong concern para mas makatabang ko.";
+
+if(language==="tagalog")
+return "Sige, gets ko. 😊 Puwede mo bang ipaliwanag nang kaunti pa kung ano ang concern mo para mas makatulong ako?";
+
+if(language.startsWith("mixed"))
+return "Gets nako. 😊 Tell me a little more about your concern para mas makatabang ko.";
+
+return "I understand. 😊 Tell me a little more about your concern so I can give you a more useful response.";
+
+}
+
+
+/* ==================================================
+   SEND MESSAGE
+================================================== */
+
+function sendMessage(){
+
+let input=
+document.getElementById("chatInput");
+
+let text=
+input.value.trim();
+
+
+/*
+   IMAGE SEND
+*/
+
+if(pendingImage){
+
+let imageInfo={
+data:pendingImage.data,
+name:pendingImage.name
+};
+
+
+addImageMessage(
+imageInfo.data,
+imageInfo.name,
+text
+);
+
+
+input.value="";
+
+pendingImage=null;
+
+
+document.getElementById("imagePreview")
+.style.display="none";
+
+
+document.getElementById("imageInput")
+.value="";
+
+
+saveConversation();
+
+
+showTyping();
+
+
+setTimeout(()=>{
+
+hideTyping();
+
+
+addBotMessageWithReaction(
+"I received your image. 🖼️\n\n" +
+"For this prototype, the image upload and display are working. " +
+"The current version does not connect the image to a real AI vision model yet.\n\n" +
+"If you describe what you want me to check in the image, I can still help based on your description."
+);
+
+
+saveConversation();
+
+},900);
+
+
+return;
+
+}
+
+
+/*
+   NORMAL TEXT
+*/
+
+if(!text){
+
+showToast("Type a message first.");
+
+return;
+
+}
+
+
+addMessage(
+text,
+"user"
+);
+
+
+input.value="";
+
+
+saveConversation();
+
+
+showTyping();
+
+
+setTimeout(()=>{
+
+hideTyping();
+
+
+let response=
+generateResponse(text);
+
+
+addBotMessageWithReaction(
+response
+);
+
+
+saveConversation();
+
+},700 + Math.random()*700);
+
+}
+
+
+/* ==================================================
+   QUICK ASK
+================================================== */
+
+function quickAsk(text){
+
+document.getElementById("chatInput")
+.value=text;
+
+sendMessage();
+
+}
+
+
+/* ==================================================
+   ENTER TO SEND
+================================================== */
+
+function handleEnter(event){
+
+if(
+event.key==="Enter" &&
+!event.shiftKey
+){
+
+event.preventDefault();
+
+sendMessage();
+
+}
+
+}
+
+
+/* ==================================================
+   TYPING
+================================================== */
+
+function showTyping(){
+
+document.getElementById("typingIndicator")
+.style.display="block";
+
+
+let box=
+document.getElementById("chatMessages");
+
+box.scrollTop=
+box.scrollHeight;
+
+}
+
+
+function hideTyping(){
+
+document.getElementById("typingIndicator")
+.style.display="none";
+
+}
+
+
+/* ==================================================
    VOICE INPUT
-========================================================= */
+================================================== */
 
-function startVoiceInput() {
+function startVoiceInput(){
 
-    const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
+if(
+!("webkitSpeechRecognition" in window) &&
+!("SpeechRecognition" in window)
+){
 
-    if (!SpeechRecognition) {
+showToast(
+"Voice input is not supported in this browser."
+);
 
-        alert("Voice recognition is not supported in this browser.");
+return;
 
-        return;
-    }
-
-    const recognition = new SpeechRecognition();
-
-    recognition.lang = "en-US";
-
-    recognition.interimResults = false;
-
-    recognition.maxAlternatives = 1;
-
-    recognition.start();
-
-    recognition.onstart = function () {
-
-        document.getElementById("messageInput").placeholder =
-            "Listening...";
-    };
-
-    recognition.onresult = function(event) {
-
-        const text =
-            event.results[0][0].transcript;
-
-        document.getElementById("messageInput").value = text;
-    };
-
-    recognition.onerror = function() {
-
-        document.getElementById("messageInput").placeholder =
-            "Message AI IT Buddy...";
-    };
-
-    recognition.onend = function() {
-
-        document.getElementById("messageInput").placeholder =
-            "Message AI IT Buddy...";
-    };
 }
 
 
-/* =========================================================
+let SpeechRecognition=
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+
+let recognition=
+new SpeechRecognition();
+
+
+recognition.lang="en-US";
+
+recognition.interimResults=false;
+
+recognition.maxAlternatives=1;
+
+
+showToast(
+"Listening... 🎤"
+);
+
+
+recognition.start();
+
+
+recognition.onresult=
+function(event){
+
+document.getElementById("chatInput")
+.value=
+event.results[0][0].transcript;
+
+};
+
+
+recognition.onerror=
+function(){
+
+showToast(
+"Voice input could not be completed."
+);
+
+};
+
+}
+
+
+/* ==================================================
+   IMAGE PREVIEW
+   FIXED
+================================================== */
+
+function previewImage(event){
+
+let file=
+event.target.files[0];
+
+
+if(!file)
+return;
+
+
+if(!file.type.startsWith("image/")){
+
+showToast("Please select an image file.");
+
+return;
+
+}
+
+
+let reader=
+new FileReader();
+
+
+reader.onload=
+function(e){
+
+let img=
+document.getElementById("imagePreview");
+
+
+img.src=
+e.target.result;
+
+
+img.style.display="block";
+
+
+/*
+   IMPORTANT:
+   Store the actual image data,
+   not only the filename.
+*/
+
+pendingImage={
+name:file.name,
+data:e.target.result
+};
+
+
+showToast(
+"Image ready to send."
+);
+
+};
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* ==================================================
+   SAVE CONVERSATION
+================================================== */
+
+function saveConversation(){
+
+if(
+currentConversation.length===0
+)
+return;
+
+
+let firstUser=
+currentConversation.find(
+x=>x.type==="user"
+);
+
+
+if(!firstUser)
+return;
+
+
+let existingIndex=
+conversations.findIndex(
+c=>c.id===currentConversationId
+);
+
+
+let item={
+
+id:currentConversationId,
+
+title:
+firstUser.text
+.substring(0,45),
+
+preview:
+firstUser.text
+.substring(0,80),
+
+messages:
+currentConversation,
+
+updated:
+new Date().toISOString()
+
+};
+
+
+if(existingIndex>=0){
+
+conversations[existingIndex]=item;
+
+}else{
+
+conversations.unshift(item);
+
+}
+
+
+localStorage.setItem(
+"aiitbuddy_conversations",
+JSON.stringify(conversations)
+);
+
+}
+
+
+/* ==================================================
    NEW CHAT
-========================================================= */
+================================================== */
 
-function newChat() {
+function startNewChat(){
 
-    conversation = [];
+currentConversation=[];
 
-    localStorage.removeItem(
-        "currentChat_" + currentUser
-    );
+currentConversationId=
+Date.now().toString();
 
-    document.getElementById("chatArea").innerHTML = "";
 
-    addMessage(
-        "Hi! I'm AI IT Buddy 🤖\nHow can I help you today?",
-        "bot",
-        false
-    );
+document.getElementById("chatMessages")
+.innerHTML="";
+
+
+addBotMessageWithReaction(
+greetingResponse("english")
+);
+
+
+openPage("chatPage");
+
 }
 
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-function toggleSidebar() {
-
-    document
-        .getElementById("sidebar")
-        .classList.toggle("open");
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-function focusSearch() {
-
-    const query = prompt("Search your current chat:");
-
-    if (!query) return;
-
-    const results = conversation.filter(item =>
-        item.text.toLowerCase().includes(query.toLowerCase())
-    );
-
-    if (results.length === 0) {
-
-        alert("No matching messages found.");
-
-        return;
-    }
-
-    alert(
-        results
-        .map(item => item.sender.toUpperCase() + ": " + item.text)
-        .join("\n\n")
-    );
-}
-
-
-/* =========================================================
+/* ==================================================
    HISTORY
-========================================================= */
+================================================== */
 
-function showHistory() {
+function loadHistory(){
 
-    const content = `
-        <div class="content-card">
-            <h4>🕘 Chat History</h4>
-
-            <p>
-                Your current conversation is saved locally
-                in this browser.
-            </p>
-
-            <button class="btn btn-danger"
-                    onclick="clearCurrentHistory()">
-                Clear Current Chat
-            </button>
-        </div>
-    `;
-
-    document.getElementById("chatArea").innerHTML = content;
-}
-
-function clearCurrentHistory() {
-
-    if (!confirm("Clear this chat?")) return;
-
-    localStorage.removeItem(
-        "currentChat_" + currentUser
-    );
-
-    newChat();
-}
+let list=
+document.getElementById("historyList");
 
 
-/* =========================================================
-   TROUBLESHOOTING GUIDE
-========================================================= */
+if(!list)
+return;
 
-function showGuide() {
 
-    document.getElementById("chatArea").innerHTML = `
+list.innerHTML="";
 
-        <div class="content-card">
 
-            <h3>🛠 Troubleshooting Guide</h3>
+if(conversations.length===0){
 
-            <hr>
+list.innerHTML=`
 
-            <h5>📶 WiFi / Internet</h5>
+<div class="feature-card">
 
-            <ol>
-                <li>Check your WiFi connection.</li>
-                <li>Disconnect and reconnect.</li>
-                <li>Restart your device.</li>
-                <li>Check whether other devices can connect.</li>
-            </ol>
+<p>
+No conversations yet.
+</p>
 
-            <h5>💻 Slow Computer</h5>
+<button
+class="btn btn-main"
+onclick="startNewChat()">
 
-            <ol>
-                <li>Close unnecessary applications.</li>
-                <li>Restart the computer.</li>
-                <li>Check available storage.</li>
-                <li>Look for applications using too many resources.</li>
-            </ol>
+Start New Chat
 
-            <h5>🖨 Printer</h5>
+</button>
 
-            <ol>
-                <li>Check power and connection.</li>
-                <li>Check the selected printer.</li>
-                <li>Check for paper or error messages.</li>
-                <li>Clear stuck print jobs.</li>
-            </ol>
+</div>
 
-        </div>
-    `;
+`;
+
+return;
+
 }
 
 
-/* =========================================================
+conversations.forEach(convo=>{
+
+let div=
+document.createElement("div");
+
+
+div.className=
+"history-item";
+
+
+div.onclick=
+()=>loadConversation(convo.id);
+
+
+div.innerHTML=`
+
+<div class="history-title">
+${escapeHTML(convo.title)}
+</div>
+
+<div class="history-preview">
+${escapeHTML(convo.preview)}
+</div>
+
+<div class="mt-2">
+
+<small style="color:var(--muted)">
+
+${new Date(convo.updated).toLocaleString()}
+
+</small>
+
+</div>
+
+`;
+
+
+list.appendChild(div);
+
+});
+
+}
+
+
+/* ==================================================
+   LOAD CONVERSATION
+   IMAGE HISTORY FIX
+================================================== */
+
+function loadConversation(id){
+
+let convo=
+conversations.find(
+c=>c.id===id
+);
+
+
+if(!convo)
+return;
+
+
+currentConversationId=id;
+
+
+currentConversation=
+[];
+
+
+document.getElementById("chatMessages")
+.innerHTML="";
+
+
+convo.messages.forEach(message=>{
+
+if(
+message.type==="bot"
+){
+
+addBotMessageWithReaction(
+message.text
+);
+
+}
+
+/*
+   If this message contains an image,
+   display the actual saved image.
+*/
+
+else if(
+message.image
+){
+
+addImageMessage(
+message.image,
+message.fileName || "uploaded image",
+message.text &&
+!message.text.startsWith("Image uploaded:")
+? message.text
+: ""
+);
+
+}
+
+else{
+
+addMessage(
+message.text,
+"user"
+);
+
+}
+
+});
+
+
+openPage("chatPage");
+
+}
+
+
+/* ==================================================
+   SEARCH
+================================================== */
+
+function searchHistory(){
+
+let input=
+document.getElementById("searchInput");
+
+let results=
+document.getElementById("searchResults");
+
+
+if(!input || !results)
+return;
+
+
+let query=
+input.value.toLowerCase().trim();
+
+
+results.innerHTML="";
+
+
+let matches=
+conversations.filter(c=>
+
+c.title
+.toLowerCase()
+.includes(query)
+
+||
+
+c.preview
+.toLowerCase()
+.includes(query)
+
+||
+
+c.messages.some(m=>
+
+m.text
+.toLowerCase()
+.includes(query)
+
+)
+
+);
+
+
+if(matches.length===0){
+
+results.innerHTML=`
+
+<div class="feature-card">
+
+<p>
+No matching conversations found.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+matches.forEach(convo=>{
+
+let div=
+document.createElement("div");
+
+
+div.className=
+"history-item";
+
+
+div.onclick=
+()=>loadConversation(convo.id);
+
+
+div.innerHTML=`
+
+<div class="history-title">
+
+${escapeHTML(convo.title)}
+
+</div>
+
+<div class="history-preview">
+
+${escapeHTML(convo.preview)}
+
+</div>
+
+`;
+
+
+results.appendChild(div);
+
+});
+
+}
+
+
+/* ==================================================
    SUPPORT TICKET
-========================================================= */
+================================================== */
 
-function showSupport() {
+function submitTicket(){
 
-    document.getElementById("chatArea").innerHTML = `
+let name=
+document.getElementById("ticketName")
+.value.trim();
 
-        <div class="content-card">
 
-            <h3>🎫 Contact IT / Support Ticket</h3>
+let category=
+document.getElementById("ticketCategory")
+.value;
 
-            <p>
-                Submit a basic support request.
-            </p>
 
-            <input id="ticketName"
-                   class="form-control mb-2"
-                   placeholder="Your name">
+let problem=
+document.getElementById("ticketProblem")
+.value.trim();
 
-            <select id="ticketCategory"
-                    class="form-select mb-2">
 
-                <option>WiFi / Internet</option>
-                <option>Computer</option>
-                <option>Printer</option>
-                <option>Software</option>
-                <option>Account</option>
-                <option>Other</option>
+if(!name || !problem){
 
-            </select>
+showToast(
+"Please complete the support form."
+);
 
-            <textarea id="ticketProblem"
-                      class="form-control mb-2"
-                      placeholder="Describe your problem"></textarea>
+return;
 
-            <button class="btn btn-primary"
-                    onclick="submitTicket()">
-                Submit Ticket
-            </button>
-
-            <div id="ticketResult" class="mt-3"></div>
-
-        </div>
-    `;
-}
-
-function submitTicket() {
-
-    const name =
-        document.getElementById("ticketName").value.trim();
-
-    const category =
-        document.getElementById("ticketCategory").value;
-
-    const problem =
-        document.getElementById("ticketProblem").value.trim();
-
-    if (!name || !problem) {
-
-        alert("Please complete the required fields.");
-
-        return;
-    }
-
-    const tickets =
-        JSON.parse(localStorage.getItem("tickets") || "[]");
-
-    const ticket = {
-
-        id: "IT-" + Date.now(),
-
-        user: currentUser,
-
-        name,
-
-        category,
-
-        problem,
-
-        status: "Submitted",
-
-        date: new Date().toLocaleString()
-
-    };
-
-    tickets.push(ticket);
-
-    localStorage.setItem(
-        "tickets",
-        JSON.stringify(tickets)
-    );
-
-    document.getElementById("ticketResult").innerHTML = `
-
-        <div class="alert alert-success">
-
-            <strong>Ticket submitted!</strong><br>
-
-            Ticket ID: ${ticket.id}<br>
-
-            Status: ${ticket.status}
-
-        </div>
-    `;
 }
 
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+let tickets=
+JSON.parse(
+localStorage.getItem("aiitbuddy_tickets")
+) || [];
 
-function showSettings() {
 
-    const users =
-        JSON.parse(localStorage.getItem("users") || "{}");
+let ticketId=
+"T-"+Date.now();
 
-    const user =
-        users[currentUser] || {};
 
-    document.getElementById("chatArea").innerHTML = `
+tickets.unshift({
 
-        <div class="content-card">
+id:ticketId,
 
-            <h3>⚙ Settings / Profile</h3>
+name:name,
 
-            <hr>
+category:category,
 
-            <p>
-                <strong>Name:</strong>
-                ${user.name || "Student"}
-            </p>
+problem:problem,
 
-            <p>
-                <strong>Username:</strong>
-                ${currentUser}
-            </p>
+date:new Date().toISOString()
 
-            <p>
-                <strong>System:</strong>
-                AI IT Buddy
-            </p>
+});
 
-            <p>
-                <strong>Mode:</strong>
-                Student-friendly AI Help Desk
-            </p>
 
-            <button class="btn btn-outline-primary"
-                    onclick="toggleTheme()">
-                Toggle Theme
-            </button>
+localStorage.setItem(
+"aiitbuddy_tickets",
+JSON.stringify(tickets)
+);
 
-        </div>
-    `;
+
+document.getElementById("ticketProblem")
+.value="";
+
+
+document.getElementById("ticketResult")
+.innerHTML=`
+
+<div class="alert alert-success mt-3">
+
+<strong>
+Support request submitted!
+</strong>
+
+<br>
+
+Ticket ID:
+<strong>
+${ticketId}
+</strong>
+
+<br>
+
+Your concern has been recorded in this prototype.
+
+</div>
+
+`;
+
 }
 
 
-/* =========================================================
-   DARK / LIGHT MODE
-========================================================= */
+/* ==================================================
+   CLEAR HISTORY
+================================================== */
 
-function toggleTheme() {
+function clearHistory(){
 
-    document.body.classList.toggle("dark");
+if(
+!confirm("Clear all saved chat history?")
+)
+return;
 
-    localStorage.setItem(
-        "theme",
-        document.body.classList.contains("dark")
-            ? "dark"
-            : "light"
-    );
+
+conversations=[];
+
+localStorage.removeItem(
+"aiitbuddy_conversations"
+);
+
+
+currentConversation=[];
+
+currentConversationId=
+Date.now().toString();
+
+
+document.getElementById("chatMessages")
+.innerHTML="";
+
+
+loadHistory();
+
+
+showToast(
+"Chat history cleared."
+);
+
 }
 
-function loadTheme() {
 
-    const theme =
-        localStorage.getItem("theme");
+/* ==================================================
+   TOAST
+================================================== */
 
-    if (theme === "dark") {
+function showToast(message){
 
-        document.body.classList.add("dark");
+let toast=
+document.getElementById("toast");
 
-    } else {
 
-        document.body.classList.remove("dark");
-    }
+toast.textContent=
+message;
+
+
+toast.style.display="block";
+
+
+setTimeout(()=>{
+
+toast.style.display="none";
+
+},2500);
+
 }
+
+
+/* ==================================================
+   INITIALIZE
+================================================== */
+
+window.onload=function(){
+
+let savedUser=
+JSON.parse(
+localStorage.getItem("aiitbuddy_user")
+);
+
+
+if(savedUser){
+
+currentUser=savedUser;
+
+showApp();
+
+}else{
+
+document.getElementById("authPage")
+.style.display="flex";
+
+document.getElementById("app")
+.style.display="none";
+
+}
+
+};
 
 </script>
 
